@@ -16,7 +16,7 @@
     "build:libs:nest": "nx build nest",
     "build:libs:shared": "nx build shared",
     "build:all-libs": "nx run-many --target=build --projects=nest,shared",
-    "build": "nx run-many --target=build --all ",
+    "build": "nx run-many --target=build --all",
     "start:crm-api": "nx serve crm-api",
     "start:sale-api": "nx serve sale-api",
     "start:product-api": "nx serve product-api",
@@ -33,13 +33,18 @@
   "private": true,
   "dependencies": {
     "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/swagger": "^7.4.2",
     "axios": "^1.6.0",
     "class-transformer": "^0.5.1",
+    "compression": "^1.7.4",
+    "helmet": "^8.0.0",
     "mongoose": "^8.7.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

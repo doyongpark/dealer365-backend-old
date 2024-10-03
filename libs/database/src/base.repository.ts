@@ -107,12 +107,8 @@ export abstract class BaseRepository<TModel, TEntity> {
   //   data: FilterQuery<TModel>[],
   //   ordered = false
   // ): Promise<{ acknowledged: boolean; insertedCount: number; insertedIds: Types.ObjectId[] }> {
-  //   let result;
-  //   try {
-  //     result = await this.Model.insertMany(data, { ordered });
-  //   } catch (e) {
-  //     throw new Error(error.message);
-  //   }
+  //   const result = await this.Model.insertMany(data, { ordered });
+   
 
   //   const insertedIds = result.map((inserted) => inserted._id);
 

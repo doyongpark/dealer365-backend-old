@@ -1,0 +1,7 @@
+{
+  "name": "@dealer365-backend/database",
+  "version": "0.0.0",
+  "license": "MIT",
+  "packageManager": "pnpm@9.12.0",
+  "private": true
+}

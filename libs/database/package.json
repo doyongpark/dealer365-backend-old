@@ -1,11 +1,13 @@
 {
-  "name": "@dealer365-backend/shared",
-  "version": "0.0.1",
-  "dependencies": {
-    "@nestjs/mongoose": "^10.0.10"
+  "name": "@dealer365-backend/database",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx build"
   },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
+  "private": true,
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
 }

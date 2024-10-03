@@ -15,7 +15,7 @@ async function bootstrap() {
   //to-do: danamic/remote config
   const config = app.get(ConfigService);
 
-  app.use(compression());
+  // app.use(compression);
 
   app.use(helmet());
 

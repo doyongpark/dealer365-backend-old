@@ -1,4 +1,5 @@
 import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware } from '@dealer365-backend/nest';
+import { DatabaseModule } from '@dealer365-backend/database';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CrmModule } from './app/crm.module';
@@ -11,7 +12,8 @@ import appConfig from './config/app.config';
       cache: true,
       load: [appConfig],
     }),
-    CrmModule
+    CrmModule,
+    DatabaseModule,
   ],
   controllers: [],
   providers: [

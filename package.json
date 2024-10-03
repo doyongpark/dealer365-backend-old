@@ -21,7 +21,7 @@
     "start:dev:crm-api": "nx serve crm-api --configuration=development",
     "start:dev:sale-api": "nx serve sale-api --configuration=development",
     "start:dev:product-api": "nx serve product-api --configuration=development",
-    "start:prod:crm-api": "nx serve crm-api --configuration=production",
+    "start:prod:crm-api": "npx --yes pnpm@latest i && node scripts/setup-apps-env-files.js && pnpm build && nx serve crm-api",
     "start:prod:sale-api": "nx serve sale-api --configuration=production",
     "start:prod:product-api": "nx serve product-api --configuration=production"
   },

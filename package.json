@@ -2,7 +2,9 @@
   "name": "@dealer365-backend/source",
   "version": "0.0.0",
   "license": "MIT",
+  "packageManager": "pnpm@9.12.0",
   "scripts": {
+    "setup": "npx --yes pnpm@latest i && node scripts/setup-apps-env-files.js && pnpm build",
     "clean:dist": "rimraf dist",
     "format": "nx format:write",
     "lint": "nx run-many --target=lint --all",
@@ -14,7 +16,7 @@
     "build:libs:nest": "nx build nest",
     "build:libs:shared": "nx build shared",
     "build:all-libs": "nx run-many --target=build --projects=nest,shared",
-    "build:all": "nx run-many --target=build --all ",
+    "build": "nx run-many --target=build --all ",
     "start:crm-api": "nx serve crm-api",
     "start:sale-api": "nx serve sale-api",
     "start:product-api": "nx serve product-api",

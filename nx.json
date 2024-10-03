@@ -36,7 +36,18 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/crm-api-e2e/**/*"]
+      "exclude": [
+        "apps/crm-api-e2e/**/*",
+        "apps/sale-api-e2e/**/*",
+        "apps/product-api-e2e/**/*"
+      ]
     }
-  ]
+  ],
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  }
 }

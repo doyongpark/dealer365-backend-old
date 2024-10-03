@@ -2,7 +2,40 @@
   "name": "@dealer365-backend/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+
+    "clean:dist": "rimraf dist",
+    "format": "nx format:write",
+    "lint": "nx run-many --target=lint --all",
+    "test": "nx run-many --target=test --all",
+
+    "build:crm-api": "nx build crm-api",
+    "build:sale-api": "nx build sale-api",
+    "build:product-api": "nx build product-api",
+    "build:all-apps": "nx run-many --target=build --projects=crm-api,sale-api,product-api",
+    
+    "build:libs:nest": "nx build nest",
+    "build:libs:shared": "nx build shared",
+    "build:all-libs": "nx run-many --target=build --projects=nest,shared",
+
+    "build:all": "nx run-many --target=build --all",
+
+    "start:crm-api": "nx serve crm-api",
+    "start:sale-api": "nx serve sale-api",
+    "start:product-api": "nx serve product-api",
+    "start:all-apps": "nx run-many --target=serve --projects=crm-api,sale-api,product-api --parallel",
+
+    "start:dev:crm-api": "nx serve crm-api --configuration=development",
+    "start:dev:sale-api": "nx serve sale-api --configuration=development",
+    "start:dev:product-api": "nx serve product-api --configuration=development",
+    
+    "start:prod:crm-api": "nx serve crm-api --configuration=production",
+    "start:prod:sale-api": "nx serve sale-api --configuration=production",
+    "start:prod:product-api": "nx serve product-api --configuration=production",
+
+    "start:all-dev": "nx run-many --target=serve --projects=crm-api,sale-api,product-api --configuration=development --parallel",
+    "start:all-prod": "nx run-many --target=serve --projects=crm-api,sale-api,product-api --configuration=production --parallel"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^10.0.2",

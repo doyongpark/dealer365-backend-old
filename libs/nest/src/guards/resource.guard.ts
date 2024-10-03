@@ -26,6 +26,6 @@ export class ResourceGuard implements CanActivate {
       return false;
     }
 
-    return false;
+    return true;
   }
 }

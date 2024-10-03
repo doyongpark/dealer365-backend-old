@@ -7,11 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${file}"
-        }
+            "name": "Launch NestJS",
+            "runtimeArgs": ["--nolazy"],
+            "args": ["${workspaceFolder}/dist/apps/crm-api/main.js"],
+            "autoAttachChildProcesses": true,
+            "console": "integratedTerminal",
+            "outputCapture": "std",
+            "restart": true,
+            "skipFiles": ["<node_internals>/**"]
+          }
     ]
 }

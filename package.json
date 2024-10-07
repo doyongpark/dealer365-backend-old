@@ -1,7 +1,10 @@
 {
   "name": "@dealer365-backend/source",
   "version": "0.0.0",
-  "license": "MIT",
+  "workspaces": [
+    "libs/*",
+    "apps/*"
+  ],
   "scripts": {},
   "private": true,
   "dependencies": {

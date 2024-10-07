@@ -1,9 +1,8 @@
 {
   "name": "@dealer365-backend/shared",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "0.0.1",
   "scripts": {
-    "build": "nx build"
+    "build": "nx build shared"
   },
   "private": true,
   "dependencies": {

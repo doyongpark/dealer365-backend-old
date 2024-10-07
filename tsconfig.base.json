@@ -21,7 +21,7 @@
     },
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
-    "strictNullChecks": false,
+    "strictNullChecks": false
   },
   "exclude": ["node_modules", "tmp"]
 }

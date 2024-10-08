@@ -1,8 +1,8 @@
 {
-  "name": "api-crm-e2e",
+  "name": "dealer365-backend/api-crm-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["api-crm"],
+  "implicitDependencies": ["dealer365-backend/api-crm"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
@@ -11,7 +11,7 @@
         "jestConfig": "apps/api-crm-e2e/jest.config.ts",
         "passWithNoTests": true
       },
-      "dependsOn": ["api-crm:build"]
+      "dependsOn": ["dealer365-backend/api-crm:build"]
     }
   }
 }

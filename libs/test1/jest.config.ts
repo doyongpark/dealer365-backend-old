@@ -1,10 +1,10 @@
 export default {
-  displayName: 'dealer365-backend/api-crm',
+  displayName: '@dealer365-backend/test1',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/api-crm',
+  coverageDirectory: '../../coverage/libs/test1',
 };

@@ -1,5 +1,5 @@
 export default {
-  displayName: 'api-crm-e2e',
+  displayName: 'dealer365-backend/api-crm-e2e',
   preset: '../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -14,5 +14,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/api-crm-e2e',
+  coverageDirectory: '../../coverage/dealer365-backend/api-crm-e2e',
 };

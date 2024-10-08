@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@dealer365-backend/test1": ["libs/test1/src/index.ts"],
+      "@dealer365-backend/test2": ["libs/test2/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

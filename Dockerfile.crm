@@ -5,9 +5,9 @@ ADD . /nest
 
 WORKDIR /nest
 
-RUN yarn global add @nestjs/cli
+RUN npm global add @nestjs/cli
 
-RUN yarn install --production=false
+RUN npm install --production=false
 
 # Build production files
 # RUN nest build shared

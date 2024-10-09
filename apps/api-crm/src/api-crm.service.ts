@@ -13,6 +13,6 @@ export class ApiCrmService {
 
   }
   getHello(): string {
-    return this.d.getData() + ' ' + this.s.getData() + ' ' + this.n.getData();
+    return this.d.getData();
   }
 }

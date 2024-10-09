@@ -7,16 +7,16 @@ WORKDIR /nest
 
 RUN npm -g i @nestjs/cli
 
-RUN npm install --production=false
+RUN npm i
 
 # Build production files
 # RUN nest build shared
 # RUN nest build database
 # RUN nest build nest
-RUN nest build api-crm
+RUN nest build api-product
 
 # Bundle app source
 COPY . .
 
 EXPOSE 3000
-CMD ["node", "dist/apps/api-crm/main.js"]
+CMD ["node", "dist/apps/api-product/main.js"]

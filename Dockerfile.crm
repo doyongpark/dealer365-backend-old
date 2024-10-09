@@ -5,9 +5,9 @@ ADD . /nest
 
 WORKDIR /nest
 
-RUN npm global add @nestjs/cli
+RUN npm -g i @nestjs/cli
 
-RUN npm install --production=false
+RUN npm i
 
 # Build production files
 # RUN nest build shared

@@ -5,7 +5,7 @@ ADD . /nest
 
 WORKDIR /nest
 
-RUN npm global add @nestjs/cli
+RUN npm -g i @nestjs/cli
 
 RUN npm install --production=false
 

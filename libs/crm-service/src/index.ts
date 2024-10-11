@@ -1,2 +1,2 @@
-export * from './crm-service.builder';
+export * from './services';
 export * from './crm-service.module';

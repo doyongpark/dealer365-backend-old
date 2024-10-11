@@ -1,11 +1,17 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { RemoteConfigLoader } from './loaders/remote-config.loder';
-import { CrmServiceBuilder } from './crm-service.builder';
 
 import {
-  ProductModule,
-  UserModule
+  CreateModule,
+  CrmCreateServiceBuilder,
+  CrmDeleteServiceBuilder,
+  CrmQueryServiceBuilder,
+  CrmUpdateServiceBuilder,
+  DeleteModule,
+  QueryModule,
+  UpdateModule
 } from './services';
+
 
 @Module({})
 export class CrmServiceDynamicModule {
@@ -13,14 +19,22 @@ export class CrmServiceDynamicModule {
     return {
       module: CrmServiceDynamicModule,
       imports: [
-        UserModule,
-        ProductModule
+        CreateModule,
+        UpdateModule,
+        DeleteModule,
+        QueryModule
       ],
       providers: [
-        CrmServiceBuilder,
+        CrmCreateServiceBuilder,
+        CrmUpdateServiceBuilder,
+        CrmDeleteServiceBuilder,
+        CrmQueryServiceBuilder,
         RemoteConfigLoader,
       ],
-      exports: [CrmServiceBuilder],
+      exports: [CrmCreateServiceBuilder,
+        CrmDeleteServiceBuilder,
+        CrmQueryServiceBuilder,
+        CrmUpdateServiceBuilder,],
     };
   }
 }

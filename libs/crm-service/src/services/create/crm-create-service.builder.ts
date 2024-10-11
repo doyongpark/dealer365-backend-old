@@ -22,7 +22,7 @@ export class CrmCreateServiceBuilder {
     if (services[CREATE_SERVICE]) {
       if (services[CREATE_SERVICE] === 'CreateServiceV1') {
         this.service = this.createServiceV1;
-      } else if (services[CREATE_SERVICE] === 'CreateServiceV1') {
+      } else if (services[CREATE_SERVICE] === 'CreateServiceV2') {
         this.service = this.createServiceV2;
       }
 

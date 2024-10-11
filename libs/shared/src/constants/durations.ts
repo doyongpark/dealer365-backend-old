@@ -1,0 +1,1 @@
+export const CONFIG_POLLING_PERIOD = 10000;

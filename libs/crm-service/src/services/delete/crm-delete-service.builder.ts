@@ -1,4 +1,4 @@
-import { CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED } from '@dealer365-backend/shared';
+import { CRM_SERVICE_CONFIG_CHANGED, DELETE_SERVICE } from '@dealer365-backend/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { DeleteService } from './delete.service';
@@ -17,12 +17,12 @@ export class CrmDeleteServiceBuilder {
   @OnEvent(CRM_SERVICE_CONFIG_CHANGED)
   handleConfigChange(services: { [key: string]: any }) {
 
-    if (services[CREATE_SERVICE]) {
-      if (services[CREATE_SERVICE] === 'DeleteService') {
+    if (services[DELETE_SERVICE]) {
+      if (services[DELETE_SERVICE] === 'DeleteService') {
         this.service = this.deleteService;
       }
 
-      this.logger.log(`Service changed to: ${services[CREATE_SERVICE]}`);
+      this.logger.log(`Service changed to: ${services[DELETE_SERVICE]}`);
     }
   }
 

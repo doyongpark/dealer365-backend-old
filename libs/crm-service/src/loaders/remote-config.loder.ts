@@ -1,4 +1,4 @@
-import { CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED, DELETE_SERVICE, QUERY_SERVICE, UPDATE_SERVICE } from '@dealer365-backend/shared';
+import { CONFIG_POLLING_PERIOD, CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED, DELETE_SERVICE, QUERY_SERVICE, UPDATE_SERVICE } from '@dealer365-backend/shared';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
@@ -16,21 +16,25 @@ export class RemoteConfigLoader implements OnModuleInit {
     this.services[DELETE_SERVICE] = this.configService.get<string>(DELETE_SERVICE);
     this.services[QUERY_SERVICE] = this.configService.get<string>(QUERY_SERVICE);
 
-    this.logger.log(`Initial services loaded: ${this.services}`);
+    this.logger.log(`Initial services loaded: ${JSON.stringify(this.services)}`);
   }
 
   async onModuleInit() {
     // 설정 업데이트를 위한 주기적 호출
     this.logger.log('RemoteConfigService initialized. Starting configuration updates...');
     this.updateConfig();
-    setInterval(() => this.updateConfig(), 5000); // 5초마다 호출
+    setInterval(() => this.updateConfig(), CONFIG_POLLING_PERIOD);
   }
 
   private async updateConfig() {
     this.logger.log('Fetching remote configuration...');
 
     try {
-      const response = await axios.get(this.configService.get<string>('remote'));
+      const remoteUrl = this.configService.get<string>('remote');
+      
+      this.logger.log(`Remote URL: ${remoteUrl}`);
+
+      const response = await axios.get('http://localhost:3001/config');
 
       this.logger.log(`Received new configuration: ${JSON.stringify(response.data)}`);
 
@@ -62,7 +66,7 @@ export class RemoteConfigLoader implements OnModuleInit {
       }
     } catch (error) {
       this.logger.error('Failed to fetch remote configuration. Keeping current module.', error);
-      this.logger.log(`Current module remains: ${this.services}`);
+      this.logger.log(`Current module remains: ${JSON.stringify(this.services)}`);
     }
   }
 }

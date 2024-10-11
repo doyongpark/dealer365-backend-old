@@ -1,4 +1,4 @@
-import { CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED } from '@dealer365-backend/shared';
+import { CRM_SERVICE_CONFIG_CHANGED, UPDATE_SERVICE } from '@dealer365-backend/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { UpdateService } from './update.service';
@@ -17,12 +17,12 @@ export class CrmUpdateServiceBuilder {
   @OnEvent(CRM_SERVICE_CONFIG_CHANGED)
   handleConfigChange(services: { [key: string]: any }) {
 
-    if (services[CREATE_SERVICE]) {
-      if (services[CREATE_SERVICE] === 'UpdateService') {
+    if (services[UPDATE_SERVICE]) {
+      if (services[UPDATE_SERVICE] === 'UpdateService') {
         this.service = this.updateService;
       }
 
-      this.logger.log(`Service changed to: ${services[CREATE_SERVICE]}`);
+      this.logger.log(`Service changed to: ${services[UPDATE_SERVICE]}`);
     }
   }
 

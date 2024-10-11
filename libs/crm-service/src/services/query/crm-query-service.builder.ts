@@ -1,4 +1,4 @@
-import { CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED } from '@dealer365-backend/shared';
+import { CRM_SERVICE_CONFIG_CHANGED, QUERY_SERVICE } from '@dealer365-backend/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { QueryService } from './query.service';
@@ -17,12 +17,12 @@ export class CrmQueryServiceBuilder {
   @OnEvent(CRM_SERVICE_CONFIG_CHANGED)
   handleConfigChange(services: { [key: string]: any }) {
 
-    if (services[CREATE_SERVICE]) {
-      if (services[CREATE_SERVICE] === 'QueryService') {
+    if (services[QUERY_SERVICE]) {
+      if (services[QUERY_SERVICE] === 'QueryService') {
         this.service = this.queryService;
       }
 
-      this.logger.log(`Service changed to: ${services[CREATE_SERVICE]}`);
+      this.logger.log(`Service changed to: ${services[QUERY_SERVICE]}`);
     }
   }
 

@@ -7,8 +7,8 @@ export class CreateServiceV2 {
 
   execute() {
     return {
-      name: 'Laptop',
-      price: 1200,
+      name: 'Desktop',
+      price: 12380910941,
       details: this.detailsService.getDetails(), // 하위 서비스 호출
     };
   }

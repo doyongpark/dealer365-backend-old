@@ -16,19 +16,27 @@ export class RemoteConfigService implements OnModuleInit {
 
   async onModuleInit() {
     // 설정 업데이트를 위한 주기적 호출
+    this.logger.log('RemoteConfigService initialized. Starting configuration updates...');
     this.updateConfig();
     setInterval(() => this.updateConfig(), 5000); // 5초마다 호출
   }
 
   private async updateConfig() {
+    this.logger.log('Fetching remote configuration...');
+
     try {
       const response = await axios.get('http://localhost:3001/config');
       const newModule = response.data.module;
 
+      this.logger.log(`Received new configuration: ${JSON.stringify(response.data)}`);
+
       if (newModule !== this.currentModule) {
+        this.logger.warn(`Configuration changed detected! Old module: ${this.currentModule}, New module: ${newModule}`);
         this.currentModule = newModule;
         this.eventEmitter.emit('config.changed', this.currentModule);
         this.logger.log(`Configuration updated: ${this.currentModule}`);
+      } else {
+        this.logger.log('No changes detected in configuration.');
       }
     } catch (error) {
       this.logger.error('Failed to fetch remote configuration. Keeping current module.', error);
@@ -37,6 +45,7 @@ export class RemoteConfigService implements OnModuleInit {
   }
 
   getCurrentModule() {
+    this.logger.log(`Returning current module: ${this.currentModule}`);
     return this.currentModule;
   }
 }

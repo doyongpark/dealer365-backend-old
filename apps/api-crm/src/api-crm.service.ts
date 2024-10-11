@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ApiCrmService {
-  constructor(private readonly crmServiceBuilder: CrmDynamicService) {
+  constructor(private readonly crmDynamicService: CrmDynamicService) {
 
   }
   getHello(): string {
-    return this.crmServiceBuilder.executeMethod();
+    return this.crmDynamicService.executeMethod();
   }
 }

@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+// src/app.module.ts
+import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigService } from './config/config.service';
+import { VehicleModule } from './vehicle/vehicle.module';
+import { OwnerModule } from './owner/owner.module';
+import { AppController } from './app.controller';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-}
+@Module({
+  imports: [
+    HttpModule,
+    VehicleModule,
+    OwnerModule,
+  ],
+  controllers: [AppController],
+  providers: [ConfigService],
+})
+export class AppModule {}

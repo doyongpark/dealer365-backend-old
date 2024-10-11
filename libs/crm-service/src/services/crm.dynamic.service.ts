@@ -4,8 +4,8 @@ import { ProductService } from '../providers/product/product.service';
 import { UserService } from '../providers/user/user.service';
 
 @Injectable()
-export class CrmServiceBuilder {
-    private service: any;
+export class CrmDynamicService {
+  private service: any;
   private readonly logger = new Logger(this.constructor.name);
 
   constructor(

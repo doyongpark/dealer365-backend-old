@@ -4,7 +4,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import axios from 'axios';
 
 @Injectable()
-export class CrmDynamicConfigService implements OnModuleInit {
+export class CrmServiceConfig implements OnModuleInit {
   private currentService: string;
   private readonly logger = new Logger(this.constructor.name);
 

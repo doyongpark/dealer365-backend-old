@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { ProductService } from './services/product/product.service';
-import { UserService } from './services/user/user.service';
+import { ProductService } from '../providers/product/product.service';
+import { UserService } from '../providers/user/user.service';
 
 @Injectable()
-export class CrmDynamicService {
-  private service: any;
+export class CrmServiceBuilder {
+    private service: any;
   private readonly logger = new Logger(this.constructor.name);
 
   constructor(

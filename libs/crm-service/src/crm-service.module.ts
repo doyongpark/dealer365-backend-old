@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CrmDynamicServiceModule } from './crm-dynamic-service.module';
+import { ProviderModule } from './services/provider.module';
 
 @Module({
-  imports: [CrmDynamicServiceModule.register()],
+  imports: [ProviderModule.register()],
   providers: [ConfigService, EventEmitter2],  
-  exports: [CrmDynamicServiceModule],
+  exports: [ProviderModule],
 })
 export class CrmServiceModule { }

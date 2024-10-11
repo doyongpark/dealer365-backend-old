@@ -1,17 +1,17 @@
-import { Module, OnModuleInit } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
-import { ConfigService } from './config/config.service';
-import { ConfigurableModule } from './config/configurable.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigurableModule } from './configurable.module';
+import { DynamicController } from './dynamic.controller';
+import { UserService } from './user.service';
 
 @Module({
-  imports: [HttpModule],
-  providers: [ConfigService],
+  imports: [
+    ConfigModule.forRoot(), // ConfigModule 추가
+    EventEmitterModule.forRoot(),
+    ConfigurableModule.register(UserService),
+  ],
+  controllers: [DynamicController],
+  providers: [],
 })
-export class AppModule implements OnModuleInit {
-  constructor(private configService: ConfigService) {}
-
-  onModuleInit() {
-    // ConfigurableModule의 동적 모듈 인스턴스 생성
-    ConfigurableModule.register(this.configService);
-  }
-}
+export class AppModule {}

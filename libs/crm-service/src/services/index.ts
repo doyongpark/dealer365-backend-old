@@ -1,1 +1,2 @@
-export * from './crm.dynamic.service';
+export * from './product';
+export * from './user';

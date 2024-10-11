@@ -1,12 +1,12 @@
-import { CrmDynamicService } from '@dealer365-backend/crm-service';
+import { CrmServiceBuilder } from '@dealer365-backend/crm-service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ApiCrmService {
-  constructor(private readonly crmDynamicService: CrmDynamicService) {
+  constructor(private readonly crmServiceBuilder: CrmServiceBuilder) {
 
   }
   getHello(): string {
-    return this.crmDynamicService.executeMethod();
+    return this.crmServiceBuilder.executeMethod();
   }
 }

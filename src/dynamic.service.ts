@@ -36,6 +36,6 @@ export class DynamicService {
 
   executeMethod() {
     this.logger.log(`Executing method from: ${this.service.constructor.name}`); // 현재 서비스 로깅
-    return this.service.excute();
+    return this.service.execute(); // 수정된 부분
   }
 }

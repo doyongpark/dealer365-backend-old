@@ -1,18 +1,12 @@
-
-import { DatabaseService } from '@dealer365-backend/database';
-import { NestService } from '@dealer365-backend/nest';
-import { SharedService } from '@dealer365-backend/shared';
+import { CrmDynamicService } from '@dealer365-backend/crm-service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ApiCrmService {
-  constructor(private readonly d: DatabaseService,
-    private readonly s: SharedService,
-    private readonly n: NestService
-  ) {
+  constructor(private readonly dynamicService: CrmDynamicService) {
 
   }
   getHello(): string {
-    return this.d.getData();
+    return this.dynamicService.executeMethod();
   }
 }

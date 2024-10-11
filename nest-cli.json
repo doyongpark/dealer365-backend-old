@@ -63,6 +63,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/nest/tsconfig.lib.json"
       }
+    },
+    "crm-service": {
+      "type": "library",
+      "root": "libs/crm-service",
+      "entryFile": "index",
+      "sourceRoot": "libs/crm-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/crm-service/tsconfig.lib.json"
+      }
     }
   }
 }

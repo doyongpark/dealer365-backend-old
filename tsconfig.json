@@ -35,6 +35,12 @@
       ],
       "@dealer365-backend/nest/*": [
         "libs/nest/src/*"
+      ],
+      "@dealer365-backend/crm-service": [
+        "libs/crm-service/src"
+      ],
+      "@dealer365-backend/crm-service/*": [
+        "libs/crm-service/src/*"
       ]
     }
   }

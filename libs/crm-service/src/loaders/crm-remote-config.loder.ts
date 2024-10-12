@@ -1,9 +1,8 @@
-import { API_SERVICE, CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED, DELETE_SERVICE, QUERY_SERVICE, REMOTE_CONFIG_DATA, CONFIG_POLLING_PERIOD as REMOTE_CONFIG_POLLING_PERIOD, REMOTE_CONFIG_URL, UPDATE_SERVICE } from '@dealer365-backend/shared';
+import { IConfig } from '@dealer365-backend/config';
+import { APP_CONSTANT, ENV_CONSTANT, EVENT_CONSTANT } from '@dealer365-backend/shared';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import axios from 'axios';
-import { IApiService } from 'config';
 
 @Injectable()
 export class CrmRemoteConfigLoader implements OnModuleInit {
@@ -11,64 +10,58 @@ export class CrmRemoteConfigLoader implements OnModuleInit {
   private readonly logger = new Logger(this.constructor.name);
 
   constructor(private configService: ConfigService, private eventEmitter: EventEmitter2) {
-
-    const apiService = this.configService.get<IApiService>(API_SERVICE);
-
-    // 초기 설정 읽기
-    this.services[CREATE_SERVICE] = apiService.create;
-    this.services[UPDATE_SERVICE] = apiService.update;
-    this.services[DELETE_SERVICE] = apiService.delete;
-    this.services[QUERY_SERVICE] = apiService.query;
   }
 
   async onModuleInit() {
     // 설정 업데이트를 위한 주기적 호출
     this.logger.log('RemoteConfigService initialized. Starting configuration updates...');
-    this.updateConfig();
-    setInterval(() => this.updateConfig(), REMOTE_CONFIG_POLLING_PERIOD);
+    setInterval(() => this.updateConfig(), APP_CONSTANT.LOCAL_CONFIG_CHECKING_PERIOD);
   }
 
   private async updateConfig() {
-    this.logger.log('Fetching remote configuration...');
+    this.logger.log('Checking configuration...');
 
     try {
-      const remoteUrl = this.configService.get<string>(REMOTE_CONFIG_URL);
+      const currentConfigVersion = this.configService.get<number>(ENV_CONSTANT.CONFIG_VERSION);
+      const config = this.configService.get<IConfig>(ENV_CONSTANT.REMOTE_CONFIG);
 
-      const response = await axios.get(remoteUrl);
+      if (config?.data) {
 
-      this.logger.log(`Received new configuration: ${JSON.stringify(response.data)}`);
+        this.logger.log(`Configservice data: ${JSON.stringify(config.data)}`);
 
-      if (response.data?.crm?.service) {
+        const remoteConfigData = JSON.parse(config.data);
+        const remoteConfigVersion = remoteConfigData.version as number;
 
-        this.configService.set(REMOTE_CONFIG_DATA, JSON.stringify(response.data));
 
-        this.logger.log(`Configservice data: ${this.configService.get<string>(REMOTE_CONFIG_DATA)}`);
+        if (currentConfigVersion < remoteConfigVersion) {
 
-        const newServices = [
-          { key: CREATE_SERVICE, data: response.data.crm.service.create },
-          { key: UPDATE_SERVICE, data: response.data.crm.service.update },
-          { key: DELETE_SERVICE, data: response.data.crm.service.delete },
-          { key: QUERY_SERVICE, data: response.data.crm.service.query }
-        ];
+          const newServices = [
+            { key: ENV_CONSTANT.CREATE_SERVICE, data: remoteConfigData.service.create },
+            { key: ENV_CONSTANT.UPDATE_SERVICE, data: remoteConfigData.service.update },
+            { key: ENV_CONSTANT.DELETE_SERVICE, data: remoteConfigData.service.delete },
+            { key: ENV_CONSTANT.QUERY_SERVICE, data: remoteConfigData.service.query }
+          ];
 
-        let isConfigChanged = false;
-        newServices.forEach(svc => {
-          if (svc.data && this.services[svc.key] !== svc.data) {
-            this.logger.warn(`Configuration changed detected! Old module: ${this.services[svc.key]}, New module: ${svc.data}`);
+          let isConfigChanged = false;
+          newServices.forEach(svc => {
+            if (svc.data && this.services[svc.key] !== svc.data) {
+              this.logger.warn(`Configuration changed detected! Old module: ${this.services[svc.key]}, New module: ${svc.data}`);
 
-            this.services[svc.key] = svc.data;
-            this.logger.log(`Configuration updated: ${this.services[svc.key]}`);
+              this.services[svc.key] = svc.data;
+              this.logger.log(`Configuration updated: ${this.services[svc.key]}`);
 
-            if (!isConfigChanged)
-              isConfigChanged = true;
-          } else {
-            this.logger.log(`No changes detected in configuration: crm.${svc.key}`);
-          }
-        });
+              if (!isConfigChanged)
+                isConfigChanged = true;
+            } else {
+              this.logger.log(`No changes detected in configuration: crm.${svc.key}`);
+            }
+          });
 
-        if (isConfigChanged)
-          this.eventEmitter.emit(CRM_SERVICE_CONFIG_CHANGED, this.services);
+          if (isConfigChanged)
+            this.eventEmitter.emit(EVENT_CONSTANT.CRM_SERVICE_CONFIG_CHANGED, this.services);
+        }
       }
+
     } catch (error) {
       this.logger.error('Failed to fetch remote configuration. Keeping current module.', error);
       this.logger.log(`Current module remains: ${JSON.stringify(this.services)}`);

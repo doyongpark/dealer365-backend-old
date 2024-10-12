@@ -1,32 +1,30 @@
-import { CREATE_SERVICE, CRM_SERVICE_CONFIG_CHANGED } from '@dealer365-backend/shared';
-import { Injectable, Logger } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { IConfig } from '@dealer365-backend/config';
+import { ENV_CONSTANT } from '@dealer365-backend/shared';
+import { Injectable, Logger, Scope } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CreateService } from './v1';
 import { CreateServiceV2 } from './v2';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CrmCreateServiceBuilder {
   private service: any;
   private readonly logger = new Logger(this.constructor.name);
 
-  constructor(
-    private createService: CreateService,
-    private createServiceV2: CreateServiceV2
+  constructor(private readonly configService: ConfigService,
+    private readonly createService: CreateService,
+    private readonly createServiceV2: CreateServiceV2
   ) {
+
     this.service = this.createService; // 기본 서비스 설정 (UserService로 초기화)
-  }
 
-  @OnEvent(CRM_SERVICE_CONFIG_CHANGED)
-  handleConfigChange(services: { [key: string]: any }) {
-
-    if (services[CREATE_SERVICE]) {
-      if (services[CREATE_SERVICE] === 'CreateService') {
-        this.service = this.createService;
-      } else if (services[CREATE_SERVICE] === 'CreateServiceV2') {
-        this.service = this.createServiceV2;
+    const config = this.configService.get<IConfig>(ENV_CONSTANT.REMOTE_CONFIG);
+    this.logger.log(`Configservice data: ${JSON.stringify(config.data)}`);
+    if (config?.data) {
+      const remoteConfigData = JSON.parse(config.data);
+      const serviceName = remoteConfigData.crm?.service?.create;
+      if (serviceName === 'CreateServiceV2') {
+        this.service = this.createServiceV2; // 기본 서비스 설정 (UserService로 초기화)
       }
-
-      this.logger.log(`Service changed to: ${services[CREATE_SERVICE]}`);
     }
   }
 

@@ -1,4 +1,4 @@
-import { CRM_SERVICE_CONFIG_CHANGED, DELETE_SERVICE } from '@dealer365-backend/shared';
+import { ENV_CONSTANT, EVENT_CONSTANT } from '@dealer365-backend/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { DeleteService } from './delete.service';
@@ -14,15 +14,15 @@ export class CrmDeleteServiceBuilder {
     this.service = this.deleteService; // 기본 서비스 설정 (UserService로 초기화)
   }
 
-  @OnEvent(CRM_SERVICE_CONFIG_CHANGED)
+  @OnEvent(EVENT_CONSTANT.CRM_SERVICE_CONFIG_CHANGED)
   handleConfigChange(services: { [key: string]: any }) {
 
-    if (services[DELETE_SERVICE]) {
-      if (services[DELETE_SERVICE] === 'DeleteService') {
+    if (services[ENV_CONSTANT.DELETE_SERVICE]) {
+      if (services[ENV_CONSTANT.DELETE_SERVICE] === 'DeleteService') {
         this.service = this.deleteService;
       }
 
-      this.logger.log(`Service changed to: ${services[DELETE_SERVICE]}`);
+      this.logger.log(`Service changed to: ${services[ENV_CONSTANT.DELETE_SERVICE]}`);
     }
   }
 

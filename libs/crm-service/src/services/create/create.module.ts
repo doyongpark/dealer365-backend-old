@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { CreateDetailsServiceV1, CreateServiceV1 } from './v1';
+import { CreateDetailsService, CreateService } from './v1';
 import { CreateDetailsServiceV2, CreateServiceV2 } from './v2';
 
 const services = [
-  CreateServiceV1, CreateDetailsServiceV1,
+  CreateService, CreateDetailsService,
   CreateServiceV2, CreateDetailsServiceV2,
 ];
 

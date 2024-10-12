@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDetailsServiceV1 } from './create-details.service.v1';
+import { CreateDetailsService } from './create-details.service';
 
 @Injectable()
-export class CreateServiceV1 {
-  constructor(private detailsService: CreateDetailsServiceV1) {} // CreateDetailsService 주입
+export class CreateService {
+  constructor(private detailsService: CreateDetailsService) {} // CreateDetailsService 주입
 
   execute() {
     return {

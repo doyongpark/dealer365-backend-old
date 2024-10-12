@@ -4,7 +4,7 @@ import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { configuration } from '../config/configuration';
+import { configuration } from 'config';
 import { ApiCrmController } from './api-crm.controller';
 import { ApiCrmService } from './api-crm.service';
 
@@ -12,7 +12,7 @@ import { ApiCrmService } from './api-crm.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
+      envFilePath: `./apps/api-crm/src/.${process.env.NODE_ENV}.env`,
       load: [configuration]
     }),
     EventEmitterModule.forRoot({ global: true }),

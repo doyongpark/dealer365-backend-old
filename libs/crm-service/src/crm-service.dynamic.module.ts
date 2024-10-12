@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { RemoteConfigLoader } from './loaders/remote-config.loder';
+import { CrmRemoteConfigLoader } from './loaders/crm-remote-config.loder';
 
 import {
   CreateModule,
@@ -29,7 +29,7 @@ export class CrmServiceDynamicModule {
         CrmUpdateServiceBuilder,
         CrmDeleteServiceBuilder,
         CrmQueryServiceBuilder,
-        RemoteConfigLoader,
+        CrmRemoteConfigLoader,
       ],
       exports: [CrmCreateServiceBuilder,
         CrmDeleteServiceBuilder,

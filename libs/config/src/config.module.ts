@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
-// import { ConfigService } from './config.service'; // 커스텀 ConfigService
+import { ConfigService } from './config.service';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { configuration } from './configuration';
 
 @Module({
   imports: [
     NestConfigModule.forRoot({
-      isGlobal: true,  // 글로벌하게 ConfigService를 사용하도록 설정
-      envFilePath: ['.env'],  // 경로 설정
-      load: [configuration]
+      isGlobal: true,
+      envFilePath: ['.env'],  // 환경 변수 파일 경로
+      load: [configuration],
+      cache: false
     }),
   ],
   providers: [ConfigService],
   exports: [ConfigService],
 })
-export class ConfigModule {}
+export class ConfigModule { }

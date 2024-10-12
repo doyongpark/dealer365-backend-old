@@ -1,46 +1,75 @@
-// import { REMOTE_CONFIG_DATA, REMOTE_CONFIG_DATA_VERSION, REMOTE_CONFIG_URL } from '@dealer365-backend/shared';
-// import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-// import { ConfigService as NestConfigService } from '@nestjs/config';
-// import axios from 'axios';
+import { APP_CONSTANT, ENV_CONSTANT } from '@dealer365-backend/shared';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { ConfigService as NestConfigService } from '@nestjs/config';
+import axios from 'axios';
 
-// @Injectable()
-// export class ConfigService extends NestConfigService implements OnModuleInit {
-//   private readonly logger = new Logger(ConfigService.name);
+@Injectable()
+export class ConfigService extends NestConfigService implements OnModuleInit {
+  private readonly logger = new Logger(ConfigService.name);
+  private remoteConfigUrl: string;
 
-//   constructor() {
-//     super();
-//   }
+  constructor() {
+    super();
+  }
 
-//   async onModuleInit() {
-//     await this.fetchRemoteConfig();  // 초기 설정 로드
-//     this.startConfigPolling();  // 주기적으로 설정 가져오기
-//   }
+  async onModuleInit() {
+    this.logger.log('Initializing ConfigService...');
 
-//   private async fetchRemoteConfig() {
-//     try {
-//       this.logger.log(`RemoteUrl: ${this.get(REMOTE_CONFIG_URL)}`);
-//       const response = await axios.get('http://localhost:3001/config');
-//       if (response.status === 200) {
-//         this.setConfig(response.data);
-//         this.logger.log(`Config updated: ${JSON.stringify(response.data)}`);
-//       } else {
-//         this.logger.error(`Failed to fetch config. Status: ${response.status}`);
-//       }
-//     } catch (error) {
-//       this.logger.error(`Error fetching remote config: ${error.message}`);
-//     }
-//   }
+    // 환경 변수에서 원격 URL 가져오기
+    this.remoteConfigUrl = this.get<string>('REMOTE_CONFIG_URL');
 
-//   private setConfig(data: any) {
-//     // 여기서 원격 데이터를 처리하여 ConfigService에 적용합니다.
-//     // 예: this.config.data = data;
-//     const configDataVersion = this.get<number>(REMOTE_CONFIG_DATA_VERSION);
-//     this.set(REMOTE_CONFIG_DATA, JSON.stringify(data));
-//   }
+    await this.loadInitialConfig();  // 초기 설정 로드
+    this.startConfigPolling();  // 주기적으로 설정 가져오기
+  }
 
-//   private startConfigPolling() {
-//     setInterval(async () => {
-//       await this.fetchRemoteConfig();
-//     }, 30000);  // 30초마다 설정 갱신
-//   }
-// }
+  private async loadInitialConfig() {
+    this.logger.log(`Loading initial config from ${this.remoteConfigUrl}`);
+    try {
+      const response = await axios.get(this.remoteConfigUrl);
+      if (response.status === 200) {
+        this.setConfig(response.data);
+      } else {
+        this.logger.warn(`Failed to load initial config, status: ${response.status}`);
+      }
+    } catch (error) {
+      this.logger.error(`Error loading initial config: ${error.message}`, error.stack);
+    }
+  }
+
+  private async fetchRemoteConfig() {
+    this.logger.log(`Fetching remote config from ${this.remoteConfigUrl}`);
+    try {
+      const response = await axios.get(this.remoteConfigUrl);
+      if (response.status === 200) {
+        this.setConfig(response.data);
+      } else {
+        this.logger.warn(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error) {
+      this.logger.error(`Failed to fetch remote config: ${error.message}`, error.stack);
+    }
+  }
+
+  private setConfig(data: any) {
+    if (data) {
+      const remoteConfigVersion = this.get<number>(ENV_CONSTANT.REMOTE_CONFIG_VERSION) || this.get<number>('REMOTE_CONFIG_VERSION');
+      const newRemoteConfigVersion = data.version as number;
+
+      if (!remoteConfigVersion || remoteConfigVersion < newRemoteConfigVersion) {
+
+        this.set(ENV_CONSTANT.REMOTE_CONFIG_VERSION, newRemoteConfigVersion);
+        this.set(ENV_CONSTANT.REMOTE_CONFIG_DATA, JSON.stringify(data));
+        // this.logger.debug(`ConfigService: ${JSON.stringify(this)}`);
+        this.logger.debug(`Config updated successfully: ${JSON.stringify(data)}`);
+      }
+    }
+  }
+
+  private startConfigPolling() {
+    this.logger.log(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
+    setInterval(async () => {
+      this.logger.log('Polling for updated config...');
+      await this.fetchRemoteConfig();
+    }, APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD);
+  }
+}

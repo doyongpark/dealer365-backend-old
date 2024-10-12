@@ -1,4 +1,4 @@
-import { CrmServiceModule } from '@dealer365-backend/crm-service';
+import { CreateModule, CrmServiceModule, ICreateService } from '@dealer365-backend/crm-service';
 import { NestModule } from '@dealer365-backend/nest';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
@@ -13,9 +13,9 @@ import { ApiCrmService } from './api-crm.service';
     ConfigModule,
     EventEmitterModule.forRoot({ global: true }),
     SharedModule,
-    NestModule,  
-    CrmServiceModule],
+    NestModule,
+    CreateModule],
   controllers: [ApiCrmController],
-  providers: [ApiCrmService],
+  providers: [ApiCrmService, ],
 })
 export class ApiCrmModule { }

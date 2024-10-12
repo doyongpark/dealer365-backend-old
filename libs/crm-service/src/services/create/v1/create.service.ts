@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { ICreateService } from '../create.interface';
 import { CreateDetailsService } from './create-details.service';
 
 @Injectable()
-export class CreateService {
-  constructor(private detailsService: CreateDetailsService) {} // CreateDetailsService 주입
+export class CreateService implements ICreateService {
+  constructor(private detailsService: CreateDetailsService) { } // CreateDetailsService 주입
 
-  execute() {
+  execute(): any {
     return {
       name: 'Laptop',
       price: 1200,

@@ -1,11 +1,12 @@
-import { ConfigModule } from '@dealer365-backend/config';
 import { Module } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CrmServiceDynamicModule } from './crm-service.dynamic.module';
+import { CreateModule, DeleteModule, QueryModule, UpdateModule } from './services';
+
+const subModules = [CreateModule, UpdateModule, DeleteModule, QueryModule];
 
 @Module({
-  imports: [ConfigModule, CrmServiceDynamicModule.register()],
+  imports: [...subModules],
   providers: [EventEmitter2],
-  exports: [CrmServiceDynamicModule],
+  exports: [...subModules],
 })
 export class CrmServiceModule { }

@@ -1,2 +1,2 @@
 export * from './create.module';
-export * from './crm-create-service.builder';
+export * from './create.interface';

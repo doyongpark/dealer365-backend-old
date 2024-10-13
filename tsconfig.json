@@ -47,6 +47,12 @@
       ],
       "@dealer365-backend/config/*": [
         "libs/config/src/*"
+      ],
+      "@dealer365-backend/crm-database": [
+        "libs/crm-database/src"
+      ],
+      "@dealer365-backend/crm-database/*": [
+        "libs/crm-database/src/*"
       ]
     }
   }

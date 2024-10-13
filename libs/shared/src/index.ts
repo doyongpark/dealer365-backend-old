@@ -1,5 +1,5 @@
 export * from './constants';
-export * from './shared.module';
-export * from './shared.service';
-export * from './types';
+export * from './domains';
+// export * from './loggers';
+// export * from './utils';
 

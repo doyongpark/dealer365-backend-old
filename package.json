@@ -91,7 +91,8 @@
       "^dealer365-backend/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
       "^dealer365-backend/nest(|/.*)$": "<rootDir>/libs/nest/src/$1",
       "^@dealer365-backend/crm-service(|/.*)$": "<rootDir>/libs/crm-service/src/$1",
-      "^@dealer365-backend/config(|/.*)$": "<rootDir>/libs/config/src/$1"
+      "^@dealer365-backend/config(|/.*)$": "<rootDir>/libs/config/src/$1",
+      "^@dealer365-backend/crm-database(|/.*)$": "<rootDir>/libs/crm-database/src/$1"
     }
   }
 }

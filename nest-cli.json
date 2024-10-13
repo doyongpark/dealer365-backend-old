@@ -81,6 +81,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/config/tsconfig.lib.json"
       }
+    },
+    "crm-database": {
+      "type": "library",
+      "root": "libs/crm-database",
+      "entryFile": "index",
+      "sourceRoot": "libs/crm-database/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/crm-database/tsconfig.lib.json"
+      }
     }
   }
 }

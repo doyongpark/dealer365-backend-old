@@ -8,8 +8,7 @@ import { configuration } from './configuration';
     NestConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],  // 환경 변수 파일 경로
-      load: [configuration],
-      cache: false
+      load: [configuration]
     }),
   ],
   providers: [ConfigService],

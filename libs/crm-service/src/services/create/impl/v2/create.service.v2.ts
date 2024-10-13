@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICreateService } from '../create.interface';
+import { ICreateService } from '../../create.interface';
 import { CreateDetailsServiceV2 } from './create-details.service.v2';
 
 @Injectable()

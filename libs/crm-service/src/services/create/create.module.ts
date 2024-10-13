@@ -1,9 +1,8 @@
+import { ENV_CONSTANT } from '@dealer365-backend/shared';
 import { Module, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CreateDetailsService, CreateService } from './v1'; // V1 서비스
-import { CreateDetailsServiceV2, CreateServiceV2 } from './v2'; // V2 서비스
 import { ICreateService } from './create.interface';
-import { ENV_CONSTANT } from '@dealer365-backend/shared';
+import { CreateDetailsService, CreateDetailsServiceV2, CreateService, CreateServiceV2 } from './impl';
 
 // 서비스 배열
 const services = [

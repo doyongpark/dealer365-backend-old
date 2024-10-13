@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CreateModule } from './services';
+import { CreateModule, DeleteModule, QueryModule, UpdateModule } from './services';
 
-const subModules = [CreateModule];
+const subModules = [CreateModule, UpdateModule, DeleteModule, QueryModule];
 
 @Module({
   imports: [...subModules],

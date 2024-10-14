@@ -24,10 +24,10 @@ async function bootstrap() {
   //version
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' })
 
-  app.setGlobalPrefix('api/crm');
+  app.setGlobalPrefix('api');
 
   // Swagger 설정
-  SwaggerModule.setup('crm/docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
+  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
     .setTitle('API CRM Swagger')
     .setDescription('API description')
     .setVersion('1.0')

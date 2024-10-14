@@ -1,1 +1,1 @@
-export * from './http.exceptions'
+export * from './filter.module'

@@ -1,6 +1,6 @@
 import { ConfigModule } from '@dealer365-backend/config';
 import { CrmServiceModule } from '@dealer365-backend/crm-service';
-import { InterceptorModule, MiddlewareModule } from '@dealer365-backend/nest-common';
+import { FilterModule, GuardModule, InterceptorModule, MiddlewareModule } from '@dealer365-backend/nest-common';
 import { CustomLoggerModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ApiCrmController } from './api-crm.controller';
@@ -13,6 +13,8 @@ import { ApiCrmService } from './api-crm.service';
     CustomLoggerModule.forRoot(),
     InterceptorModule.forRoot(),
     MiddlewareModule.forRoot(),
+    FilterModule.forRoot(),
+    GuardModule.forRoot(),
   ],
   controllers: [ApiCrmController],
   providers: [ApiCrmService,],

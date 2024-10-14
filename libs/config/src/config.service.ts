@@ -58,7 +58,6 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
 
         this.set(ENV_CONSTANT.REMOTE_CONFIG_VERSION, newRemoteConfigVersion);
         this.set(ENV_CONSTANT.REMOTE_CONFIG_DATA, JSON.stringify(data));
-        // Logger.debug(`ConfigService: ${JSON.stringify(this)}`);
         Logger.debug(`Config updated successfully: ${JSON.stringify(data)}`);
       }
     }

@@ -1,58 +1,57 @@
-import { Injectable, LoggerService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import pino from 'pino';
+import * as pretty from 'pino-pretty';
 
 @Injectable()
-export class PinoLoggerService implements LoggerService {
-  private logger;
+export class PinoLoggerService {
+  private readonly logger: pino.Logger;
 
-  constructor(level: string, logType: string, logFormat: string) {
-    const options: pino.LoggerOptions = {
-      level,
-      formatters: {
-        level(label) {
-          return { level: label };  // 로그 레벨 포맷팅
-        },
+  constructor(level: string, format: string, logType: string) {
+    const prettyStream = pretty({
+      colorize: true,
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
+      messageFormat: (log, message) => {
+        const timestamp = new Date().toISOString();
+        const formattedMessage = typeof message === 'object' ? JSON.stringify(message) : message;
+        return `[Pino] ${process.pid}   - ${timestamp}   [${log.context || 'Application'}] ${formattedMessage}`;
       },
-      timestamp: pino.stdTimeFunctions.isoTime,
-      redact: {
-        paths: ['password', 'email', 'credit','card'],  // 민감 정보 마스킹
-        censor: '***',  // 마스킹할 내용
-      },
-      transport: logType === 'file' ? undefined : {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
-          ignore: 'pid,hostname',
-        },
-      },
-    };
+    });
 
-    // JSON 형식으로 출력할 경우 transport를 설정하지 않음
-    if (logFormat === 'json') {
-      delete options.transport;
+    this.logger = pino({
+      level: level,
+      base: { logType: logType },
+      transport: format === 'pretty' ? { target: 'pino-pretty' } : undefined,
+    }, prettyStream);
+  }
+
+  log(message: string, context?: string) {
+    this.logger.info({ context, message });
+  }
+
+  error(message: string, error?: Error, context?: string) {
+    if (error) {
+      this.logger.error({
+        context,
+        message,
+        name: error.name,
+        stack: error.stack,
+        details: error.message,
+      });
+    } else {
+      this.logger.error({ context, message });
     }
-
-    this.logger = pino(options);
   }
 
-  log(message: string) {
-    this.logger.info(message);
+  warn(message: string, context?: string) {
+    this.logger.warn({ context, message });
   }
 
-  error(message: string, trace: string) {
-    this.logger.error({ err: trace }, message);
+  debug(message: string, context?: string) {
+    this.logger.debug({ context, message });
   }
 
-  warn(message: string) {
-    this.logger.warn(message);
-  }
-
-  debug(message: string) {
-    this.logger.debug(message);
-  }
-
-  verbose(message: string) {
-    this.logger.info(message);  // pino에는 verbose가 없으므로 info로 처리
+  verbose(message: string, context?: string) {
+    this.logger.trace({ context, message });
   }
 }

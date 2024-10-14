@@ -1,6 +1,5 @@
 import { UserFriendlyException } from '@dealer365-backend/shared';
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger, NotFoundException } from '@nestjs/common';
 import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
 
@@ -8,8 +7,6 @@ import { Request, Response } from 'express';
 export class HttpExceptionFilter implements ExceptionFilter {
     //to-do: 번역필요
     private readonly common_msg = 'Oops! Something went wrong. We apologize for the inconvenience. There seems to be a temporary issue with our server, and we are unable to process your request at the moment.';
-
-    constructor(private readonly configService: ConfigService) { }
 
     catch(exception: HttpException, host: ArgumentsHost) {
 

@@ -1,5 +1,4 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { instanceToPlain } from 'class-transformer';
 import { Request } from 'express';
 import { isArray, isObject } from 'lodash';
@@ -12,8 +11,7 @@ export interface Response<T> {
 }
 
 @Injectable()
-export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
-  constructor(private readonly configService: ConfigService) { }
+export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: any, next: CallHandler): Observable<any> {
     if (context.getType() === 'graphql') return next.handle();
 

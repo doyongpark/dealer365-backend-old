@@ -1,3 +1,2 @@
-export * from './correlation.middleware'
-export * from './method.override.middleware'
-export * from './user.context.middleware'
+export * from './middleware.module'
+export * from './user-context.service'

@@ -1,9 +1,8 @@
+import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, Logger, NestInterceptor } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UserContextService } from '../middlewares';
-import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 
 @Injectable()
 export class AuditLogInterceptor implements NestInterceptor {
@@ -11,8 +10,6 @@ export class AuditLogInterceptor implements NestInterceptor {
   private readonly _user_agent = HttpHeaderKeysEnum.USER_AGENT;
   private readonly _request_id = HttpHeaderKeysEnum.REQUEST_ID;
   private readonly _correlation_id = HttpHeaderKeysEnum.CORRELATION_ID;
-
-  constructor(private readonly configService: ConfigService) { }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
 

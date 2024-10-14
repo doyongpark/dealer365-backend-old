@@ -16,10 +16,10 @@ export class CustomLoggerModule {
                     provide: 'LOGGER',
                     inject: [ConfigService],
                     useFactory: (configService: ConfigService) => {
-                        const provider = configService.get<string>(ENV_CONSTANT.LOG_PROVIDER);
-                        const level = configService.get<string>(ENV_CONSTANT.LOG_LEVEL, 'info');
-                        const format = configService.get<string>(ENV_CONSTANT.LOG_FORMAT, 'json');
-                        const logType = configService.get<string>(ENV_CONSTANT.LOG_TYPE, 'console');
+                        const provider = configService.get<string>(ENV_CONSTANT.LOGGER_PROVIDER);
+                        const level = configService.get<string>(ENV_CONSTANT.LOGGER_LEVEL, 'info');
+                        const format = configService.get<string>(ENV_CONSTANT.LOGGER_FORMAT, 'json');
+                        const logType = configService.get<string>(ENV_CONSTANT.LOGGER_TYPE, 'console');
 
                         if (provider === 'winston') {
                             return new WinstonLoggerService(level, format, logType);

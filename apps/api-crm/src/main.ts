@@ -47,11 +47,6 @@ async function bootstrap() {
   //   //new HttpExceptionFilter(config)
   // );
 
-  // app.useGlobalInterceptors(
-  //   //new AuditLogInterceptor(config),
-  //   //new ResponseInterceptor(config)
-  // );
-
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // 요청 데이터를 DTO로 변환

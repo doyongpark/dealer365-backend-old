@@ -1,7 +1,5 @@
-import { Controller, Delete, Get, Logger, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { ApiCrmService } from './api-crm.service';
-import { UserContextService } from '@dealer365-backend/nest-common';
-import { UserContext } from '@dealer365-backend/shared';
 
 @Controller()
 export class ApiCrmController {
@@ -9,8 +7,6 @@ export class ApiCrmController {
 
   @Get()
   get(): string {
-    const user = UserContextService.get<UserContext>();
-    Logger.warn('card number is 1329128301283901'); 
     return this.apiCrmService.get();
   }
 

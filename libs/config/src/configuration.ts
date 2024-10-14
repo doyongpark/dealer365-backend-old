@@ -10,12 +10,18 @@ export const configuration = () => ({
     },
     middleware: {
         crm: {
-            use_correlation: parseBoolean(process.env.USE_CORRELATION_MIDDLEWARE ?? 'true'),
-            use_method_override: parseBoolean(process.env.USE_METHOD_OVERRIDE_MIDDLEWARE ?? 'true'),
-            use_user_context: parseBoolean(process.env.USE_USER_CONTEXT_MIDDLEWARE ?? 'true'),
+            use_correlation: parseBoolean(process.env.USE_CORRELATION_MIDDLEWARE, true),
+            use_method_override: parseBoolean(process.env.USE_METHOD_OVERRIDE_MIDDLEWARE, true),
+            use_user_context: parseBoolean(process.env.USE_USER_CONTEXT_MIDDLEWARE, true),
         }
     },
-    log: {
+    interceptor: {
+        crm: {
+            use_audit_log: parseBoolean(process.env.USE_RESPONSE_AUDITLOG_INTERCEPTOR, true),
+            use_response_transform: parseBoolean(process.env.USE_RESPONSE_TRANSFORM_INTERCEPTOR, true),
+        }
+    },
+    logger: {
         provider: process.env.LOG_PROVIDER || 'winston',
         type: process.env.LOG_TYPE || 'console',
         format: process.env.LOG_FORMAT || 'json',

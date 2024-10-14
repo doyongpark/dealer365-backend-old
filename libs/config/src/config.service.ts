@@ -5,7 +5,6 @@ import axios from 'axios';
 
 @Injectable()
 export class ConfigService extends NestConfigService implements OnModuleInit {
-  private readonly logger = new Logger(ConfigService.name);
   private remoteConfigUrl: string;
 
   constructor() {
@@ -13,7 +12,7 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.logger.log('Initializing ConfigService...');
+    Logger.log('Initializing ConfigService...');
 
     // 환경 변수에서 원격 URL 가져오기
     this.remoteConfigUrl = this.get<string>('REMOTE_CONFIG_URL');
@@ -23,30 +22,30 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   private async loadInitialConfig() {
-    this.logger.log(`Loading initial config from ${this.remoteConfigUrl}`);
+    Logger.log(`Loading initial config from ${this.remoteConfigUrl}`);
     try {
       const response = await axios.get(this.remoteConfigUrl);
       if (response.status === 200) {
         this.setConfig(response.data);
       } else {
-        this.logger.warn(`Failed to load initial config, status: ${response.status}`);
+        Logger.warn(`Failed to load initial config, status: ${response.status}`);
       }
     } catch (error) {
-      this.logger.error(`Error loading initial config: ${error.message}`, error.stack);
+      Logger.error(`Error loading initial config: ${error.message}`, error.stack);
     }
   }
 
   private async fetchRemoteConfig() {
-    this.logger.log(`Fetching remote config from ${this.remoteConfigUrl}`);
+    Logger.log(`Fetching remote config from ${this.remoteConfigUrl}`);
     try {
       const response = await axios.get(this.remoteConfigUrl);
       if (response.status === 200) {
         this.setConfig(response.data);
       } else {
-        this.logger.warn(`Unexpected response status: ${response.status}`);
+        Logger.warn(`Unexpected response status: ${response.status}`);
       }
     } catch (error) {
-      this.logger.error(`Failed to fetch remote config: ${error.message}`, error.stack);
+      Logger.error(`Failed to fetch remote config: ${error.message}`, error.stack);
     }
   }
 
@@ -59,16 +58,16 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
 
         this.set(ENV_CONSTANT.REMOTE_CONFIG_VERSION, newRemoteConfigVersion);
         this.set(ENV_CONSTANT.REMOTE_CONFIG_DATA, JSON.stringify(data));
-        // this.logger.debug(`ConfigService: ${JSON.stringify(this)}`);
-        this.logger.debug(`Config updated successfully: ${JSON.stringify(data)}`);
+        // Logger.debug(`ConfigService: ${JSON.stringify(this)}`);
+        Logger.debug(`Config updated successfully: ${JSON.stringify(data)}`);
       }
     }
   }
 
   private startConfigPolling() {
-    this.logger.log(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
+    Logger.log(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
     setInterval(async () => {
-      this.logger.log('Polling for updated config...');
+      Logger.log('Polling for updated config...');
       await this.fetchRemoteConfig();
     }, APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD);
   }

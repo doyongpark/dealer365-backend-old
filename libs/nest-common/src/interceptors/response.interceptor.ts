@@ -32,7 +32,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
           //     'Location',
           //     request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.data[0].id
           //   );
-          // console.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.data[0].id);
+          // Logger.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.data[0].id);
           return {
             //...data, //Page처리 혹은 Entity Id를 포함하여 데이터를 내려주는 경우
             success: isSuccess,
@@ -64,7 +64,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
             request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.id
           );
           
-        //console.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.id);
+        //Logger.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.id);
         return {
           success: isSuccess,
           status: request.res?.statusCode,

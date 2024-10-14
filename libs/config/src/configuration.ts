@@ -6,7 +6,7 @@ export const configuration = () => ({
     remote_config_url: process.env.REMOTE_CONFIG_URL,
     remote_config: {
         version: parseInt(process.env.REMOTE_CONFIG_VERSION, 10) || 1,
-        data: process.env.REMOTE_CONFIG_DATA,
+        row_data: process.env.REMOTE_CONFIG_DATA,
     },
     middleware: {
         crm: {
@@ -14,5 +14,11 @@ export const configuration = () => ({
             use_method_override: parseBoolean(process.env.USE_METHOD_OVERRIDE_MIDDLEWARE ?? 'true'),
             use_user_context: parseBoolean(process.env.USE_USER_CONTEXT_MIDDLEWARE ?? 'true'),
         }
+    },
+    log: {
+        provider: process.env.LOG_PROVIDER || 'winston',
+        type: process.env.LOG_TYPE || 'console',
+        format: process.env.LOG_FORMAT || 'json',
+        level: process.env.LOG_LEVEL || 'info',
     }
 });

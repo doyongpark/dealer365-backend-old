@@ -4,8 +4,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  private readonly logger = new Logger(this.constructor.name);
-
   constructor(private readonly configService: ConfigService) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,7 +16,7 @@ export class AuthGuard implements CanActivate {
 
     const authType = this.configService.get('auth.type');;
 
-    this.logger.debug(`${authType}.auth.guard loaded`);
+    Logger.debug(`${authType}.auth.guard loaded`);
 
     if (authType === 'keycloak') {
       return true;

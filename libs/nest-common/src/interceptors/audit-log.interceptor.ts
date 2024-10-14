@@ -7,8 +7,6 @@ import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 
 @Injectable()
 export class AuditLogInterceptor implements NestInterceptor {
-
-  private readonly logger = new Logger(this.constructor.name);
   
   private readonly _user_agent = HttpHeaderKeysEnum.USER_AGENT;
   private readonly _request_id = HttpHeaderKeysEnum.REQUEST_ID;
@@ -63,7 +61,7 @@ export class AuditLogInterceptor implements NestInterceptor {
 
         //비즈니스 로직이 필요한 경우 별도 Service 로 구현 예정.
         //await this.auditLogRepository.createAuditLog(auditLogData);
-        this.logger.verbose(JSON.stringify(auditLogData));
+        Logger.verbose(JSON.stringify(auditLogData));
       }),
       catchError(async (err) => {
         const executionDuration = Date.now() - executionTime.getTime();

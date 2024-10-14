@@ -1,22 +1,22 @@
 import { ConfigModule } from '@dealer365-backend/config';
 import { CrmServiceModule } from '@dealer365-backend/crm-service';
 import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware } from '@dealer365-backend/nest-common';
+import { CustomLoggerModule, ENV_CONSTANT } from '@dealer365-backend/shared';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApiCrmController } from './api-crm.controller';
 import { ApiCrmService } from './api-crm.service';
-import { ConfigService } from '@nestjs/config';
-import { ENV_CONSTANT } from '@dealer365-backend/shared';
 
 @Module({
-  imports: [ConfigModule, CrmServiceModule],
+  imports: [ConfigModule, CrmServiceModule, CustomLoggerModule.forRoot()],
   controllers: [ApiCrmController],
   providers: [ApiCrmService,],
 })
 export class ApiCrmModule {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   configure(consumer: MiddlewareConsumer) {
-    
+
     const useCorrelationIdMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_CORRELATION_MIDDLEWARE);
     const useMethodOverrideMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_METHOD_OVERRIDE_MIDDLEWARE);
     const useUserContextMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_USER_CONTEXT_MIDDLEWARE);

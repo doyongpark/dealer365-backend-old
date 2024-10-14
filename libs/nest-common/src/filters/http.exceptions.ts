@@ -9,7 +9,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     //to-do: 번역필요
     private readonly common_msg = 'Oops! Something went wrong. We apologize for the inconvenience. There seems to be a temporary issue with our server, and we are unable to process your request at the moment.';
 
-    private readonly logger = new Logger(this.constructor.name);
     constructor(private readonly configService: ConfigService) { }
 
     catch(exception: HttpException, host: ArgumentsHost) {
@@ -34,7 +33,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             },
         };
 
-        this.logger.error(result.error);
+        Logger.error(result.error);
 
         //잘못 된 url로 요청 한 경우, 404응답 만 리턴하고 응답을 종료 
         if (exception instanceof NotFoundException && exception?.stack?.includes('routes-resolver')) {

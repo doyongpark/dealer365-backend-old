@@ -55,5 +55,9 @@
         "libs/nest-common/src/*"
       ]
     }
-  }
+  },
+  "include": [
+    "apps/**/*",
+    "libs/**/*"
+  ]
 }

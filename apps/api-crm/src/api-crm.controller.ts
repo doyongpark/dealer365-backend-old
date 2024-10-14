@@ -10,7 +10,7 @@ export class ApiCrmController {
   @Get()
   get(): string {
     const user = UserContextService.get<UserContext>();
-    Logger.warn(JSON.stringify(user)); 
+    Logger.warn('card number is 1329128301283901'); 
     return this.apiCrmService.get();
   }
 

@@ -1,18 +1,42 @@
 import { ConfigModule } from '@dealer365-backend/config';
 import { CrmServiceModule } from '@dealer365-backend/crm-service';
-import { NestModule } from '@dealer365-backend/nest';
-import { Module } from '@nestjs/common';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware } from '@dealer365-backend/nest-common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ApiCrmController } from './api-crm.controller';
 import { ApiCrmService } from './api-crm.service';
+import { ConfigService } from '@nestjs/config';
+import { ENV_CONSTANT } from '@dealer365-backend/shared';
 
 @Module({
-  imports: [
-    ConfigModule,
-    EventEmitterModule.forRoot({ global: true }),
-    NestModule,
-    CrmServiceModule],
+  imports: [ConfigModule, CrmServiceModule],
   controllers: [ApiCrmController],
-  providers: [ApiCrmService, ],
+  providers: [ApiCrmService,],
 })
-export class ApiCrmModule { }
+export class ApiCrmModule {
+  constructor(private readonly configService: ConfigService) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    
+    const useCorrelationIdMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_CORRELATION_MIDDLEWARE);
+    const useMethodOverrideMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_METHOD_OVERRIDE_MIDDLEWARE);
+    const useUserContextMiddleware = this.configService.get<boolean>(ENV_CONSTANT.CRM_USE_USER_CONTEXT_MIDDLEWARE);
+
+    if (useCorrelationIdMiddleware) {
+      consumer
+        .apply(CorrelationIdMiddleware)
+        .forRoutes({ path: '*', method: RequestMethod.ALL });
+    }
+
+    if (useMethodOverrideMiddleware) {
+      consumer
+        .apply(MethodOverrideMiddleware)
+        .forRoutes({ path: '*', method: RequestMethod.ALL });
+    }
+
+    if (useUserContextMiddleware) {
+      consumer
+        .apply(UserContextMiddleware)
+        .forRoutes({ path: '*', method: RequestMethod.ALL });
+    }
+  }
+}

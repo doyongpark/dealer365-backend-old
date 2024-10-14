@@ -30,12 +30,6 @@
       "@dealer365-backend/shared/*": [
         "libs/shared/src/*"
       ],
-      "@dealer365-backend/nest": [
-        "libs/nest/src"
-      ],
-      "@dealer365-backend/nest/*": [
-        "libs/nest/src/*"
-      ],
       "@dealer365-backend/crm-service": [
         "libs/crm-service/src"
       ],
@@ -53,6 +47,12 @@
       ],
       "@dealer365-backend/crm-database/*": [
         "libs/crm-database/src/*"
+      ],
+      "@dealer365-backend/nest-common": [
+        "libs/nest-common/src"
+      ],
+      "@dealer365-backend/nest-common/*": [
+        "libs/nest-common/src/*"
       ]
     }
   }

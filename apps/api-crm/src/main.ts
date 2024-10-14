@@ -1,8 +1,62 @@
+import { ENV_CONSTANT } from '@dealer365-backend/shared';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { ApiCrmModule } from './api-crm.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiCrmModule);
-  await app.listen(3000);
+
+  app.flushLogs();
+
+  const configService = app.get(ConfigService);
+
+  app.use(helmet());
+
+  app.enableCors();//to-do: cors 옵션 설정 필요
+  
+  //version
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' })
+
+  app.setGlobalPrefix('api/crm');
+
+  // Swagger 설정
+  SwaggerModule.setup('crm/docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
+    .setTitle('API CRM Swagger')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .addBearerAuth() // JWT 인증이 필요한 경우
+    .build())); // '/doc' 경로에 Swagger UI 설정
+  // Swagger JSON 엔드포인트 (Postman에서 import 가능)
+  app.getHttpAdapter().get('/docs-json', (req, res) => {
+    res.json(document);  // JSON 형태로 Swagger 스펙을 반환
+  });
+
+  // app.useGlobalGuards(
+  //   // new AuthGuard(config),
+  //   // new ResourceGuard(config)
+  // );
+
+  // app.useGlobalFilters(
+  //   //new HttpExceptionFilter(config)
+  // );
+
+  // app.useGlobalInterceptors(
+  //   //new AuditLogInterceptor(config),
+  //   //new ResponseInterceptor(config)
+  // );
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true, // 요청 데이터를 DTO로 변환
+      whitelist: true, // DTO에 정의된 필드만 허용
+    })
+  );
+
+  await app.listen(configService.get(ENV_CONSTANT.PORT));
+
+  app.enableShutdownHooks();
 }
 bootstrap();

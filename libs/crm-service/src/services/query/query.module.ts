@@ -13,9 +13,9 @@ const services = [
 // 팩토리 함수
 function serviceFactory(configService: ConfigService, ...injectedServices: any[]) {
   const configData = configService.get(ENV_CONSTANT.REMOTE_CONFIG_DATA);
-  const serviceName = configData ? JSON.parse(configData)?.config?.crm?.service?.query?.toLowerCase() : 'queryservice';
+  const serviceName = configData ? JSON.parse(configData)?.config?.crm?.service?.query : 'QueryService';
 
-  return injectedServices.find(service => service?.constructor?.name?.toLowerCase() === serviceName);
+  return injectedServices.find(service => service?.constructor?.name?.toLowerCase() === serviceName?.toLowerCase());
 }
 
 @Module({

@@ -1,6 +1,6 @@
 import { Injectable, Scope } from "@nestjs/common";
 import { AsyncLocalStorage } from "async_hooks";
-import { APP_CONSTANT } from "../../../shared/src/constants";
+import { APP_CONSTANT } from "../../../../shared/src/constants";
 
 
 @Injectable({ scope: Scope.REQUEST })

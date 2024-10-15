@@ -1,29 +1,24 @@
-import { ICreateService, IDeleteService, IQueryService, IUpdateService } from '@dealer365-backend/crm-service';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class ApiCrmService {
-  constructor(private readonly createService: ICreateService,
-    private readonly updateService: IUpdateService,
-    private readonly deleteService: IDeleteService,
-    private readonly queryService: IQueryService
-  ) {
+  constructor() {
 
   }
   async get() {
-    Logger.log(`GetCrmDocsQuery...${this.queryService}`);
-    return await this.queryService.execute();
+    Logger.log(`GetCrmDocsQuery...`);
+    return 'GetCrmDocsQuery...';
   }
 
   async post() {
-    return await this.createService.execute();
+    return 'PostCrmDocsCommand...';
   }
 
   async put() {
-    return await this.updateService.execute();
+    return 'PutCrmDocsCommand...';
   }
 
   async delete() {
-    return await this.deleteService.execute();
+    return 'DeleteCrmDocsCommand...';
   }
 }

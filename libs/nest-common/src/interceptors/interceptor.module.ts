@@ -1,34 +1,33 @@
-import { ENV_CONSTANT } from '@dealer365-backend/shared';
-import { DynamicModule, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+// interceptor.module.ts
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { AuditLogInterceptor } from './audit-log.interceptor';
-import { ResponseTransformInterceptor } from './response.transform.interceptor';
+import { LoggingInterceptor, ResponseConvertorInterceptor } from './impl';
+import { InterceptorModuleOptions } from './interceptor-config.interface';
+import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './interceptor.module-definition';
 
 @Module({})
-export class InterceptorModule {
-  static forRoot(): DynamicModule {
+export class InterceptorModule extends ConfigurableModuleClass {
+  static forRoot(options: InterceptorModuleOptions): DynamicModule {
+    const providers: Provider[] = [
+      {
+        provide: MODULE_OPTIONS_TOKEN,
+        useValue: options,
+      }, {
+        provide: APP_INTERCEPTOR,
+        useClass: ResponseConvertorInterceptor,
+      }
+    ];
+
+    if (options && options.useLoggingInterceptor) {
+      providers.push({
+        provide: APP_INTERCEPTOR,
+        useClass: LoggingInterceptor,
+      });
+    }
+
     return {
       module: InterceptorModule,
-      imports: [ConfigModule],
-      providers: [
-        {
-          provide: APP_INTERCEPTOR,
-          useFactory: (configService: ConfigService) => {
-            const useAuditLogInterceptor = configService.get<boolean>(ENV_CONSTANT.CRM_USE_AUDIT_LOG_INTERCEPTOR);
-            return useAuditLogInterceptor ? new AuditLogInterceptor() : null;
-          },
-          inject: [ConfigService],
-        },
-        {
-          provide: APP_INTERCEPTOR,
-          useFactory: (configService: ConfigService) => {
-            const useResponseInterceptor = configService.get<boolean>(ENV_CONSTANT.CRM_USE_RESPONSE_INTERCEPTOR);
-            return useResponseInterceptor ? new ResponseTransformInterceptor() : null;
-          },
-          inject: [ConfigService],
-        },
-      ],
+      providers: providers,
     };
   }
 }

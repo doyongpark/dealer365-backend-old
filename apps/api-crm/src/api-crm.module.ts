@@ -1,29 +1,40 @@
-import { ConfigModule } from '@dealer365-backend/config';
-import { CrmServiceModule } from '@dealer365-backend/crm-service';
-import { FilterModule, GuardModule, InterceptorModule, MiddlewareModule } from '@dealer365-backend/nest-common';
-import { CustomLoggerModule } from '@dealer365-backend/shared';
+import { NestCommonModule } from '@dealer365-backend/nest-common';
 import { Module } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
 import { ApiCrmController } from './api-crm.controller';
-import { CommandHandlers } from './commands';
-import { QueryHandlers } from './queries';
 import { ApiCrmService } from './api-crm.service';
+import { ConfigModule } from '@dealer365-backend/config';
+
 
 @Module({
   imports: [
     ConfigModule,
-    CrmServiceModule,
-    CustomLoggerModule.forRoot(),
-    InterceptorModule.forRoot(),
-    MiddlewareModule.forRoot(),
-    FilterModule.forRoot(),
-    GuardModule.forRoot(),
-    CqrsModule
+    NestCommonModule.forRoot({
+      exceptionFilterOptions: {
+        useSentryExceptionFilter: true,
+        sentryOptions: {
+          sentryDsn: 'your-sentry-dsn',
+          environment: 'your-environment',
+        },
+      },
+      interceptorOptions: {
+        useLoggingInterceptor: true,
+      },
+      guardOptions: {
+        useKeycloakGuards: true,
+        keycloakOptions: {
+          clientId: 'your-client-id',
+          clientSecret: 'your-client-secret',
+          realm: 'your-realm',
+          authServerUrl: 'https://your-auth-server-url',
+        },
+      },
+      middlewareOptions: {
+        useMethodOverrideMiddleware: true,
+      },
+      // Add other options here if available
+    })
   ],
   controllers: [ApiCrmController],
-  providers: [ApiCrmService,
-    ...CommandHandlers,
-    ...QueryHandlers,
-  ],
+  providers: [ApiCrmService],
 })
 export class ApiCrmModule { }

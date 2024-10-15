@@ -1,27 +1,22 @@
+// logging.interceptor.ts
+import { UserContextService } from '@dealer365-backend/nest-common/middlewares/impl';
 import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { UserContextService } from '../middlewares';
 
 @Injectable()
-export class AuditLogInterceptor implements NestInterceptor {
-  
-  private readonly _user_agent = HttpHeaderKeysEnum.USER_AGENT;
-  private readonly _request_id = HttpHeaderKeysEnum.REQUEST_ID;
-  private readonly _correlation_id = HttpHeaderKeysEnum.CORRELATION_ID;
-
+export class LoggingInterceptor implements NestInterceptor {  
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-
     const userContext = UserContextService.get();
     const executionTime = new Date();
     const request = context.switchToHttp().getRequest();   
     const controllerName = context.getClass().name;
     const methodName = context.getHandler().name;
     const clientIpAddress = request.connection.remoteAddress;
-    const userAgent = request.headers[this._user_agent.toLowerCase()];
-    const requestId = request.headers[this._request_id.toLowerCase()];
-    const correlationId = request.headers[this._correlation_id.toLowerCase()];
+    const userAgent = request.headers[HttpHeaderKeysEnum.USER_AGENT.toLowerCase()];
+    const requestId = request.headers[HttpHeaderKeysEnum.REQUEST_ID.toLowerCase()];
+    const correlationId = request.headers[HttpHeaderKeysEnum.CORRELATION_ID.toLowerCase()];
 
     const response = context.switchToHttp().getResponse();
 

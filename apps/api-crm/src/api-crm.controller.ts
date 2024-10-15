@@ -1,42 +1,30 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateCrmDocCommand } from './commands/impl/create-crm-doc.command';
-import { CrmDocDto } from './dtos';
-import { GetCrmDocsQuery } from './queries/impl/get-crm-docs.query';
 import { ApiTags } from '@nestjs/swagger';
-import { UpdateCrmDocCommand } from './commands/impl/update-crm-doc.command';
-import { DeleteCrmDocCommand } from './commands/impl/delete-crm-doc.command';
+import { ApiCrmService } from './api-crm.service';
+import { CrmDocDto } from './dtos';
 
 @ApiTags('CRM')
 @Controller('crm')
 export class ApiCrmController {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) { }
+  constructor(private readonly crmService: ApiCrmService) { }
 
   @Post()
   async addCrmDoc(@Body() dto: CrmDocDto) {
-    return this.commandBus.execute(new CreateCrmDocCommand(dto));
+    return this.crmService.post();
   }
 
   @Get()
   getCrmDocs() {
-    return this.queryBus.execute(new GetCrmDocsQuery({}));
+    return this.crmService.get();
   }
-
-  // @Get(':id')
-  // getCrmDoc() {
-  //   return this.queryBus.execute(new GetCrmDocsQuery({}));
-  // }
 
   @Put(':id')
   updateCrmDoc(@Param('id') id: string, @Body() dto: CrmDocDto) {
-    return this.commandBus.execute(new UpdateCrmDocCommand(id, dto));
+    return this.crmService.put();
   }
 
   @Delete(':id')
   DeleteCrmDoc(@Param('id') id: string) {
-    return this.commandBus.execute(new DeleteCrmDocCommand(id));
+    return this.crmService.delete();
   }
 }

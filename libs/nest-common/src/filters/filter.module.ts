@@ -1,25 +1,40 @@
-import { ENV_CONSTANT } from '@dealer365-backend/shared';
-import { DynamicModule, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+// filter.module.ts
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from './http-exception.filter';
+import { FilterModuleOptions } from './filter-config.interface';
+import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './filter.module-definition';
+import { SentryExceptionFilter } from './impl/sentry-exception.filter';
 
 @Module({})
-export class FilterModule {
-  static forRoot(): DynamicModule {
-    return {
-      module: FilterModule,
-      imports: [ConfigModule],
-      providers: [
+export class FilterModule extends ConfigurableModuleClass {
+  static forRoot(options: FilterModuleOptions): DynamicModule {
+    const providers: Provider[] = [
+      {
+        provide: MODULE_OPTIONS_TOKEN,
+        useValue: options,
+      },
+    ];
+
+    if (options?.useSentryExceptionFilter) {
+      if (!options.sentryOptions) {
+        throw new Error('Sentry options must be provided when useSentryExceptionFilter is true');
+      }
+
+      providers.push(
+        {
+          provide: 'SENTRY_OPTIONS',
+          useValue: options.sentryOptions,
+        },
         {
           provide: APP_FILTER,
-          useFactory: (configService: ConfigService) => {
-            const useHttpExceptionFilter = configService.get<boolean>(ENV_CONSTANT.CRM_USE_HTTP_EXCEPTION_FILTER);
-            return useHttpExceptionFilter ? new HttpExceptionFilter() : null;
-          },
-          inject: [ConfigService],
+          useClass: SentryExceptionFilter,
         },
-      ],
+      );
+    }
+
+    return {
+      module: FilterModule,
+      providers: providers,
     };
   }
 }

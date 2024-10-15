@@ -11,7 +11,7 @@ export interface Response<T> {
 }
 
 @Injectable()
-export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
+export class ResponseConvertorInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: any, next: CallHandler): Observable<any> {
     if (context.getType() === 'graphql') return next.handle();
 

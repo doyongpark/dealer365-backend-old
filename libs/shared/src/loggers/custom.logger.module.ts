@@ -1,5 +1,4 @@
 import { ConsoleLogger, DynamicModule, Global, Module } from '@nestjs/common';
-import { LOGGER } from '../constants';
 import { CustomLoggerModuleOptions } from './custom-logger-config.interface';
 import { PinoLoggerService } from './impl/pino.logger.service';
 import { WinstonLoggerService } from './impl/winston.logger.service';
@@ -10,19 +9,19 @@ export class CustomLoggerModule {
   static forRoot(options: CustomLoggerModuleOptions): DynamicModule {
     const providers = [];
 
-    if (options?.provider.toLowerCase() === 'winston') {
+    if (options?.provider?.toLowerCase() === 'winston') {
       providers.push({
-        provide: LOGGER,
+        provide: 'LOGGER',
         useClass: WinstonLoggerService,
       });
-    } else if (options?.provider.toLowerCase() === 'pino') {
+    } else if (options?.provider?.toLowerCase() === 'pino') {
       providers.push({
-        provide: LOGGER,
+        provide: 'LOGGER',
         useClass: PinoLoggerService,
       });
     } else {
       providers.push({
-        provide: LOGGER,
+        provide: 'LOGGER',
         useClass: ConsoleLogger,
       });
     }
@@ -35,7 +34,7 @@ export class CustomLoggerModule {
     return {
       module: CustomLoggerModule,
       providers: providers,
-      exports: [LOGGER, 'LOGGER_OPTIONS'],
+      exports: ['LOGGER', 'LOGGER_OPTIONS'],
     };
   }
 }

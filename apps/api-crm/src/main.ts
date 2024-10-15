@@ -9,9 +9,9 @@ import { ApiCrmModule } from './api-crm.module';
 async function bootstrap() {
   const app = await NestFactory.create(ApiCrmModule);
 
-  // // Custom Logger 적용
-  // const customLogger = app.get(APP_LOGGER);
-  // app.useLogger(customLogger);
+  // Custom Logger 적용
+  const customLogger = app.get('LOGGER');
+  app.useLogger(customLogger);
 
   app.flushLogs();
 

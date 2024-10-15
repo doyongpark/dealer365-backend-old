@@ -1,4 +1,4 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
 import { Request } from 'express';
 import { isArray, isObject } from 'lodash';
@@ -13,6 +13,8 @@ export interface Response<T> {
 @Injectable()
 export class ResponseConvertorInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: any, next: CallHandler): Observable<any> {
+    Logger.log(this.constructor.name);
+
     if (context.getType() === 'graphql') return next.handle();
 
     return next.handle().pipe(
@@ -25,12 +27,6 @@ export class ResponseConvertorInterceptor<T> implements NestInterceptor<T, Respo
         if (request.res?.statusCode == 200 || request.res?.statusCode == 201 || request.res?.statusCode == 202) isSuccess = true;
 
         if (this.isPaginatedResult(data)) {
-          //if (request.res?.statusCode == 202 || request.res?.statusCode == 201)
-          //   request.res?.setHeader(
-          //     'Location',
-          //     request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.data[0].id
-          //   );
-          // Logger.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.data[0].id);
           return {
             //...data, //Page처리 혹은 Entity Id를 포함하여 데이터를 내려주는 경우
             success: isSuccess,
@@ -62,7 +58,6 @@ export class ResponseConvertorInterceptor<T> implements NestInterceptor<T, Respo
             request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.id
           );
           
-        //Logger.log(request.protocol + '://' + request.get('Host') + request.originalUrl + '/' + data.id);
         return {
           success: isSuccess,
           status: request.res?.statusCode,

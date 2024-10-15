@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { jwtDecode } from "jwt-decode";
 import { UserContextService } from './user-context.service';
@@ -6,6 +6,7 @@ import { UserContextService } from './user-context.service';
 @Injectable()
 export class UserContextMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
+    Logger.log(this.constructor.name);
     UserContextService.run(() => {
       if (req?.headers?.authorization) {
         var claim: any = jwtDecode(req.headers.authorization as string);

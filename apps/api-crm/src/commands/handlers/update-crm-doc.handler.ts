@@ -10,9 +10,6 @@ export class UpdateCrmDocHandler implements ICommandHandler<UpdateCrmDocCommand>
   constructor(private readonly createService: IUpdateService) { }
 
   async execute(command: UpdateCrmDocCommand) {
-
-    Logger.log('UpdateCrmDocCommand...');
-
     return await this.createService.execute();
   }
 }

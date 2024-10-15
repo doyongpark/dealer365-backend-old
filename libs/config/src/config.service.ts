@@ -12,7 +12,7 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    Logger.log('Initializing ConfigService...');
+    Logger.debug('Initializing ConfigService...');
 
     // 환경 변수에서 원격 URL 가져오기
     this.remoteConfigUrl = this.get<string>('REMOTE_CONFIG_URL');
@@ -22,13 +22,13 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   private async loadInitialConfig() {
-    Logger.log(`Loading initial config from ${this.remoteConfigUrl}`);
+    Logger.debug(`Loading initial config from ${this.remoteConfigUrl}`);
     try {
       const response = await axios.get(this.remoteConfigUrl);
       if (response.status === 200) {
         this.setConfig(response.data);
       } else {
-        Logger.warn(`Failed to load initial config, status: ${response.status}`);
+        Logger.error(`Failed to load initial config, status: ${response.status}`);
       }
     } catch (error) {
       Logger.error(`Error loading initial config: ${error.message}`, error.stack);
@@ -36,13 +36,13 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   private async fetchRemoteConfig() {
-    Logger.log(`Fetching remote config from ${this.remoteConfigUrl}`);
+    Logger.debug(`Fetching remote config from ${this.remoteConfigUrl}`);
     try {
       const response = await axios.get(this.remoteConfigUrl);
       if (response.status === 200) {
         this.setConfig(response.data);
       } else {
-        Logger.warn(`Unexpected response status: ${response.status}`);
+        Logger.error(`Unexpected response status: ${response.status}`);
       }
     } catch (error) {
       Logger.error(`Failed to fetch remote config: ${error.message}`, error.stack);
@@ -64,9 +64,9 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
   }
 
   private startConfigPolling() {
-    Logger.log(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
+    Logger.debug(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
     setInterval(async () => {
-      Logger.log('Polling for updated config...');
+      Logger.debug('Polling for updated config...');
       await this.fetchRemoteConfig();
     }, APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD);
   }

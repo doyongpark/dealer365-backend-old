@@ -3,6 +3,7 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@n
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
     catch(exception: HttpException, host: ArgumentsHost) {
+        Logger.log(this.constructor.name);
         Logger.error(`${this.constructor.name}: ${exception.message}`);
     }
 }

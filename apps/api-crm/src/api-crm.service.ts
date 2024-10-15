@@ -6,7 +6,6 @@ export class ApiCrmService {
 
   }
   async get() {
-    Logger.log(`GetCrmDocsQuery...`);
     return 'GetCrmDocsQuery...';
   }
 

@@ -1,12 +1,12 @@
 import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-
+    Logger.log(this.constructor.name);
     //Request Id
     const request_id_key = HttpHeaderKeysEnum.REQUEST_ID;
     //always use lowcase when read header.

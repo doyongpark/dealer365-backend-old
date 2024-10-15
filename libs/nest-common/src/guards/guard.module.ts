@@ -5,8 +5,6 @@ import { GuardModuleOptions } from './guard-config.interface';
 import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './guard.module-definition';
 import { KeycloakAuthGuard } from './impl/keycloak-auth.guard';
 import { KeycloakResourceGuard } from './impl/keycloak-resource.guard';
-import { NestAuthGuard } from './impl/nest-auth.guard';
-import { NestResourceGuard } from './impl/nest-resource.guard';
 
 @Module({})
 export class GuardModule extends ConfigurableModuleClass {
@@ -35,19 +33,6 @@ export class GuardModule extends ConfigurableModuleClass {
         {
           provide: 'KEYCLOAK_OPTIONS',
           useValue: options.keycloakOptions,
-        },
-      );
-    }
-
-    if (options?.useNestGuards) {
-      providers.push(
-        {
-          provide: APP_GUARD,
-          useClass: NestAuthGuard,
-        },
-        {
-          provide: APP_GUARD,
-          useClass: NestResourceGuard,
         },
       );
     }

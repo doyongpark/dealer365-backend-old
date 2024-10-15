@@ -8,6 +8,8 @@ import { catchError, tap } from 'rxjs/operators';
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {  
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    Logger.log(this.constructor.name);
+
     const userContext = UserContextService.get();
     const executionTime = new Date();
     const request = context.switchToHttp().getRequest();   
@@ -53,7 +55,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
         //비즈니스 로직이 필요한 경우 별도 Service 로 구현 예정.
         //await this.auditLogRepository.createAuditLog(auditLogData);
-        Logger.verbose(JSON.stringify(auditLogData));
+        Logger.debug(JSON.stringify(auditLogData));
       }),
       catchError(async (err) => {
         const executionDuration = Date.now() - executionTime.getTime();

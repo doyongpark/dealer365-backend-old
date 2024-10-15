@@ -10,9 +10,6 @@ export class CreateCrmDocHandler implements ICommandHandler<CreateCrmDocCommand>
   constructor(private createService: ICreateService) { }
 
   async execute(command: CreateCrmDocCommand) {
-
-    Logger.log('CreateCrmDocCommand...');
-
     return await this.createService.execute();
   }
 }

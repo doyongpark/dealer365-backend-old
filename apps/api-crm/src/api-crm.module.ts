@@ -19,26 +19,26 @@ import { ApiCrmService } from './api-crm.service';
     }),
     NestCommonModule.forRoot({
       exceptionFilterOptions: {
-        useSentryExceptionFilter: true,
-        sentryOptions: {
-          sentryDsn: 'your-sentry-dsn',
-          environment: 'your-environment',
-        },
+        // useSentryExceptionFilter: true,
+        // sentryOptions: {
+        //   sentryDsn: 'your-sentry-dsn',
+        //   environment: 'your-environment',
+        // },
       },
       interceptorOptions: {
-        useLoggingInterceptor: true,
+        // useLoggingInterceptor: true,
       },
       guardOptions: {
-        useKeycloakGuards: true,
-        keycloakOptions: {
-          clientId: 'your-client-id',
-          clientSecret: 'your-client-secret',
-          realm: 'your-realm',
-          authServerUrl: 'https://your-auth-server-url',
-        },
+        // useKeycloakGuards: true,
+        // keycloakOptions: {
+        //   clientId: 'your-client-id',
+        //   clientSecret: 'your-client-secret',
+        //   realm: 'your-realm',
+        //   authServerUrl: 'https://your-auth-server-url',
+        // },
       },
       middlewareOptions: {
-        useMethodOverrideMiddleware: true,
+        // useMethodOverrideMiddleware: true,
       },
       // Add other options here if available
     })

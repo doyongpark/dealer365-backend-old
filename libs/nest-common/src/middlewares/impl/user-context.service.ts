@@ -1,6 +1,6 @@
+import { USER_CONTEXT } from "@dealer365-backend/shared";
 import { Injectable, Scope } from "@nestjs/common";
 import { AsyncLocalStorage } from "async_hooks";
-import { APP_CONSTANT } from "../../../../shared/src/constants";
 
 
 @Injectable({ scope: Scope.REQUEST })
@@ -17,7 +17,7 @@ export class UserContextService {
   static set(value: any) {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      store.set(APP_CONSTANT.USER_CONTEXT_KEY, value);
+      store.set(USER_CONTEXT, value);
     }
   }
 
@@ -25,7 +25,7 @@ export class UserContextService {
   static get<T>(): T | undefined {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      return store.get(APP_CONSTANT.USER_CONTEXT_KEY);
+      return store.get(USER_CONTEXT);
     }
     return undefined;
   }
@@ -33,7 +33,7 @@ export class UserContextService {
   static getUserContext<T>(): T | undefined {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      return store.get(APP_CONSTANT.USER_CONTEXT_KEY) as T;
+      return store.get(USER_CONTEXT) as T;
     }
     return undefined;
   }

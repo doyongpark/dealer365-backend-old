@@ -1,8 +1,8 @@
 // keycloak-resource.guard.ts
 import { CanActivate, ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
-import { KeycloakOptions } from './keycloak-options.interface';
 import { Reflector } from '@nestjs/core';
 import * as KeycloakConnect from 'keycloak-connect';
+import { KeycloakOptions } from './keycloak-options.interface';
 
 @Injectable()
 export class KeycloakResourceGuard implements CanActivate {

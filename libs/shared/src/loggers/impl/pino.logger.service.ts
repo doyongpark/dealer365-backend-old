@@ -1,28 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import pino from 'pino';
-import * as pretty from 'pino-pretty';
+import { CustomLoggerModuleOptions } from '../custom-logger-config.interface';
 
 @Injectable()
 export class PinoLoggerService {
   private readonly logger: pino.Logger;
 
-  constructor(level: string, format: string, logType: string) {
-    const prettyStream = pretty({
-      colorize: true,
-      translateTime: 'SYS:standard',
-      ignore: 'pid,hostname',
-      messageFormat: (log, message) => {
-        const timestamp = new Date().toISOString();
-        const formattedMessage = typeof message === 'object' ? JSON.stringify(message) : message;
-        return `[Pino] ${process.pid}   - ${timestamp}   [${log.context || 'Application'}] ${formattedMessage}`;
+  constructor(@Inject('LOGGER_OPTIONS') private options: CustomLoggerModuleOptions) {
+    this.logger = pino({
+      level: options.level,
+      formatters: {
+        level: (label) => ({ level: label }),
       },
     });
-
-    this.logger = pino({
-      level: level,
-      base: { logType: logType },
-      transport: format === 'pretty' ? { target: 'pino-pretty' } : undefined,
-    }, prettyStream);
   }
 
   log(message: string, context?: string) {

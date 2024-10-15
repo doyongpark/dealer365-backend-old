@@ -1,23 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as winston from 'winston';
+import { CustomLoggerModuleOptions } from '../custom-logger-config.interface';
 
 @Injectable()
 export class WinstonLoggerService {
   private readonly logger: winston.Logger;
 
-  constructor(level: string, format: string, logType: string) {
+  constructor(@Inject('LOGGER_OPTIONS') private options: CustomLoggerModuleOptions) {
     this.logger = winston.createLogger({
-      level: level,
-      format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.printf(({ timestamp, level, message, context }) => {
-          const formattedMessage = typeof message === 'object' ? JSON.stringify(message) : message;
-          return `[Winston] ${process.pid}   - ${timestamp}   [${context || 'Application'}] ${formattedMessage}`;
-        }),
-      ),
-      defaultMeta: { logType: logType },
+      level: options.level,
+      format: winston.format[options.format](),
       transports: [
         new winston.transports.Console(),
+        // Add other transports based on options.logType
       ],
     });
   }

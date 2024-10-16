@@ -1,4 +1,3 @@
-import { APP_CONSTANT, ENV_CONSTANT } from '@dealer365-backend/shared';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import axios from 'axios';
@@ -51,23 +50,23 @@ export class ConfigService extends NestConfigService implements OnModuleInit {
 
   private setConfig(data: any) {
     if (data) {
-      const remoteConfigVersion = this.get<number>(ENV_CONSTANT.REMOTE_CONFIG_VERSION) || this.get<number>('REMOTE_CONFIG_VERSION');
+      const remoteConfigVersion = this.get<number>('REMOTE_CONFIG_VERSION') || this.get<number>('REMOTE_CONFIG_VERSION');
       const newRemoteConfigVersion = data.version as number;
 
       if (!remoteConfigVersion || remoteConfigVersion < newRemoteConfigVersion) {
 
-        this.set(ENV_CONSTANT.REMOTE_CONFIG_VERSION, newRemoteConfigVersion);
-        this.set(ENV_CONSTANT.REMOTE_CONFIG_DATA, JSON.stringify(data));
+        this.set('REMOTE_CONFIG_VERSION', newRemoteConfigVersion);
+        this.set('REMOTE_CONFIG_DATA', JSON.stringify(data));
         Logger.debug(`Config updated successfully: ${JSON.stringify(data)}`);
       }
     }
   }
 
   private startConfigPolling() {
-    Logger.debug(`Starting config polling every ${APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD} seconds.`);
+    Logger.debug(`Starting config polling every ${10000} seconds.`);
     setInterval(async () => {
       Logger.debug('Polling for updated config...');
       await this.fetchRemoteConfig();
-    }, APP_CONSTANT.REMOTE_CONFIG_POLLING_PERIOD);
+    }, 10000);
   }
 }

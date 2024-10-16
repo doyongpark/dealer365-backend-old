@@ -1,4 +1,3 @@
-import { ENV_CONSTANT } from '@dealer365-backend/shared';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -54,7 +53,7 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(configService.get(ENV_CONSTANT.PORT));
+  await app.listen(configService.get('port'));
 
   app.enableShutdownHooks();
 }

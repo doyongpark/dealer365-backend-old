@@ -1,1 +1,2 @@
-export * from './crm-deal.service.module';
+export * from './deal-service-config.interface';
+export * from './deal.service.module';

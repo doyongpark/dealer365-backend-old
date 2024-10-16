@@ -3,7 +3,7 @@ import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { FilterModuleOptions } from './filter-config.interface';
 import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './filter.module-definition';
-import { SentryExceptionFilter } from './impl/sentry-exception.filter';
+import { HttpExceptionFilter, SentryExceptionFilter } from './impl';
 
 @Module({})
 export class FilterModule extends ConfigurableModuleClass {
@@ -12,7 +12,10 @@ export class FilterModule extends ConfigurableModuleClass {
       {
         provide: MODULE_OPTIONS_TOKEN,
         useValue: options,
-      },
+      }, {
+        provide: APP_FILTER,
+        useClass: HttpExceptionFilter,
+      }
     ];
 
     if (options?.useSentryExceptionFilter) {

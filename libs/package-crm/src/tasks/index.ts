@@ -1,1 +1,2 @@
-export * from './crm-task.service.module';
+export * from './task-service-config.interface';
+export * from './task.service.module';

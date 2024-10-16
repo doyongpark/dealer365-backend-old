@@ -1,1 +1,2 @@
-export declare const USER_CONTEXT = 'USER_CONTEXT';
+export const USER_CONTEXT = 'USER_CONTEXT';
+export const LEAD_SERVICE_OPTIONS = 'LEAD_SERVICE_OPTIONS';

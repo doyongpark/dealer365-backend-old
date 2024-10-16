@@ -4,6 +4,7 @@ import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ApiCrmController } from './api-crm.controller';
 import { ApiCrmService } from './api-crm.service';
+import { PackageCrmModule } from '@daler365-backend/package-crm';
 
 
 @Module({
@@ -11,10 +12,10 @@ import { ApiCrmService } from './api-crm.service';
     ConfigModule,
     SharedModule.forRoot({
       loggerOptions: {
-        // provider: 'pino',  // 예시 값
-        // level: 'info',
-        // format: 'json',
-        // logType: 'file',
+        provider: 'safdsaf',  // 예시 값
+        level: 'info',
+        format: 'json',
+        logType: 'file',
       },
     }),
     NestCommonModule.forRoot({
@@ -41,7 +42,12 @@ import { ApiCrmService } from './api-crm.service';
         // useMethodOverrideMiddleware: true,
       },
       // Add other options here if available
-    })
+    }),
+    PackageCrmModule.forRoot({
+      leadServiceModuleOptions: {
+        useQueue: true,
+      }
+    }),
   ],
   controllers: [ApiCrmController],
   providers: [ApiCrmService],

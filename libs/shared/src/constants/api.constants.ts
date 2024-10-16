@@ -1,0 +1,1 @@
+export const LIMIT = { DEFAULT: 10, MAX: 100 };

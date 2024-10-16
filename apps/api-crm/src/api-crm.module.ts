@@ -1,21 +1,21 @@
 import { ConfigModule } from '@dealer365-backend/config';
 import { NestCommonModule } from '@dealer365-backend/nest-common';
+import { PackageCrmModule } from '@dealer365-backend/package-crm';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
-import { ApiCrmController } from './api-crm.controller';
-import { ApiCrmService } from './api-crm.service';
-import { PackageCrmModule } from '@dealer365-backend/package-crm';
+import { ApiLeadModule } from './leads';
 
+const modules = [ApiLeadModule];
 
 @Module({
   imports: [
     ConfigModule,
     SharedModule.forRoot({
       loggerOptions: {
-        provider: 'safdsaf',  // 예시 값
-        level: 'info',
-        format: 'json',
-        logType: 'file',
+        // provider: 'pino',  // 예시 값
+        // level: 'info',
+        // format: 'json',
+        // logType: 'file',
       },
     }),
     NestCommonModule.forRoot({
@@ -48,8 +48,10 @@ import { PackageCrmModule } from '@dealer365-backend/package-crm';
         useCqrs: true,
       }
     }),
+    ApiLeadModule
   ],
-  controllers: [ApiCrmController],
-  providers: [ApiCrmService],
+  controllers: [],
+  providers: [],
+  exports: [PackageCrmModule]
 })
 export class ApiCrmModule { }

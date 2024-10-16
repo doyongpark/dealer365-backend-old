@@ -47,6 +47,12 @@
       ],
       "@dealer365-backend/queue-provider/*": [
         "libs/queue-provider/src/*"
+      ],
+      "@dealer365-backend/database": [
+        "libs/database/src"
+      ],
+      "@dealer365-backend/database/*": [
+        "libs/database/src/*"
       ]
     }
   },

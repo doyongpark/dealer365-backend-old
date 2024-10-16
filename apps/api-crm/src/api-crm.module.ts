@@ -48,11 +48,11 @@ const servies = [ApiLeadService]
     }),
     PackageCrmModule.forRoot({
       databaseOptions: {
-        type: 'mongo',
-        url: 'mongodb://inventis:dpass%40word@20.196.96.247:27017/dealer365-api?authSource=admin',
+        type: 'mongodb',
+        url: 'mongodb://inventis:dpass%40word@20.196.96.247:27017/dealer365-pkg-crm?authSource=admin',
         database: 'dealer365-pkg-crm',
       },
-      useQueue: true,
+      useQueue: false,
       queueOptions: {
         type: 'azure-service-bus',
         url: '',

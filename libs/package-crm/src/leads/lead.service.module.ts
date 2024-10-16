@@ -1,8 +1,8 @@
+import { DatabaseModule } from '@dealer365-backend/database';
 import { CRM_SERVICE_OPTIONS } from '@dealer365-backend/shared';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { PackageCrmModuleOptions } from '../package-crm-config.interface';
-import { ILeadRepository, LeadAsyncRepository, LeadSyncRepository } from './repositories';
-import { LeadService } from './services';
+import { LeadAsyncService, LeadSyncService } from './services';
 import { ILeadService } from './services/lead.service.interface';
 
 @Module({})
@@ -15,19 +15,15 @@ export class LeadServiceModule {
       },
       {
         provide: ILeadService,
-        useClass: LeadService,
-      },
-      {
-        provide: ILeadRepository,
-        useClass: options?.useQueue ? LeadAsyncRepository : LeadSyncRepository,
+        useClass: options?.useQueue ?  LeadAsyncService : LeadSyncService,
       }
     ];
 
     return {
       module: LeadServiceModule,
-      imports: [],
+      imports: [DatabaseModule],
       providers: providers,
-      exports: [ILeadService, ILeadRepository],
+      exports: [ILeadService],
     };
   }
 }

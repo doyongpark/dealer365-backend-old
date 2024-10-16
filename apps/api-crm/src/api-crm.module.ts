@@ -4,7 +4,7 @@ import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ApiCrmController } from './api-crm.controller';
 import { ApiCrmService } from './api-crm.service';
-import { PackageCrmModule } from '@daler365-backend/package-crm';
+import { PackageCrmModule } from '@dealer365-backend/package-crm';
 
 
 @Module({
@@ -45,7 +45,7 @@ import { PackageCrmModule } from '@daler365-backend/package-crm';
     }),
     PackageCrmModule.forRoot({
       leadServiceModuleOptions: {
-        useQueue: true,
+        useCqrs: true,
       }
     }),
   ],

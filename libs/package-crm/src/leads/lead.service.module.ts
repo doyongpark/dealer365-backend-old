@@ -19,7 +19,7 @@ export class LeadServiceModule {
       },
       {
         provide: ILeadRepository,
-        useClass: options?.useQueue ? LeadAsyncRepository : LeadSyncRepository,
+        useClass: options?.useCqrs ? LeadAsyncRepository : LeadSyncRepository,
       }
     ];
 

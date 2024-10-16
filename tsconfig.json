@@ -36,10 +36,10 @@
       "@dealer365-backend/nest-common/*": [
         "libs/nest-common/src/*"
       ],
-      "@daler365-backend/package-crm": [
+      "@dealer365-backend/package-crm": [
         "libs/package-crm/src"
       ],
-      "@daler365-backend/package-crm/*": [
+      "@dealer365-backend/package-crm/*": [
         "libs/package-crm/src/*"
       ],
       "@dealer365-backend/package-product": [

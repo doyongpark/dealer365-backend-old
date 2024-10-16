@@ -3,9 +3,10 @@ import { NestCommonModule } from '@dealer365-backend/nest-common';
 import { PackageCrmModule } from '@dealer365-backend/package-crm';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
-import { ApiLeadModule } from './leads';
+import { ApiLeadController, ApiLeadControllerV2, ApiLeadService } from './leads';
 
-const modules = [ApiLeadModule];
+const controllers = [ApiLeadController, ApiLeadControllerV2];
+const servies = [ApiLeadService]
 
 @Module({
   imports: [
@@ -47,11 +48,10 @@ const modules = [ApiLeadModule];
       leadServiceModuleOptions: {
         useCqrs: true,
       }
-    }),
-    ApiLeadModule
+    })
   ],
-  controllers: [],
-  providers: [],
-  exports: [PackageCrmModule]
+  controllers: [...controllers],
+  providers: [...servies],
+  exports: []
 })
 export class ApiCrmModule { }

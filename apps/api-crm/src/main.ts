@@ -16,6 +16,8 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
+  const port = configService.get('port');
+
   app.use(helmet());
 
   app.enableCors();//to-do: cors 옵션 설정 필요
@@ -29,7 +31,8 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
     .setTitle('API CRM Swagger')
     .setDescription('API description')
-    .setVersion('1.0')
+    .setVersion('1.0')    
+    .addServer(`http://localhost:${port}`) // 기본 서버 URL 설정
     .addBearerAuth() // JWT 인증이 필요한 경우
     .build())); // '/doc' 경로에 Swagger UI 설정
   // Swagger JSON 엔드포인트 (Postman에서 import 가능)
@@ -53,7 +56,7 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(configService.get('port'));
+  await app.listen(port);
 
   app.enableShutdownHooks();
 }

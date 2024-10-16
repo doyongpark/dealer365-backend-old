@@ -15,11 +15,7 @@
     "start": "nest start",
     "start:dev": "concurrently \"npm:dev:api:*\"",
     "dev:api:crm": "cross-env NODE_ENV=development nest start --watch api-crm",
-    "dev:api:sale": "cross-env NODE_ENV=development start --watch api-sale",
-    "dev:api:prodict": "cross-env NODE_ENV=development start --watch api-product",
     "debug:api:crm": "cross-env NODE_ENV=development nest start --debug --watch api-crm",
-    "debug:api:sale": "cross-env NODE_ENV=development start --watch --debug api-sale",
-    "debug:api:prodict": "cross-env NODE_ENV=development start --watch --debug api-product",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/dealer365-backend/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -101,13 +97,12 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1",
       "^dealer365-backend/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
       "^dealer365-backend/nest(|/.*)$": "<rootDir>/libs/nest/src/$1",
-      "^@dealer365-backend/crm-service(|/.*)$": "<rootDir>/libs/crm-service/src/$1",
       "^@dealer365-backend/config(|/.*)$": "<rootDir>/libs/config/src/$1",
-      "^@dealer365-backend/crm-database(|/.*)$": "<rootDir>/libs/crm-database/src/$1",
-      "^@dealer365-backend/nest-common(|/.*)$": "<rootDir>/libs/nest-common/src/$1"
+      "^@dealer365-backend/nest-common(|/.*)$": "<rootDir>/libs/nest-common/src/$1",
+      "^@daler365-backend/package-crm(|/.*)$": "<rootDir>/libs/package-crm/src/$1",
+      "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1"
     }
   }
 }

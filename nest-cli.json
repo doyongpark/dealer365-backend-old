@@ -19,33 +19,6 @@
         "tsConfigPath": "apps/api-crm/tsconfig.app.json"
       }
     },
-    "api-sale": {
-      "type": "application",
-      "root": "apps/api-sale",
-      "entryFile": "main",
-      "sourceRoot": "apps/api-sale/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/api-sale/tsconfig.app.json"
-      }
-    },
-    "api-product": {
-      "type": "application",
-      "root": "apps/api-product",
-      "entryFile": "main",
-      "sourceRoot": "apps/api-product/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/api-product/tsconfig.app.json"
-      }
-    },
-    "database": {
-      "type": "library",
-      "root": "libs/database",
-      "entryFile": "index",
-      "sourceRoot": "libs/database/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/database/tsconfig.lib.json"
-      }
-    },
     "shared": {
       "type": "library",
       "root": "libs/shared",
@@ -53,15 +26,6 @@
       "sourceRoot": "libs/shared/src",
       "compilerOptions": {
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
-      }
-    },
-    "crm-service": {
-      "type": "library",
-      "root": "libs/crm-service",
-      "entryFile": "index",
-      "sourceRoot": "libs/crm-service/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/crm-service/tsconfig.lib.json"
       }
     },
     "config": {
@@ -73,15 +37,6 @@
         "tsConfigPath": "libs/config/tsconfig.lib.json"
       }
     },
-    "crm-database": {
-      "type": "library",
-      "root": "libs/crm-database",
-      "entryFile": "index",
-      "sourceRoot": "libs/crm-database/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/crm-database/tsconfig.lib.json"
-      }
-    },
     "nest-common": {
       "type": "library",
       "root": "libs/nest-common",
@@ -89,6 +44,24 @@
       "sourceRoot": "libs/nest-common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/nest-common/tsconfig.lib.json"
+      }
+    },
+    "package-crm": {
+      "type": "library",
+      "root": "libs/package-crm",
+      "entryFile": "index",
+      "sourceRoot": "libs/package-crm/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/package-crm/tsconfig.lib.json"
+      }
+    },
+    "package-product": {
+      "type": "library",
+      "root": "libs/package-product",
+      "entryFile": "index",
+      "sourceRoot": "libs/package-product/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/package-product/tsconfig.lib.json"
       }
     }
   }

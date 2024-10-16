@@ -18,23 +18,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@dealer365-backend/database": [
-        "libs/database/src"
-      ],
-      "@dealer365-backend/database/*": [
-        "libs/database/src/*"
-      ],
       "@dealer365-backend/shared": [
         "libs/shared/src"
       ],
       "@dealer365-backend/shared/*": [
         "libs/shared/src/*"
-      ],
-      "@dealer365-backend/crm-service": [
-        "libs/crm-service/src"
-      ],
-      "@dealer365-backend/crm-service/*": [
-        "libs/crm-service/src/*"
       ],
       "@dealer365-backend/config": [
         "libs/config/src"
@@ -42,17 +30,23 @@
       "@dealer365-backend/config/*": [
         "libs/config/src/*"
       ],
-      "@dealer365-backend/crm-database": [
-        "libs/crm-database/src"
-      ],
-      "@dealer365-backend/crm-database/*": [
-        "libs/crm-database/src/*"
-      ],
       "@dealer365-backend/nest-common": [
         "libs/nest-common/src"
       ],
       "@dealer365-backend/nest-common/*": [
         "libs/nest-common/src/*"
+      ],
+      "@daler365-backend/package-crm": [
+        "libs/package-crm/src"
+      ],
+      "@daler365-backend/package-crm/*": [
+        "libs/package-crm/src/*"
+      ],
+      "@dealer365-backend/package-product": [
+        "libs/package-product/src"
+      ],
+      "@dealer365-backend/package-product/*": [
+        "libs/package-product/src/*"
       ]
     }
   },

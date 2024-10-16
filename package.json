@@ -26,6 +26,8 @@
     "test:e2e": "jest --config ./apps/dealer365-backend/test/jest-e2e.json"
   },
   "dependencies": {
+    "@azure/service-bus": "^7.9.5",
+    "@nestjs/bull": "^10.2.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
@@ -101,7 +103,8 @@
       "^dealer365-backend/nest(|/.*)$": "<rootDir>/libs/nest/src/$1",
       "^@dealer365-backend/nest-common(|/.*)$": "<rootDir>/libs/nest-common/src/$1",
       "^@dealer365-backend/package-crm(|/.*)$": "<rootDir>/libs/package-crm/src/$1",
-      "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1"
+      "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1",
+      "^@dealer365-backend/queue-provider(|/.*)$": "<rootDir>/libs/queue-provider/src/$1"
     }
   }
 }

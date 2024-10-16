@@ -2,8 +2,8 @@ import { NestCommonModule } from '@dealer365-backend/nest-common';
 import { PackageCrmModule } from '@dealer365-backend/package-crm';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
-import { ApiLeadController, ApiLeadControllerV2, ApiLeadService } from './leads';
 import { ConfigModule } from '@nestjs/config';
+import { ApiLeadController, ApiLeadControllerV2, ApiLeadService } from './leads';
 
 const controllers = [ApiLeadController, ApiLeadControllerV2];
 const servies = [ApiLeadService]
@@ -26,8 +26,8 @@ const servies = [ApiLeadService]
       exceptionFilterOptions: {
         useSentryExceptionFilter: process.env.USE_SENTRY_EXCEPTION_FILTER === 'true',
         sentryOptions: {
-          sentryDsn:  process.env.SENTRY_DSN,
-          environment:  process.env.SENTRY_ENVIRONMENT,
+          sentryDsn: process.env.SENTRY_DSN,
+          environment: process.env.SENTRY_ENVIRONMENT,
         },
       },
       interceptorOptions: {
@@ -37,7 +37,7 @@ const servies = [ApiLeadService]
         useKeycloakGuards: process.env.USE_KEYCLOAK_GUARDS === 'true',
         keycloakOptions: {
           clientId: process.env.KEYCLOAK_CLIENT_ID,
-          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET, 
+          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
           realm: process.env.KEYCLOAK_REALM,
           authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
         },
@@ -47,9 +47,17 @@ const servies = [ApiLeadService]
       },
     }),
     PackageCrmModule.forRoot({
-      leadServiceModuleOptions: {
-        useCqrs: true,
-      }
+      databaseOptions: {
+        type: 'mongo',
+        url: 'mongodb://inventis:dpass%40word@20.196.96.247:27017/dealer365-api?authSource=admin',
+        database: 'dealer365-pkg-crm',
+      },
+      useQueue: true,
+      queueOptions: {
+        type: 'azure-service-bus',
+        url: '',
+        queueName: 'crm-queue',
+      },
     })
   ],
   controllers: [...controllers],

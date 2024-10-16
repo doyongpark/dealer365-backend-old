@@ -41,6 +41,12 @@
       ],
       "@dealer365-backend/package-product/*": [
         "libs/package-product/src/*"
+      ],
+      "@dealer365-backend/queue-provider": [
+        "libs/queue-provider/src"
+      ],
+      "@dealer365-backend/queue-provider/*": [
+        "libs/queue-provider/src/*"
       ]
     }
   },

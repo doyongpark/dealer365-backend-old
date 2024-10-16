@@ -1,17 +1,11 @@
-import { AccountServiceModuleOptions } from "./accounts";
-import { CheckInServiceModuleOptions } from "./check-ins";
-import { DealServiceModuleOptions } from "./deals";
-import { DeliveryServiceModuleOptions } from "./deliveries";
-import { LeadServiceModuleOptions } from "./leads";
-import { QuoteServiceModuleOptions } from "./quotes";
-import { TaskServiceModuleOptions } from "./tasks";
+import { QueueProviderModuleOptions } from "@dealer365-backend/queue-provider";
 
 export interface PackageCrmModuleOptions {
-    accountServiceModuleOptions?: AccountServiceModuleOptions;
-    dealServiceModuleOptions?: DealServiceModuleOptions;
-    leadServiceModuleOptions?: LeadServiceModuleOptions;
-    taskServiceModuleOptions?: TaskServiceModuleOptions;
-    checkInServiceModuleOptions?: CheckInServiceModuleOptions;
-    deliveryServiceModuleOptions?: DeliveryServiceModuleOptions;
-    quoteServiceModuleOptions?: QuoteServiceModuleOptions;
+    databaseOptions: {
+        type: 'mongo' | 'postgre';
+        url: string;        
+        database: string;
+    }
+    useQueue: boolean;
+    queueOptions?: QueueProviderModuleOptions
 }

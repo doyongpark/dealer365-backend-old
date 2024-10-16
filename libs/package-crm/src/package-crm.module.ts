@@ -1,4 +1,5 @@
 // filter.module.ts
+import { QueueProviderModule } from '@dealer365-backend/queue-provider';
 import { DynamicModule, Module } from '@nestjs/common';
 import { AccountServiceModule } from './accounts';
 import { CheckInServiceModule } from './check-ins';
@@ -13,16 +14,22 @@ import { TaskServiceModule } from './tasks';
 @Module({})
 export class PackageCrmModule extends ConfigurableModuleClass {
   static forRoot(options: PackageCrmModuleOptions): DynamicModule {
+
+    if (options?.useQueue && !options.queueOptions) {
+      throw new Error('Queue options must be provided when useQueue is true');
+    }
+
     return {
       module: PackageCrmModule,
       imports: [
-        AccountServiceModule.forRoot(options?.accountServiceModuleOptions),
-        DealServiceModule,//.forRoot(options?.dealServiceModuleOptions),
-        LeadServiceModule.forRoot(options?.leadServiceModuleOptions),
-        TaskServiceModule,//.forRoot(options?.taskServiceModuleOptions),
-        CheckInServiceModule,//.forRoot(options?.checkInServiceModuleOptions),
-        DeliveryServiceModule,//.forRoot(options?.deliveryServiceModuleOptions),
-        QuoteServiceModule,//.forRoot(options?.quoteServiceModuleOptions),
+        AccountServiceModule,//.forRoot(options),
+        DealServiceModule,//.forRoot(options),
+        LeadServiceModule.forRoot(options),
+        TaskServiceModule,//.forRoot(options),
+        CheckInServiceModule,//.forRoot(options),
+        DeliveryServiceModule,//.forRoot(options),
+        QuoteServiceModule,//.forRoot(options),
+        ...(options.useQueue ? [QueueProviderModule.forRoot(options.queueOptions)] : []),
       ],
       providers: [
         {
@@ -38,6 +45,7 @@ export class PackageCrmModule extends ConfigurableModuleClass {
         CheckInServiceModule,
         DeliveryServiceModule,
         QuoteServiceModule,
+        ...(options.useQueue ? [QueueProviderModule] : []),
       ],
     };
   };

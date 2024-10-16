@@ -54,6 +54,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/package-product/tsconfig.lib.json"
       }
+    },
+    "queue-provider": {
+      "type": "library",
+      "root": "libs/queue-provider",
+      "entryFile": "index",
+      "sourceRoot": "libs/queue-provider/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/queue-provider/tsconfig.lib.json"
+      }
     }
   }
 }

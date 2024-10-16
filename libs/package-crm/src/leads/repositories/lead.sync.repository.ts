@@ -1,12 +1,12 @@
-import { LEAD_SERVICE_OPTIONS } from '@dealer365-backend/shared';
+import { PackageCrmModuleOptions } from '@dealer365-backend/package-crm';
+import { CRM_SERVICE_OPTIONS } from '@dealer365-backend/shared';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateLeadDto, LeadDto, UpdateLeadDto } from '../dtos';
-import { LeadServiceModuleOptions } from '../lead-service-config.interface';
 import { ILeadRepository } from './lead.repository.interface';
 
 @Injectable()
 export class LeadSyncRepository implements ILeadRepository {
-    constructor(@Inject(LEAD_SERVICE_OPTIONS) private readonly options: LeadServiceModuleOptions) {
+    constructor(@Inject(CRM_SERVICE_OPTIONS) private readonly options: PackageCrmModuleOptions) {
         Logger.warn(`${this.constructor.name} created with options: ${JSON.stringify(options)}`);
     }
     async find(filter?: any): Promise<LeadDto[]> {

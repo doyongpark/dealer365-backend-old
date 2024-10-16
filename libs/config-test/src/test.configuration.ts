@@ -1,6 +1,6 @@
 import { parseBoolean } from "@dealer365-backend/shared";
 
-export const configuration = () => ({
+export const testConfiguration = () => ({
     NODE_ENV: process.env.NODE_ENV,
     port: parseInt(process.env.PORT, 10) || 3000,
     remote_config_url: process.env.REMOTE_CONFIG_URL,

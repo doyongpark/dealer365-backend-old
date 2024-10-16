@@ -1,48 +1,50 @@
-import { ConfigModule } from '@dealer365-backend/config';
 import { NestCommonModule } from '@dealer365-backend/nest-common';
 import { PackageCrmModule } from '@dealer365-backend/package-crm';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ApiLeadController, ApiLeadControllerV2, ApiLeadService } from './leads';
+import { ConfigModule } from '@nestjs/config';
 
 const controllers = [ApiLeadController, ApiLeadControllerV2];
 const servies = [ApiLeadService]
 
 @Module({
   imports: [
-    ConfigModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env'],
+    }),
     SharedModule.forRoot({
       loggerOptions: {
-        // provider: 'pino',  // 예시 값
-        // level: 'info',
-        // format: 'json',
-        // logType: 'file',
+        provider: process.env.LOGGER_PROVIDER || 'nest',
+        level: process.env.LOGGER_LEVEL || 'debug',
+        format: process.env.LOGGER_FORMAT || 'json',
+        logType: process.env.LOGGER_TYPE || 'console',
       },
     }),
     NestCommonModule.forRoot({
       exceptionFilterOptions: {
-        // useSentryExceptionFilter: true,
-        // sentryOptions: {
-        //   sentryDsn: 'your-sentry-dsn',
-        //   environment: 'your-environment',
-        // },
+        useSentryExceptionFilter: process.env.USE_SENTRY_EXCEPTION_FILTER === 'true',
+        sentryOptions: {
+          sentryDsn:  process.env.SENTRY_DSN,
+          environment:  process.env.SENTRY_ENVIRONMENT,
+        },
       },
       interceptorOptions: {
-        // useLoggingInterceptor: true,
+        useLoggingInterceptor: process.env.USE_LOGGING_INTERCEPTOR === 'true',
       },
       guardOptions: {
-        // useKeycloakGuards: true,
-        // keycloakOptions: {
-        //   clientId: 'your-client-id',
-        //   clientSecret: 'your-client-secret',
-        //   realm: 'your-realm',
-        //   authServerUrl: 'https://your-auth-server-url',
-        // },
+        useKeycloakGuards: process.env.USE_KEYCLOAK_GUARDS === 'true',
+        keycloakOptions: {
+          clientId: process.env.KEYCLOAK_CLIENT_ID,
+          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET, 
+          realm: process.env.KEYCLOAK_REALM,
+          authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
+        },
       },
       middlewareOptions: {
-        // useMethodOverrideMiddleware: true,
+        useMethodOverrideMiddleware: process.env.USE_METHOD_OVERRIDE_MIDDLEWARE === 'true',
       },
-      // Add other options here if available
     }),
     PackageCrmModule.forRoot({
       leadServiceModuleOptions: {

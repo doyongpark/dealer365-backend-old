@@ -24,12 +24,6 @@
       "@dealer365-backend/shared/*": [
         "libs/shared/src/*"
       ],
-      "@dealer365-backend/config": [
-        "libs/config/src"
-      ],
-      "@dealer365-backend/config/*": [
-        "libs/config/src/*"
-      ],
       "@dealer365-backend/nest-common": [
         "libs/nest-common/src"
       ],

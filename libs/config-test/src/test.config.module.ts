@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from './config.service';
+import { TestConfigService } from './test.config.service';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
-import { configuration } from './configuration';
+import { testConfiguration } from './test.configuration';
 
 @Module({
   imports: [
     NestConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],  // 환경 변수 파일 경로
-      load: [configuration]
+      load: [testConfiguration]
     }),
   ],
-  providers: [ConfigService],
-  exports: [ConfigService],
+  providers: [TestConfigService],
+  exports: [TestConfigService],
 })
-export class ConfigModule { }
+export class TestConfigModule { }

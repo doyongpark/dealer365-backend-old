@@ -3,7 +3,7 @@ import { ConfigService as NestConfigService } from '@nestjs/config';
 import axios from 'axios';
 
 @Injectable()
-export class ConfigService extends NestConfigService implements OnModuleInit {
+export class TestConfigService extends NestConfigService implements OnModuleInit {
   private remoteConfigUrl: string;
 
   constructor() {

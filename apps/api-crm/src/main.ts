@@ -16,7 +16,7 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
-  const port = configService.get('port');
+  const port = configService.get(process.env.PORT) || 3000;
 
   app.use(helmet());
 

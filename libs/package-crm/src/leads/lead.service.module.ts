@@ -1,11 +1,11 @@
 import { DatabaseModule } from '@dealer365-backend/database';
+import { MessageBrokerModule } from '@dealer365-backend/message-broker';
 import { CRM_SERVICE_OPTIONS } from '@dealer365-backend/shared';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { PackageCrmModuleOptions } from '../package-crm-config.interface';
 import { LeadSchema } from './entities';
 import { LeadAsyncService, LeadSyncService } from './services';
 import { ILeadService } from './services/lead.service.interface';
-import { MessageBrokerModule } from '@dealer365-backend/message-broker';
 
 @Module({})
 export class LeadServiceModule {
@@ -24,7 +24,11 @@ export class LeadServiceModule {
     return {
       module: LeadServiceModule,
       imports: [
-        ...(options.useBroker ? [MessageBrokerModule.forRoot({ ...options.brokerOptions, queueName: 'crm-queue', isListening: false })] : []),
+        ...(options.useBroker ? [MessageBrokerModule.forRoot({
+          ...options.brokerOptions,
+          queueName: 'crm-queue',
+          isListening: true,
+        })] : []),
         DatabaseModule.forRoot({
           type: options.databaseOptions.type,
           uri: options.databaseOptions.url,

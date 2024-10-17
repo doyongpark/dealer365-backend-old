@@ -1,24 +1,32 @@
 // azure-queue.service.ts
 import { ServiceBusClient, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
 import { Injectable, Logger } from '@nestjs/common';
+import { MessageBrokerModuleOptions } from '../message-broker.module-config';
 import { IBrokerService } from '../message-broker.service.interface';
 
 @Injectable()
 export class AzureBrokerService implements IBrokerService {
+  private readonly client: ServiceBusClient;
   private readonly sender: ServiceBusSender;
   private readonly receiver: ServiceBusReceiver;
 
-  constructor(private readonly client: ServiceBusClient, private readonly queueName: string, private readonly isListening?: boolean) {
-    this.sender = this.client.createSender(this.queueName);
-    if (isListening)
-      this.receiver = this.client.createReceiver(this.queueName);
+  constructor(private readonly options: MessageBrokerModuleOptions) {
+
+    if (options.url) {
+      this.client = new ServiceBusClient(options.url);
+      this.sender = this.client.createSender(options.queueName);
+
+      if (options.isListening) {
+        this.receiver = this.client.createReceiver(options.queueName);
+      } 
+    }
   }
   async receiveMessage(handler: (message: any) => void): Promise<void> {
-    if (this.isListening) {
-      Logger.debug(`Receiving messages from Azure Service Bus queue: ${this.queueName}`);
+    if (this.options.isListening) {
+      // Logger.debug(`Receiving messages from Azure Service Bus queue: ${this.options.queueName}`);
       this.receiver.subscribe({
         processMessage: async (message) => {
-          Logger.debug(`Received message: ${JSON.stringify(message.body)}`);
+          // Logger.debug(`Received message: ${JSON.stringify(message.body)}`);
           handler(message.body);
         },
         processError: async (err) => {
@@ -29,7 +37,7 @@ export class AzureBrokerService implements IBrokerService {
   }
 
   async sendMessage(job: any): Promise<void> {
-    Logger.debug(`Sending job to Azure Service Bus queue: ${this.queueName}`);
+    Logger.debug(`Sending job to Azure Service Bus queue: ${this.options.queueName}`);
     Logger.debug(`Job details: ${JSON.stringify(job)}`);
     await this.sender.sendMessages({ body: job });
   }

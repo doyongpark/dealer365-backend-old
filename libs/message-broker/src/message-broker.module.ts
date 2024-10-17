@@ -1,5 +1,5 @@
 import { ServiceBusClient } from '@azure/service-bus';
-import { BullModule, getQueueToken,  } from '@nestjs/bull';
+import { BullModule, getQueueToken } from '@nestjs/bull';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';
 import { AzureBrokerService, BullBrokerService } from './impl';
@@ -7,10 +7,10 @@ import { MessageBrokerModuleOptions } from './message-broker.module-config';
 import { ConfigurableModuleClass } from './message-broker.module-definition';
 import { IBrokerService } from './message-broker.service.interface';
 
-
 @Module({})
 export class MessageBrokerModule extends ConfigurableModuleClass {
   static forRoot(options?: MessageBrokerModuleOptions): DynamicModule {
+    const imports = [];
     const providers: Provider[] = [];
 
     if (options) {
@@ -18,25 +18,22 @@ export class MessageBrokerModule extends ConfigurableModuleClass {
         providers.push({
           provide: IBrokerService,
           useFactory: () => {
-            const client = new ServiceBusClient(options.url);
-            return new AzureBrokerService(client, options.queueName, options.isListening);
+            return new AzureBrokerService(options);
           },
         });
       } else if (options.type === 'bull') {
+        imports.push(
+          BullModule.forRoot({ redis: { host: 'localhost', port: 6379 } }),
+          BullModule.registerQueue({ name: options.queueName })
+        );
         providers.push({
           provide: IBrokerService,
-          useFactory: (queue: Queue) => new BullBrokerService(queue, options.isListening),
+          useFactory: (queue: Queue) => {
+            return new BullBrokerService(queue);
+          },
           inject: [getQueueToken(options.queueName)],
         });
       }
-    }
-
-    const imports = [];
-    if (options?.type === 'bull') {
-      imports.push(
-        BullModule.forRoot({ redis: { host: 'localhost', port: 6379 } }),
-        BullModule.registerQueue({ name: options.queueName })
-      );
     }
 
     return {

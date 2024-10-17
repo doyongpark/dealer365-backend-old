@@ -27,7 +27,8 @@ export class LeadServiceModule {
           type: options.databaseOptions.type,
           uri: options.databaseOptions.url,
           models: [
-            { name: 'Lead', schema: LeadSchema }
+            { name: 'Lead', schema: LeadSchema },
+            { name: 'Lead2', schema: LeadSchema }
           ],
         }),],
       providers: providers,

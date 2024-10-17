@@ -52,11 +52,10 @@ const servies = [ApiLeadService]
         url: 'mongodb://inventis:dpass%40word@20.196.96.247:27017/dealer365-pkg-crm?authSource=admin',
         database: 'dealer365-pkg-crm',
       },
-      useQueue: false,
+      useQueue: true,
       queueOptions: {
         type: 'azure-service-bus',
-        url: '',
-        queueName: 'crm-queue',
+        url: process.env.AZURE_SERVICE_BUS_CONNECTION_STRING,
       },
     })
   ],

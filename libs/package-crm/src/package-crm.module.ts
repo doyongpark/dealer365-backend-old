@@ -29,7 +29,6 @@ export class PackageCrmModule extends ConfigurableModuleClass {
         CheckInServiceModule,//.forRoot(options),
         DeliveryServiceModule,//.forRoot(options),
         QuoteServiceModule,//.forRoot(options),
-        ...(options.useQueue ? [QueueProviderModule.forRoot(options.queueOptions)] : []),
       ],
       providers: [
         {
@@ -45,7 +44,6 @@ export class PackageCrmModule extends ConfigurableModuleClass {
         CheckInServiceModule,
         DeliveryServiceModule,
         QuoteServiceModule,
-        ...(options.useQueue ? [QueueProviderModule] : []),
       ],
     };
   };

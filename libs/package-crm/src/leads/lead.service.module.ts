@@ -5,6 +5,7 @@ import { PackageCrmModuleOptions } from '../package-crm-config.interface';
 import { LeadSchema } from './entities';
 import { LeadAsyncService, LeadSyncService } from './services';
 import { ILeadService } from './services/lead.service.interface';
+import { QueueProviderModule } from '@dealer365-backend/queue-provider';
 
 @Module({})
 export class LeadServiceModule {
@@ -23,6 +24,7 @@ export class LeadServiceModule {
     return {
       module: LeadServiceModule,
       imports: [
+        ...(options.useQueue ? [QueueProviderModule.forRoot({ ...options.queueOptions, queueName: 'crm-queue' })] : []),
         DatabaseModule.forRoot({
           type: options.databaseOptions.type,
           uri: options.databaseOptions.url,

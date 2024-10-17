@@ -7,7 +7,7 @@ import { IPostgresRepository } from './postres.repository';
 import { IRepository } from './repository.interface';
 
 interface DatabaseModuleOptions {
-  type: 'mongodb' | 'postgres';
+  type: string;
   uri: string;
   entities?: any[];
   models?: any[];

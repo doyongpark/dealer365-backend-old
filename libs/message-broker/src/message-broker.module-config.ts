@@ -1,6 +1,6 @@
 export interface MessageBrokerModuleOptions {
-  type: 'azure-service-bus' | 'bull';
+  type:  string;
   url: string;
+  useListener?: boolean;
   queueName: string;
-  isListening?: boolean;
 }

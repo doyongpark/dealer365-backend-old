@@ -1,12 +1,12 @@
 export interface PackageCrmModuleOptions {
     databaseOptions: {
-        type: 'mongodb' | 'postgres';
+        type: string;
         url: string;
-        database: string;
     }
-    useBroker: boolean;
+    useBroker?: boolean;
     brokerOptions?: {
-        type: 'azure-service-bus' | 'bull';
+        type: string;
         url: string;
+        useListener?: boolean;
     }
 }

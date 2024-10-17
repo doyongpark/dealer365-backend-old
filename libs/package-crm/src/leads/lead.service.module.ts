@@ -24,19 +24,15 @@ export class LeadServiceModule {
     return {
       module: LeadServiceModule,
       imports: [
-        ...(options.useBroker ? [MessageBrokerModule.forRoot({
-          ...options.brokerOptions,
-          queueName: 'crm-queue',
-          isListening: true,
-        })] : []),
         DatabaseModule.forRoot({
           type: options.databaseOptions.type,
           uri: options.databaseOptions.url,
           models: [
             { name: 'Lead', schema: LeadSchema },
-            { name: 'Lead2', schema: LeadSchema }
-          ],
-        }),],
+          ]
+        }),
+        ...(options.useBroker ? [MessageBrokerModule.forRoot({ ...options.brokerOptions, queueName: 'crm-queue' })] : []),
+      ],
       providers: providers,
       exports: [ILeadService],
     };

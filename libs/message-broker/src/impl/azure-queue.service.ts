@@ -16,13 +16,13 @@ export class AzureBrokerService implements IBrokerService {
       this.client = new ServiceBusClient(options.url);
       this.sender = this.client.createSender(options.queueName);
 
-      if (options.isListening) {
+      if (options.useListener) {
         this.receiver = this.client.createReceiver(options.queueName);
       } 
     }
   }
   async receiveMessage(handler: (message: any) => void): Promise<void> {
-    if (this.options.isListening) {
+    if (this.options.useListener) {
       // Logger.debug(`Receiving messages from Azure Service Bus queue: ${this.options.queueName}`);
       this.receiver.subscribe({
         processMessage: async (message) => {

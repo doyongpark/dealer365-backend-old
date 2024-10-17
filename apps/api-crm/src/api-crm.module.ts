@@ -48,14 +48,14 @@ const servies = [ApiLeadService]
     }),
     PackageCrmModule.forRoot({
       databaseOptions: {
-        type: 'mongodb',
+        type:  process.env.DATABASE_TYPE,
         url: process.env.DATABASE_URL,
-        database: 'dealer365-pkg-crm',
       },
-      useBroker: true,
+      useBroker: process.env.USE_MESSAGE_BROKER === 'true',
       brokerOptions: {
-        type: 'azure-service-bus',
-        url: process.env.QUEUE_SERVICE_CONNECTION_STRING,
+        type: process.env.MESSAGE_BROKER_TYPE,
+        url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
+        useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
       },
     })
   ],

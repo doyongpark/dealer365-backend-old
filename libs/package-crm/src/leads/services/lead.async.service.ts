@@ -16,7 +16,7 @@ export class LeadAsyncService implements ILeadService {
 
     private async handleMessage(message: any) {
         // 메시지 처리 로직을 여기에 작성합니다.
-        Logger.debug(`Processing message: ${JSON.stringify(message)}`);
+        Logger.warn(`Processing message: ${JSON.stringify(message)}`);
         // 예: 메시지를 데이터베이스에 저장하거나 다른 작업 수행
     }
 

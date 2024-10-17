@@ -26,7 +26,7 @@ export class LeadServiceModule {
       imports: [
         DatabaseModule.forRoot({
           type: options.databaseOptions.type,
-          uri: options.databaseOptions.url,
+          url: options.databaseOptions.url,
           models: [
             { name: 'Lead', schema: LeadSchema },
           ]

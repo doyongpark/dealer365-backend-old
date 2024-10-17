@@ -6,6 +6,12 @@ import { IBrokerMessage, IBrokerService } from '../message-broker.service.interf
 @Injectable()
 export class BullBrokerService implements IBrokerService {
   constructor(private readonly queue: Queue, private readonly isListening?: boolean) {}
+  closeReceiver(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  closeClient(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
   sendMessage(data: IBrokerMessage): Promise<void> {
     throw new Error('Method not implemented.');
   }

@@ -8,7 +8,7 @@ import { IRepository } from './repository.interface';
 
 interface DatabaseModuleOptions {
   type: string;
-  uri: string;
+  url: string;
   entities?: any[];
   models?: any[];
 }
@@ -24,7 +24,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
     const providers = [];
 
     if (options.type === 'mongodb') {
-      imports.push(MongooseModule.forRoot(options.uri, {
+      imports.push(MongooseModule.forRoot(options.url, {
         connectionFactory: (connection) => {
           mongoose.set('debug', true); // Mongoose 디버그 모드 활성화
           return connection;
@@ -41,7 +41,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
     } else if (options.type === 'postgres') {
       imports.push(TypeOrmModule.forRoot({
         type: 'postgres',
-        url: options.uri,
+        url: options.url,
         entities: options.entities,
         synchronize: false,
         logging: true, // TypeORM 쿼리 로깅 활성화

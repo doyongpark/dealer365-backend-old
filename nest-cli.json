@@ -72,6 +72,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
+    },
+    "job-crm": {
+      "type": "application",
+      "root": "apps/job-crm",
+      "entryFile": "main",
+      "sourceRoot": "apps/job-crm/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/job-crm/tsconfig.app.json"
+      }
     }
   }
 }

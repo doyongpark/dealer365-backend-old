@@ -1,9 +1,13 @@
 import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, getModelToken } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as mongoose from 'mongoose';
 import { IMongoRepository } from './mongo.repository';
+import { IPostgresRepository } from './postres.repository';
+import { IRepository } from './repository.interface';
 
 interface DatabaseModuleOptions {
-  type: 'mongodb' | 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql';
+  type: 'mongodb' | 'postgres';
   uri: string;
   entities?: any[];
   models?: any[];
@@ -20,13 +24,34 @@ export class DatabaseModule extends ConfigurableModuleClass {
     const providers = [];
 
     if (options.type === 'mongodb') {
-      imports.push(MongooseModule.forRoot(options.uri));
+      imports.push(MongooseModule.forRoot(options.uri, {
+        connectionFactory: (connection) => {
+          mongoose.set('debug', true); // Mongoose 디버그 모드 활성화
+          return connection;
+        },
+      }));
       options.models.forEach(model => {
         imports.push(MongooseModule.forFeature([{ name: model.name, schema: model.schema }]));
         providers.push({
-          provide: `${model.name}Repository`,
-          useClass: IMongoRepository,
-          inject: [model.name],
+          provide: IRepository,
+          useFactory: (model) => new IMongoRepository(model),
+          inject: [getModelToken(model.name)],
+        });
+      });
+    } else if (options.type === 'postgres') {
+      imports.push(TypeOrmModule.forRoot({
+        type: 'postgres',
+        url: options.uri,
+        entities: options.entities,
+        synchronize: false,
+        logging: true, // TypeORM 쿼리 로깅 활성화
+      }));
+      options.entities.forEach(entity => {
+        imports.push(TypeOrmModule.forFeature([entity]));
+        providers.push({
+          provide: IRepository,
+          useClass: IPostgresRepository,
+          inject: [entity],
         });
       });
     }
@@ -35,7 +60,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
       module: DatabaseModule,
       imports: imports,
       providers: providers,
-      exports: providers,
+      exports: [IRepository],
     };
   }
 }

@@ -1,4 +1,4 @@
-import { DeepPartial, FindOneOptions, Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { IRepository } from './repository.interface';
 
 export class IPostgresRepository<T> extends IRepository<T> {
@@ -6,7 +6,7 @@ export class IPostgresRepository<T> extends IRepository<T> {
     super();
   }
 
-  async create(item: DeepPartial<T>): Promise<T> {
+  async create(item: T): Promise<T> {
     return this.repository.save(item);
   }
 
@@ -18,7 +18,7 @@ export class IPostgresRepository<T> extends IRepository<T> {
     return null;
   }
 
-  async update(id: string, item: DeepPartial<T>): Promise<T> {
+  async update(id: string, item: Partial<T>): Promise<T> {
     return null;
   }
 

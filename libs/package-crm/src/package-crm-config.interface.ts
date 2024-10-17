@@ -2,7 +2,7 @@ import { QueueProviderModuleOptions } from "@dealer365-backend/queue-provider";
 
 export interface PackageCrmModuleOptions {
     databaseOptions: {
-        type: 'mongodb' | 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql';
+        type: 'mongodb' | 'postgres';
         url: string;        
         database: string;
     }

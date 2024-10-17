@@ -1,7 +1,7 @@
+import { Document } from "mongoose";
 import { SystemSourceEnum } from "../../constants";
-import { BaseIdEntity } from "./base.id.entity";
 
-export class BaseEntity extends BaseIdEntity {
+export class BaseEntity extends Document {
   systemSourceEnum?: SystemSourceEnum;
   createdDateTimeUTC?: Date;
   creatorUserId?: string;

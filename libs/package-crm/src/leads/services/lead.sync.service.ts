@@ -1,50 +1,53 @@
-import { IMongoRepository } from '@dealer365-backend/database/mongo.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { IRepository } from '@dealer365-backend/database';
+import { Injectable } from '@nestjs/common';
 import { CreateLeadDto, LeadDto, UpdateLeadDto } from '../dtos';
-import { LeadEntity } from '../entities';
 import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadSyncService implements ILeadService {
-    constructor(@Inject('LeadRepository') private readonly leadRepository: IMongoRepository<LeadEntity>) { }
+    constructor(private readonly leadRepository: IRepository<LeadDto>,
+        // private readonly leadQueueService: IQueueService,
+    ) { }
+
+    async create(dto: CreateLeadDto): Promise<LeadDto> {
+        const result = await this.leadRepository.create(dto);
+
+        // this.leadQueueService.addJob({
+        //     correlationId: 'new-correlation-id',
+        //     messageId: result.id,
+        //     subject: 'create',
+        //     body: result,
+        // });
+        return result;
+    }
+    
+    async search(filter?: any): Promise<LeadDto[]> {
+        return await this.leadRepository.findAll();
+    }
 
     async get(id: string): Promise<LeadDto> {
         const result = await this.leadRepository.findOne(id);
         return result;
     }
 
-    async update(id: string, dto: UpdateLeadDto): Promise<LeadEntity> {
-        const reulst = await this.leadRepository.update(id, {
-            firstName: dto.firstName,
-            fullName: dto.fullName,
-            comment: dto.comment,
-            addresses: dto.addresses,
-            contacts: dto.contacts,
-            isConvertedToContact: dto.isConvertedToContact,
-        });
-
-        return reulst;
-    }
-
-    async create(dto: CreateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.create({
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            fullName: dto.fullName,
-            comment: dto.comment,
-            addresses: dto.addresses,
-            contacts: dto.contacts,
-            isConvertedToContact: false,
-        });
-
+    async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
+        const result = await this.leadRepository.update(id, dto);
+        // this.leadQueueService.addJob({
+        //     correlationId: 'new-correlation-id',
+        //     messageId: result.id,
+        //     subject: 'update',
+        //     body: data,
+        // });
         return result;
     }
 
     async delete(id: string): Promise<void> {
-        return await this.leadRepository.delete(id);
-    }
-
-    async search(filter?: any): Promise<LeadDto[]> {
-        return await this.leadRepository.findAll();
+        const result = await this.leadRepository.delete(id);
+        // this.leadQueueService.addJob({
+        //     correlationId: 'new-correlation-id',
+        //     messageId: id,
+        //     subject: 'delete',
+        //     body: null,
+        // });
     }
 }

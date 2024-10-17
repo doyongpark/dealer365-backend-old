@@ -5,7 +5,7 @@ import { PackageCrmModuleOptions } from '../package-crm-config.interface';
 import { LeadSchema } from './entities';
 import { LeadAsyncService, LeadSyncService } from './services';
 import { ILeadService } from './services/lead.service.interface';
-import { QueueProviderModule } from '@dealer365-backend/queue-provider';
+import { MessageBrokerModule } from '@dealer365-backend/message-broker';
 
 @Module({})
 export class LeadServiceModule {
@@ -17,14 +17,14 @@ export class LeadServiceModule {
       },
       {
         provide: ILeadService,
-        useClass: options?.useQueue ? LeadAsyncService : LeadSyncService,
+        useClass: options?.useBroker ? LeadAsyncService : LeadSyncService,
       },
     ];
 
     return {
       module: LeadServiceModule,
       imports: [
-        ...(options.useQueue ? [QueueProviderModule.forRoot({ ...options.queueOptions, queueName: 'crm-queue' })] : []),
+        ...(options.useBroker ? [MessageBrokerModule.forRoot({ ...options.brokerOptions, queueName: 'crm-queue', isListening: false })] : []),
         DatabaseModule.forRoot({
           type: options.databaseOptions.type,
           uri: options.databaseOptions.url,

@@ -1,5 +1,5 @@
 // filter.module.ts
-import { QueueProviderModule } from '@dealer365-backend/queue-provider';
+import { MessageBrokerModule } from '@dealer365-backend/message-broker';
 import { DynamicModule, Module } from '@nestjs/common';
 import { AccountServiceModule } from './accounts';
 import { CheckInServiceModule } from './check-ins';
@@ -15,8 +15,8 @@ import { TaskServiceModule } from './tasks';
 export class PackageCrmModule extends ConfigurableModuleClass {
   static forRoot(options: PackageCrmModuleOptions): DynamicModule {
 
-    if (options?.useQueue && !options.queueOptions) {
-      throw new Error('Queue options must be provided when useQueue is true');
+    if (options?.useBroker && !options.brokerOptions) {
+      throw new Error('Broker options must be provided when useBroker is true');
     }
 
     return {

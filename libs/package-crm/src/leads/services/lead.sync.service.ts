@@ -6,13 +6,13 @@ import { ILeadService } from './lead.service.interface';
 @Injectable()
 export class LeadSyncService implements ILeadService {
     constructor(private readonly leadRepository: IRepository<LeadDto>,
-        // private readonly leadQueueService: IQueueService,
+        // private readonly leadBrokerService: IBrokerService,
     ) { }
 
     async create(dto: CreateLeadDto): Promise<LeadDto> {
         const result = await this.leadRepository.create(dto);
 
-        // this.leadQueueService.addJob({
+        // this.leadBrokerService.addJob({
         //     correlationId: 'new-correlation-id',
         //     messageId: result.id,
         //     subject: 'create',
@@ -32,7 +32,7 @@ export class LeadSyncService implements ILeadService {
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
         const result = await this.leadRepository.update(id, dto);
-        // this.leadQueueService.addJob({
+        // this.leadBrokerService.addJob({
         //     correlationId: 'new-correlation-id',
         //     messageId: result.id,
         //     subject: 'update',
@@ -43,7 +43,7 @@ export class LeadSyncService implements ILeadService {
 
     async delete(id: string): Promise<void> {
         const result = await this.leadRepository.delete(id);
-        // this.leadQueueService.addJob({
+        // this.leadBrokerService.addJob({
         //     correlationId: 'new-correlation-id',
         //     messageId: id,
         //     subject: 'delete',

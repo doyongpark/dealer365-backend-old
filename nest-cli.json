@@ -55,13 +55,13 @@
         "tsConfigPath": "libs/package-product/tsconfig.lib.json"
       }
     },
-    "queue-provider": {
+    "message-broker": {
       "type": "library",
-      "root": "libs/queue-provider",
+      "root": "libs/message-broker",
       "entryFile": "index",
-      "sourceRoot": "libs/queue-provider/src",
+      "sourceRoot": "libs/message-broker/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/queue-provider/tsconfig.lib.json"
+        "tsConfigPath": "libs/message-broker/tsconfig.lib.json"
       }
     },
     "database": {

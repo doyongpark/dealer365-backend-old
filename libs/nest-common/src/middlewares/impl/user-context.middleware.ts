@@ -6,7 +6,7 @@ import { UserContextService } from './user-context.service';
 @Injectable()
 export class UserContextMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    Logger.log(this.constructor.name);
+    Logger.debug(this.constructor.name);
     UserContextService.run(() => {
       if (req?.headers?.authorization) {
         var claim: any = jwtDecode(req.headers.authorization as string);

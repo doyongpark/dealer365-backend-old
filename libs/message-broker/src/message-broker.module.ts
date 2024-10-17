@@ -1,31 +1,31 @@
 import { ServiceBusClient } from '@azure/service-bus';
-import { BullModule, getQueueToken } from '@nestjs/bull';
+import { BullModule, getQueueToken,  } from '@nestjs/bull';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';
-import { AzureQueueService, BullQueueService } from './impl';
-import { QueueProviderModuleOptions } from './queue-provider.module-config';
-import { ConfigurableModuleClass } from './queue-provider.module-definition';
-import { IQueueService } from './queue.service.interface';
+import { AzureBrokerService, BullBrokerService } from './impl';
+import { MessageBrokerModuleOptions } from './message-broker.module-config';
+import { ConfigurableModuleClass } from './message-broker.module-definition';
+import { IBrokerService } from './message-broker.service.interface';
 
 
 @Module({})
-export class QueueProviderModule extends ConfigurableModuleClass {
-  static forRoot(options?: QueueProviderModuleOptions): DynamicModule {
+export class MessageBrokerModule extends ConfigurableModuleClass {
+  static forRoot(options?: MessageBrokerModuleOptions): DynamicModule {
     const providers: Provider[] = [];
 
     if (options) {
       if (options.type === 'azure-service-bus') {
         providers.push({
-          provide: IQueueService,
+          provide: IBrokerService,
           useFactory: () => {
             const client = new ServiceBusClient(options.url);
-            return new AzureQueueService(client, options.queueName);
+            return new AzureBrokerService(client, options.queueName, options.isListening);
           },
         });
       } else if (options.type === 'bull') {
         providers.push({
-          provide: IQueueService,
-          useFactory: (queue: Queue) => new BullQueueService(queue),
+          provide: IBrokerService,
+          useFactory: (queue: Queue) => new BullBrokerService(queue, options.isListening),
           inject: [getQueueToken(options.queueName)],
         });
       }
@@ -40,10 +40,10 @@ export class QueueProviderModule extends ConfigurableModuleClass {
     }
 
     return {
-      module: QueueProviderModule,
+      module: MessageBrokerModule,
       imports: imports,
       providers: providers,
-      exports: options ? [IQueueService] : [],
+      exports: options ? [IBrokerService] : [],
     };
   }
 }

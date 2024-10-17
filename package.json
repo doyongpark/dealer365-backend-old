@@ -105,7 +105,7 @@
       "^@dealer365-backend/nest-common(|/.*)$": "<rootDir>/libs/nest-common/src/$1",
       "^@dealer365-backend/package-crm(|/.*)$": "<rootDir>/libs/package-crm/src/$1",
       "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1",
-      "^@dealer365-backend/queue-provider(|/.*)$": "<rootDir>/libs/queue-provider/src/$1",
+      "^@dealer365-backend/message-broker(|/.*)$": "<rootDir>/libs/message-broker/src/$1",
       "^@dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1"
     }
   }

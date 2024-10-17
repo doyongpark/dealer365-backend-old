@@ -12,7 +12,7 @@ export class SentryExceptionFilter implements ExceptionFilter {
   }
 
   catch(exception: unknown, host: ArgumentsHost) {
-    Logger.log(this.constructor.name);
+    Logger.debug(this.constructor.name);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();

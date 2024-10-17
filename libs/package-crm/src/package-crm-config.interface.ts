@@ -4,8 +4,8 @@ export interface PackageCrmModuleOptions {
         url: string;
         database: string;
     }
-    useQueue: boolean;
-    queueOptions?: {
+    useBroker: boolean;
+    brokerOptions?: {
         type: 'azure-service-bus' | 'bull';
         url: string;
     }

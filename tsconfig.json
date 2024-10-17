@@ -42,11 +42,11 @@
       "@dealer365-backend/package-product/*": [
         "libs/package-product/src/*"
       ],
-      "@dealer365-backend/queue-provider": [
-        "libs/queue-provider/src"
+      "@dealer365-backend/message-broker": [
+        "libs/message-broker/src"
       ],
-      "@dealer365-backend/queue-provider/*": [
-        "libs/queue-provider/src/*"
+      "@dealer365-backend/message-broker/*": [
+        "libs/message-broker/src/*"
       ],
       "@dealer365-backend/database": [
         "libs/database/src"

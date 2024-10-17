@@ -52,8 +52,8 @@ const servies = [ApiLeadService]
         url: process.env.DATABASE_URL,
         database: 'dealer365-pkg-crm',
       },
-      useQueue: true,
-      queueOptions: {
+      useBroker: true,
+      brokerOptions: {
         type: 'azure-service-bus',
         url: process.env.QUEUE_SERVICE_CONNECTION_STRING,
       },

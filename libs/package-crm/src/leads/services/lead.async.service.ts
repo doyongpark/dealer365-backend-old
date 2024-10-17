@@ -1,5 +1,5 @@
 import { IRepository } from '@dealer365-backend/database';
-import { IQueueService } from '@dealer365-backend/queue-provider';
+import { IBrokerService } from '@dealer365-backend/message-broker';
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateLeadDto, LeadDto, UpdateLeadDto } from '../dtos';
 import { ILeadService } from './lead.service.interface';
@@ -7,11 +7,11 @@ import { ILeadService } from './lead.service.interface';
 @Injectable()
 export class LeadAsyncService implements ILeadService {
     constructor(private readonly leadRepository: IRepository<LeadDto>,
-        private readonly leadQueueService: IQueueService,
+        private readonly leadBrokerService: IBrokerService,
     ) { }
 
     async onModuleInit() {
-        await this.leadQueueService.receiveMessages(this.handleMessage.bind(this));
+        await this.leadBrokerService.receiveMessage(this.handleMessage.bind(this));
     }
 
     private async handleMessage(message: any) {
@@ -23,7 +23,7 @@ export class LeadAsyncService implements ILeadService {
     async create(dto: CreateLeadDto): Promise<LeadDto> {
         const result = await this.leadRepository.create(dto);
 
-        this.leadQueueService.addJob({
+        this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
             messageId: result.id,
             subject: 'create',
@@ -43,7 +43,7 @@ export class LeadAsyncService implements ILeadService {
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
         const result = await this.leadRepository.update(id, dto);
-        this.leadQueueService.addJob({
+        this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
             messageId: result.id,
             subject: 'update',
@@ -54,7 +54,7 @@ export class LeadAsyncService implements ILeadService {
 
     async delete(id: string): Promise<void> {
         const result = await this.leadRepository.delete(id);
-        this.leadQueueService.addJob({
+        this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
             messageId: id,
             subject: 'delete',

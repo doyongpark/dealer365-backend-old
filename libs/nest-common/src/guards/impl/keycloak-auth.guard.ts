@@ -26,7 +26,7 @@ export class KeycloakAuthGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    Logger.log(this.constructor.name);
+    Logger.debug(this.constructor.name);
     return true;
   }
 }

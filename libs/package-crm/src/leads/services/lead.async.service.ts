@@ -1,35 +1,27 @@
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateLeadDto, LeadDto, UpdateLeadDto } from '../dtos';
 import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadAsyncService implements ILeadService {
-    constructor(private readonly leadRepository: IRepository<LeadDto>,
+    constructor(
+        private readonly leadRepository: IRepository<LeadDto>,
         private readonly leadBrokerService: IBrokerService,
     ) { }
 
-    async onModuleInit() {
-        await this.leadBrokerService.receiveMessage(this.handleMessage.bind(this));
-    }
-
-    private async handleMessage(message: any) {
-        // 메시지 처리 로직을 여기에 작성합니다.
-        Logger.warn(`Processing message: ${JSON.stringify(message)}`);
-        // 예: 메시지를 데이터베이스에 저장하거나 다른 작업 수행
-    }
-
     async create(dto: CreateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.create(dto);
+        const objectId = this.leadRepository.newId();
 
         this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
-            messageId: result.id,
+            messageId: objectId,
             subject: 'create',
-            body: result,
+            body: dto,
         });
-        return result;
+
+        return { _id: objectId } as LeadDto;
     }
 
     async search(filter?: any): Promise<LeadDto[]> {
@@ -42,18 +34,18 @@ export class LeadAsyncService implements ILeadService {
     }
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.update(id, dto);
+
         this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
-            messageId: result.id,
+            messageId: id,
             subject: 'update',
             body: dto,
         });
-        return result;
+        return { _id: id } as LeadDto;
     }
 
     async delete(id: string): Promise<void> {
-        const result = await this.leadRepository.delete(id);
+
         this.leadBrokerService.sendMessage({
             correlationId: 'new-correlation-id',
             messageId: id,

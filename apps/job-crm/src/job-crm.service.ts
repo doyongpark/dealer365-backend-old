@@ -7,21 +7,18 @@ import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/commo
 @Injectable()
 export class JobCrmService implements OnModuleInit, OnModuleDestroy {
 
-  constructor(private readonly brokerService: IBrokerService,
+  constructor(
+    private readonly brokerService: IBrokerService,
     private readonly repository: IRepository<LeadDto>
-  ) {
-    Logger.debug('JobCrmService has been constructor.');
-  }
+  ) { }
 
   async onModuleInit() {
     this.brokerService.receiveMessage(this.processMessage.bind(this));
-    Logger.debug('JobCrmService has been onModuleInit.');
   }
 
   async onModuleDestroy() {
     await this.brokerService.closeReceiver();
     await this.brokerService.closeClient();
-    Logger.debug('JobCrmService has been destroyed.');
   }
 
   private async processMessage(message: ServiceBusReceivedMessage) {

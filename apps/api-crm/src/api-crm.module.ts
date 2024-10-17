@@ -3,9 +3,9 @@ import { PackageCrmModule } from '@dealer365-backend/package-crm';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ApiLeadController, ApiLeadControllerV2, ApiLeadService } from './leads';
+import { ApiLeadController, ApiLeadService } from './leads';
 
-const controllers = [ApiLeadController, ApiLeadControllerV2];
+const controllers = [ApiLeadController];
 const servies = [ApiLeadService]
 
 @Module({
@@ -48,7 +48,7 @@ const servies = [ApiLeadService]
     }),
     PackageCrmModule.forRoot({
       databaseOptions: {
-        type:  process.env.DATABASE_TYPE,
+        type: process.env.DATABASE_TYPE,
         url: process.env.DATABASE_URL,
       },
       useBroker: process.env.USE_MESSAGE_BROKER === 'true',

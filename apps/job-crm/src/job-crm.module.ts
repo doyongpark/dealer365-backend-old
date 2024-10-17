@@ -34,6 +34,5 @@ import { JobCrmService } from './job-crm.service';
   })],
   controllers: [],
   providers: [JobCrmService],
-  exports: []
 })
 export class JobCrmModule { }

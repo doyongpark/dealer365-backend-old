@@ -1,9 +1,13 @@
-import { Document, Model, UpdateQuery } from 'mongoose';
+import { Document, Model, Types, UpdateQuery } from 'mongoose';
 import { IRepository } from './repository.interface';
 
 export class IMongoRepository<T> extends IRepository<T> {
   constructor(private readonly model: Model<Document>) {
     super();
+  }
+
+  newId(): string {
+    return new Types.ObjectId().toString();
   }
 
   async create(item: T): Promise<T> {

@@ -1,9 +1,13 @@
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindOneOptions, ObjectId, Repository } from 'typeorm';
 import { IRepository } from './repository.interface';
 
 export class IPostgresRepository<T> extends IRepository<T> {
   constructor(private readonly repository: Repository<T>) {
     super();
+  }
+
+  newId(): string {
+    return ObjectId.generate().toString();
   }
 
   async create(item: T): Promise<T> {

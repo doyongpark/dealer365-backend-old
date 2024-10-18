@@ -9,7 +9,7 @@ import { JobCrmService } from './job-crm.service';
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-    envFilePath: ['.env'],
+    envFilePath: ['.env.crm'],
   }),
   SharedModule.forRoot({
     loggerOptions: {
@@ -29,8 +29,8 @@ import { JobCrmService } from './job-crm.service';
   MessageBrokerModule.forRoot({
     type: process.env.MESSAGE_BROKER_TYPE,
     url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
-    useListener: true,
-    queueName: 'crm-queue'
+    useListener: process.env.MESSAGE_BROKER_USE_LISTENER === 'true',
+    queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
   })],
   controllers: [],
   providers: [JobCrmService],

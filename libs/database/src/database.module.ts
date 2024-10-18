@@ -1,19 +1,10 @@
-import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as mongoose from 'mongoose';
-import { IMongoRepository } from './mongo.repository';
-
-interface DatabaseModuleOptions {
-  type: string;
-  url: string;
-  entities?: any[];
-  models?: any[];
-}
-
-const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<DatabaseModuleOptions>()
-  .setClassMethodName('forRoot')
-  .build();
+import { DatabaseModuleOptions } from './database-config.interface';
+import { ConfigurableModuleClass } from './database.module-definition';
+import { IMongoRepository } from './impl/mongo.repository';
 
 @Module({})
 export class DatabaseModule extends ConfigurableModuleClass {

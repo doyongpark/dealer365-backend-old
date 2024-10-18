@@ -1,5 +1,5 @@
 import { FindOneOptions, ObjectId, Repository } from 'typeorm';
-import { IRepository } from './repository.interface';
+import { IRepository } from '../repository.interface';
 
 export class IPostgresRepository<T> extends IRepository<T> {
   constructor(private readonly repository: Repository<T>) {

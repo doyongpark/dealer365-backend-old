@@ -5,7 +5,7 @@ import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadSyncService implements ILeadService {
-    constructor(@Inject('Lead2Repository') private readonly leadRepository: IRepository<LeadDto>,
+    constructor(@Inject('LeadRepository') private readonly leadRepository: IRepository<LeadDto>,
     ) { }
 
     async create(dto: CreateLeadDto): Promise<LeadDto> {

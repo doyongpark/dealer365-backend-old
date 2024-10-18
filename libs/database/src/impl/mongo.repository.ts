@@ -1,5 +1,5 @@
 import { Document, Model, Types, UpdateQuery } from 'mongoose';
-import { IRepository } from './repository.interface';
+import { IRepository } from '../repository.interface';
 
 export class IMongoRepository<T> extends IRepository<T> {
   constructor(private readonly model: Model<Document>) {

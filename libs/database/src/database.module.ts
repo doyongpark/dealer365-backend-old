@@ -38,7 +38,8 @@ export class DatabaseModule extends ConfigurableModuleClass {
       options.entities.forEach(entity => {
         providers.push({
           provide: `${entity.name}Repository`,
-          //useClass: TypeOrmRepository, // TypeOrmRepository는 TypeORM을 사용하는 리포지토리 클래스입니다.
+          useFactory: (entity) => new IMongoRepository(entity),
+          inject: [getModelToken(entity.name)],
         });
       });
     }

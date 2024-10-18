@@ -31,7 +31,7 @@ export class LeadServiceModule {
             { name: 'Lead', schema: LeadSchema },
           ]
         }),
-        ...(options.useBroker ? [MessageBrokerModule.forRoot({ ...options.brokerOptions, queueName: 'crm-queue' })] : []),
+        ...(options.useBroker ? [MessageBrokerModule.forRoot(options.brokerOptions)] : []),
       ],
       providers: providers,
       exports: [ILeadService],

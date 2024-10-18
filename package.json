@@ -10,22 +10,26 @@
     "libs/*"
   ],
   "scripts": {
-    "build": "nest build",
+    "build": "concurrently \"npm:build:*\"",
+    "build:api-crm": "nest build api-crm",
+    "build:job-crm": "nest build job-crm",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "concurrently \"npm:dev:*\"",
-    "dev:api:crm": "cross-env NODE_ENV=development nest start --watch api-crm",
-    "dev:job:crm": "cross-env NODE_ENV=development nest start --watch job-crm",
+    "dev:api-crm": "cross-env NODE_ENV=development nest start --watch api-crm",
+    "dev:job-crm": "cross-env NODE_ENV=development nest start --watch job-crm",
     "start:debug": "concurrently \"npm:debug:*\"",
-    "debug:api:crm": "cross-env NODE_ENV=development nest start --debug --watch api-crm",
-    "debug:job:crm": "cross-env NODE_ENV=development nest start --debug --watch job-crm",
+    "debug:api-crm": "cross-env NODE_ENV=development nest start --debug --watch api-crm",
+    "debug:job-crm": "cross-env NODE_ENV=development nest start --debug --watch job-crm",
     "start:prod": "node dist/apps/dealer365-backend/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/dealer365-backend/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/dealer365-backend/test/jest-e2e.json",
+    "docker:api-crm": "docker build -t dealer365-api-crm -f dockerfile.api-crm .",
+    "docker:job-crm": "docker build -t dealer365-job-crm -f dockerfile.job-crm ."
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.5",

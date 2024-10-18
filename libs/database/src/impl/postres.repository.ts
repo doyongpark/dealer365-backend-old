@@ -2,6 +2,9 @@ import { FindOneOptions, ObjectId, Repository } from 'typeorm';
 import { IRepository } from '../repository.interface';
 
 export class IPostgresRepository<T> extends IRepository<T> {
+  toObjectId(id: string): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
   newId(): Promise<string> {
     throw new Error('Method not implemented.');
   }

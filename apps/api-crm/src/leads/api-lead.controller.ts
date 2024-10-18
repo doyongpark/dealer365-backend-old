@@ -19,7 +19,7 @@ export class ApiLeadController {
     return await this.apiLeadService.searchLeads(query);
   }
 
-  @Get(':id ')
+  @Get(':id')
   async getCrmDoc(@Param('id') id: string): Promise<LeadDto> {
     return await this.apiLeadService.getLead(id);
   }

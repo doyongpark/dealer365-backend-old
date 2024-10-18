@@ -1,6 +1,8 @@
 export abstract class IRepository<T> {
   abstract newId(): Promise<string>;
 
+  abstract toObjectId(id:string): Promise<any>;
+
   abstract count(query: any, limit?: number): Promise<number>;
 
   abstract find(query: any, options?: { limit?: number; sort?: any; skip?: number }): Promise<T[]>;

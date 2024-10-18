@@ -7,6 +7,9 @@ export interface PackageCrmModuleOptions {
     brokerOptions?: {
         type: string;
         url: string;
+        queueName: string;
         useListener?: boolean;
+        maxRetries?: number;
+        retryInterval?: number;
     }
 }

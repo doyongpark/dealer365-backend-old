@@ -37,7 +37,7 @@ export class LeadAsyncService implements ILeadService {
     }
 
     async get(id: string): Promise<LeadDto> {
-        const result = await this.leadRepository.findOne(id);
+        const result = await this.leadRepository.findOne({ _id: await this.leadRepository.toObjectId(id) });
         return result;
     }
 

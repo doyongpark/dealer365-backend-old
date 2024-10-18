@@ -29,8 +29,10 @@ import { JobCrmService } from './job-crm.service';
   MessageBrokerModule.forRoot({
     type: process.env.MESSAGE_BROKER_TYPE,
     url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
-    useListener: process.env.MESSAGE_BROKER_USE_LISTENER === 'true',
     queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
+    useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
+    maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES || '10'),
+    retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL || '10000'),
   })],
   controllers: [],
   providers: [JobCrmService],

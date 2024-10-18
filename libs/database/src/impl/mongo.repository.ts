@@ -11,6 +11,10 @@ export class IMongoRepository<T> extends IRepository<T> {
     return Promise.resolve(new Types.ObjectId().toString());
   }
 
+  async toObjectId(id: string): Promise<Types.ObjectId> {
+    return new Types.ObjectId(id);
+  }
+
   async count(query: any, limit?: number): Promise<number> {
     return this.model.countDocuments(query, { limit });
   }

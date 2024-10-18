@@ -56,6 +56,9 @@ const servies = [ApiLeadService]
         type: process.env.MESSAGE_BROKER_TYPE,
         url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
         useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
+        queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
+        maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES || '10'),
+        retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL || '10000'),
       },
     })
   ],

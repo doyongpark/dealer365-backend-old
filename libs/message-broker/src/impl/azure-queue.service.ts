@@ -1,42 +1,76 @@
-// azure-queue.service.ts
-import { ServiceBusClient, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
+import { ServiceBusClient, ServiceBusReceiver, ServiceBusSender, ServiceBusReceivedMessage } from '@azure/service-bus';
 import { Injectable, Logger } from '@nestjs/common';
 import { MessageBrokerModuleOptions } from '../message-broker.module-config';
 import { IBrokerService } from '../message-broker.service.interface';
 
 @Injectable()
 export class AzureBrokerService implements IBrokerService {
-  private readonly client: ServiceBusClient;
-  private readonly sender: ServiceBusSender;
-  private readonly receiver: ServiceBusReceiver;
+  private client: ServiceBusClient;
+  private sender: ServiceBusSender;
+  private receiver: ServiceBusReceiver;
+  private readonly maxRetries: number;
+  private readonly retryInterval: number;
 
   constructor(private readonly options: MessageBrokerModuleOptions) {
+    this.maxRetries = options.maxRetries ?? 5;
+    this.retryInterval = options.retryInterval ?? 5000; // Default to 5 seconds
+    this.initializeServiceBus();
+  }
 
-    if (options.url) {
-      this.client = new ServiceBusClient(options.url);
-      this.sender = this.client.createSender(options.queueName);
+  private async initializeServiceBus() {
+    let retries = 0;
+    while (retries < this.maxRetries) {
+      try {
+        if (this.options.url) {
+          this.client = new ServiceBusClient(this.options.url);
+          this.sender = this.client.createSender(this.options.queueName);
 
-      if (options.useListener) {
-        this.receiver = this.client.createReceiver(options.queueName);
-      } 
+          if (this.options.useListener) {
+            this.receiver = this.client.createReceiver(this.options.queueName);
+          }
+          Logger.debug('Connected to Azure Service Bus');
+          break;
+        }
+      } catch (error) {
+        retries++;
+        Logger.error(`Failed to connect to Azure Service Bus. Retry ${retries}/${this.maxRetries}`, error);
+        await this.delay(this.retryInterval);
+      }
+    }
+
+    if (retries === this.maxRetries) {
+      Logger.error('Max retries reached. Could not connect to Azure Service Bus.');
     }
   }
+
+  private async delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async closeReceiver(): Promise<void> {
     await this.receiver?.close();
   }
+
   async closeClient(): Promise<void> {
     await this.client.close();
   }
-  async receiveMessage(handler: (message: any) => void): Promise<void> {
+
+  async receiveMessage(handler: (message: any) => boolean): Promise<void> {
     if (this.options.useListener) {
-      // Logger.debug(`Receiving messages from Azure Service Bus queue: ${this.options.queueName}`);
       this.receiver.subscribe({
-        processMessage: async (message) => {
-          // Logger.debug(`Received message: ${JSON.stringify(message.body)}`);
-          handler(message.body);
+        processMessage: async (message: ServiceBusReceivedMessage) => {
+          try {
+            await handler(message.body);
+            await this.receiver.completeMessage(message);
+          } catch (handlerError) {
+            Logger.error('Handler processing failed', handlerError);
+            await this.receiver.abandonMessage(message);
+          }
         },
         processError: async (err) => {
-          Logger.debug(`Error receiving message: ${err}`);
+          Logger.error('Error receiving message: ', err);
+          // Retry logic if the receiver encounters an error
+          await this.initializeServiceBus();
         },
       });
     }

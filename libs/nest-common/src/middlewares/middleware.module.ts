@@ -1,6 +1,6 @@
 // middleware.module.ts
 import { DynamicModule, MiddlewareConsumer, Module, NestModule, Provider, RequestMethod } from '@nestjs/common';
-import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware, UserContextService } from './impl';
+import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware, RequestContextService } from './impl';
 import { MiddlewareModuleOptions } from './middleware-config.interface';
 import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './middleware.module-definition';
 
@@ -8,7 +8,7 @@ import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './middleware.modu
 export class MiddlewareModule extends ConfigurableModuleClass implements NestModule {
   static forRoot(options: MiddlewareModuleOptions): DynamicModule {
     const providers: Provider[] = [
-      UserContextService,
+      RequestContextService,
       {
         provide: MODULE_OPTIONS_TOKEN,
         useValue: options,
@@ -18,7 +18,7 @@ export class MiddlewareModule extends ConfigurableModuleClass implements NestMod
     const module: DynamicModule = {
       module: MiddlewareModule,
       providers: providers,
-      exports: [UserContextService],
+      exports: [RequestContextService],
     };
 
     (module as any).configure = (consumer: MiddlewareConsumer) => {

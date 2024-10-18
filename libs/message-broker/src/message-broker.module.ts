@@ -1,4 +1,3 @@
-import { ServiceBusClient } from '@azure/service-bus';
 import { BullModule, getQueueToken } from '@nestjs/bull';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';

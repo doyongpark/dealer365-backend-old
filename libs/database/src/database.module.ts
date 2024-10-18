@@ -3,8 +3,6 @@ import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as mongoose from 'mongoose';
 import { IMongoRepository } from './mongo.repository';
-import { IPostgresRepository } from './postres.repository';
-import { IRepository } from './repository.interface';
 
 interface DatabaseModuleOptions {
   type: string;
@@ -33,7 +31,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
       options.models.forEach(model => {
         imports.push(MongooseModule.forFeature([{ name: model.name, schema: model.schema }]));
         providers.push({
-          provide: IRepository,
+          provide: `${model.name}Repository`,
           useFactory: (model) => new IMongoRepository(model),
           inject: [getModelToken(model.name)],
         });
@@ -47,11 +45,9 @@ export class DatabaseModule extends ConfigurableModuleClass {
         logging: true, // TypeORM 쿼리 로깅 활성화
       }));
       options.entities.forEach(entity => {
-        imports.push(TypeOrmModule.forFeature([entity]));
         providers.push({
-          provide: IRepository,
-          useClass: IPostgresRepository,
-          inject: [entity],
+          provide: `${entity.name}Repository`,
+          //useClass: TypeOrmRepository, // TypeOrmRepository는 TypeORM을 사용하는 리포지토리 클래스입니다.
         });
       });
     }
@@ -60,7 +56,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
       module: DatabaseModule,
       imports: imports,
       providers: providers,
-      exports: [IRepository],
+      exports: providers,
     };
   }
 }

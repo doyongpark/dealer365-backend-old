@@ -22,7 +22,7 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processMessage(message: ServiceBusReceivedMessage) {
-    Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`);
+    Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message)}`);
     // Add your message processing logic here
     const result = await this.repository.findAll();
     Logger.debug(`Result from repository: ${JSON.stringify(result)}`);

@@ -29,6 +29,7 @@ export class LeadServiceModule {
           url: options.databaseOptions.url,
           models: [
             { name: 'Lead', schema: LeadSchema },
+            { name: 'Lead2', schema: LeadSchema },
           ]
         }),
         ...(options.useBroker ? [MessageBrokerModule.forRoot({ ...options.brokerOptions, queueName: 'crm-queue' })] : []),

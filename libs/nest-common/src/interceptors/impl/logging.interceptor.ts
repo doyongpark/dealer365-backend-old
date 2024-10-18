@@ -1,5 +1,5 @@
 // logging.interceptor.ts
-import { UserContextService } from '@dealer365-backend/nest-common/middlewares/impl';
+import { RequestContextService } from '@dealer365-backend/nest-common/middlewares/impl';
 import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     Logger.debug(this.constructor.name);
 
-    const userContext = UserContextService.get();
+    const userContext = RequestContextService.getUserContext();
     const executionTime = new Date();
     const request = context.switchToHttp().getRequest();   
     const controllerName = context.getClass().name;

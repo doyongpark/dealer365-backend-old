@@ -14,7 +14,7 @@ export class LeadSyncService implements ILeadService {
     }
 
     async search(filter?: any): Promise<LeadDto[]> {
-        return await this.leadRepository.findAll();
+        return await this.leadRepository.find({});
     }
 
     async get(id: string): Promise<LeadDto> {
@@ -23,8 +23,9 @@ export class LeadSyncService implements ILeadService {
     }
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.update(id, dto);
-        return result;
+        const result = await this.leadRepository.update({ _id: id }, dto);
+
+        return { _id: id } as LeadDto;
     }
 
     async delete(id: string): Promise<void> {

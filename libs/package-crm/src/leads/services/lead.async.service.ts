@@ -14,7 +14,7 @@ export class LeadAsyncService implements ILeadService {
     ) { }
 
     async create(dto: CreateLeadDto): Promise<LeadDto> {
-        const objectId = this.leadRepository.newId();
+        const objectId = await this.leadRepository.newId();
 
         const request = RequestContextService.getRequestIds();
 
@@ -33,7 +33,7 @@ export class LeadAsyncService implements ILeadService {
     }
 
     async search(filter?: any): Promise<LeadDto[]> {
-        return await this.leadRepository.findAll();
+        return await this.leadRepository.find({});
     }
 
     async get(id: string): Promise<LeadDto> {

@@ -1,4 +1,5 @@
-export abstract class IRepository<T> {
+export abstract class ITempRepository<T> {
+
   abstract newId(): Promise<string>;
 
   abstract count(query: any, limit?: number): Promise<number>;
@@ -7,10 +8,10 @@ export abstract class IRepository<T> {
   abstract findOne(query: any, options?: any): Promise<T>;
 
   abstract create(data: any, options?: any): Promise<T>;
-  abstract createMany(data: any[], ordered: boolean): Promise<{ acknowledged: boolean; insertedCount: number; insertedIds: string[] }>;
+  abstract createMany(data: any[], ordered?: boolean): Promise<{ acknowledged: boolean; insertedCount: number; insertedIds: string[] }>;
 
   abstract update(query: any, updateQuery: any): Promise<{ matched: number; modified: number; }>;
-  abstract updateOne(query: any, updateQuery: any, option: any): Promise<{ matched: number; modified: number; }>;
+  abstract updateOne(query: any, updateQuery: any, option?: any): Promise<{ matched: number; modified: number; }>;
 
   abstract delete(query: any): Promise<{ acknowledged: boolean; deletedCount: number; }>;
 

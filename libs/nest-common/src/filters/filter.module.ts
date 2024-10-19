@@ -1,10 +1,8 @@
 // filter.module.ts
-import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
+import { SENTRY_OPTION } from './constatns';
 import { HttpExceptionFilter, SentryExceptionFilter, SentryOptions } from './impl';
-
-import { SENTRY_OPTION } from '@dealer365-backend/shared';
-import { ConfigurableModuleBuilder } from '@nestjs/common';
 
 export interface FilterModuleOptions {
   useSentryExceptionFilter?: boolean;

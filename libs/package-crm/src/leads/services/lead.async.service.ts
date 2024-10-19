@@ -1,7 +1,7 @@
-import { IRepository } from '@dealer365-backend/database';
+import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
 import { RequestContextService, UserContextService } from '@dealer365-backend/nest-common/middlewares';
-import { CreateLeadDto, EVENT_ACTION, EVENT_TYPE, ILeadService, LEAD_REPOSITORY, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
+import { CreateLeadDto, EVENT_ACTION, EVENT_TYPE, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -64,7 +64,7 @@ export class LeadAsyncService implements ILeadService {
 
         const context = UserContextService.getUserContext();
         const request = RequestContextService.getRequestIds();
-        
+
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,
             messageId: request?.requestId,

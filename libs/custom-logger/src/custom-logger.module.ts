@@ -1,5 +1,5 @@
-import { LOGGER, LOGGER_OPTION } from '@dealer365-backend/shared';
 import { ConsoleLogger, DynamicModule, Global, Module } from '@nestjs/common';
+import { LOGGER, LOGGER_OPTION } from './constants';
 import { CustomLoggerModuleOptions } from './custom-logger.option.interface';
 import { PinoLoggerService } from './impl/pino.logger.service';
 import { WinstonLoggerService } from './impl/winston.logger.service';

@@ -1,9 +1,14 @@
 // shared.module.ts
-import { CustomLoggerModule, CustomLoggerModuleOptions } from '@dealer365-backend/custom-logger';
+import { CustomLoggerModule } from '@dealer365-backend/custom-logger';
 import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
 
 interface SharedModuleOptions {
-  loggerOptions?: CustomLoggerModuleOptions;
+  loggerOptions?: {
+    provider?: string;
+    level?: string;
+    format?: string;
+    logType?: string;
+  };
 }
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<SharedModuleOptions>()

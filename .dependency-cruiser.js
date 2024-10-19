@@ -148,7 +148,7 @@ module.exports = {
         'section of your package.json. If this module is development only - add it to the ' +
         'from.pathNot re of the not-to-dev-dep rule in the dependency-cruiser configuration',
       from: {
-        path: '^(apps\\api-crm)',
+        path: '^(apps/api-crm)',
         pathNot: '[.](?:spec|test)[.](?:js|mjs|cjs|jsx|ts|mts|cts|tsx)$'
       },
       to: {
@@ -377,4 +377,4 @@ module.exports = {
     }
   }
 };
-// generated: dependency-cruiser@16.4.2 on 2024-10-19T03:14:20.092Z
+// generated: dependency-cruiser@16.4.2 on 2024-10-19T14:05:56.092Z

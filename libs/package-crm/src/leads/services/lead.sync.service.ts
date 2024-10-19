@@ -1,5 +1,5 @@
-import { IRepository } from '@dealer365-backend/database';
-import { CreateLeadDto, ILeadService, LEAD_REPOSITORY, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
+import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
+import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,12 +1,12 @@
-import { DatabaseModule, IRepository } from '@dealer365-backend/database';
+import { DatabaseModule, IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
 import { Lead, LeadSchema } from '@dealer365-backend/package-crm/leads/entities';
-import { LEAD_REPOSITORY, SharedModule } from '@dealer365-backend/shared';
+import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JobCrmService } from './job-crm.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CustomLeadRepository } from './custom-lead.repository';
+import { JobCrmService } from './job-crm.service';
 
 @Module({
   imports: [ConfigModule.forRoot({

@@ -29,7 +29,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/dealer365-backend/test/jest-e2e.json",
     "docker:api-crm": "docker build -t dealer365-api-crm -f dockerfile.api-crm .",
-    "docker:job-crm": "docker build -t dealer365-job-crm -f dockerfile.job-crm ."
+    "docker:job-crm": "docker build -t dealer365-job-crm -f dockerfile.job-crm .",
+    "depcruise:setup": "npx dependency-cruiser --init",
+    "depcruise:api-crm": "depcruise --output-type dot apps\\api-crm\\src | dot -T svg > dependency-graph.svg"
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.5",

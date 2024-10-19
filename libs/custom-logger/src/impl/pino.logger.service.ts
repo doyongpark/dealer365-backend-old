@@ -1,19 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as winston from 'winston';
-import { CustomLoggerModuleOptions } from '../custom.logger.module';
+import pino from 'pino';
+import { CustomLoggerModuleOptions } from '../custom-logger.option.interface';
 
 @Injectable()
-export class WinstonLoggerService {
-  private readonly logger: winston.Logger;
+export class PinoLoggerService {
+  private readonly logger: pino.Logger;
 
   constructor(@Inject('LOGGER_OPTIONS') private options: CustomLoggerModuleOptions) {
-    this.logger = winston.createLogger({
+    this.logger = pino({
       level: options.level,
-      format: winston.format[options.format](),
-      transports: [
-        new winston.transports.Console(),
-        // Add other transports based on options.logType
-      ],
+      formatters: {
+        level: (label) => ({ level: label }),
+      },
     });
   }
 
@@ -44,6 +42,6 @@ export class WinstonLoggerService {
   }
 
   verbose(message: string, context?: string) {
-    this.logger.verbose({ context, message });
+    this.logger.trace({ context, message });
   }
 }

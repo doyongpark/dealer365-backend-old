@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
-import { BaseDto } from '../../dtos';
+import { BaseDto } from '../../dtos/shared';
 
 export class LeadDto extends BaseDto {
     @Expose() @ApiPropertyOptional() @IsOptional() @IsString() firstName?: string;

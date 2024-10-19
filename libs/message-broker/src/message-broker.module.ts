@@ -2,16 +2,8 @@ import { BullModule, getQueueToken } from '@nestjs/bull';
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';
 import { AzureBrokerService, BullBrokerService } from './impl';
+import { MessageBrokerModuleOptions } from './message-broker.option.interface';
 import { IBrokerService } from './message-broker.service.interface';
-
-export interface MessageBrokerModuleOptions {
-  type: string;
-  url: string;
-  useListener?: boolean;
-  queueName: string;
-  maxRetries?: number;
-  retryInterval?: number;
-}
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<MessageBrokerModuleOptions>()
   .setClassMethodName('forRoot')

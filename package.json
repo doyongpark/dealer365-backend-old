@@ -109,7 +109,8 @@
       "^@dealer365-backend/package-crm(|/.*)$": "<rootDir>/libs/package-crm/src/$1",
       "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1",
       "^@dealer365-backend/message-broker(|/.*)$": "<rootDir>/libs/message-broker/src/$1",
-      "^@dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1"
+      "^@dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1",
+      "^@dealer365-backend/custom-logger(|/.*)$": "<rootDir>/libs/custom-logger/src/$1"
     }
   }
 }

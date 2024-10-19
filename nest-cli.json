@@ -81,6 +81,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/job-crm/tsconfig.app.json"
       }
+    },
+    "custom-logger": {
+      "type": "library",
+      "root": "libs/custom-logger",
+      "entryFile": "index",
+      "sourceRoot": "libs/custom-logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/custom-logger/tsconfig.lib.json"
+      }
     }
   }
 }

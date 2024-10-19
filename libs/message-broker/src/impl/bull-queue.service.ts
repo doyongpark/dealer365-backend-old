@@ -1,7 +1,7 @@
 // bull-queue.service.ts
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { MessageBrokerModuleOptions } from '../message-broker.module';
+import { MessageBrokerModuleOptions } from '../message-broker.option.interface';
 import { IBrokerMessage, IBrokerService } from '../message-broker.service.interface';
 
 @Injectable()

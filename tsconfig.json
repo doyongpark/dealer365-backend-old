@@ -53,6 +53,12 @@
       ],
       "@dealer365-backend/database/*": [
         "libs/database/src/*"
+      ],
+      "@dealer365-backend/custom-logger": [
+        "libs/custom-logger/src"
+      ],
+      "@dealer365-backend/custom-logger/*": [
+        "libs/custom-logger/src/*"
       ]
     }
   },

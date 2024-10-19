@@ -1,6 +1,6 @@
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { RequestContextService } from '@dealer365-backend/nest-common/middlewares';
+import { RequestContextService, UserContextService } from '@dealer365-backend/nest-common/middlewares';
 import { CreateLeadDto, EVENT_ACTION, EVENT_TYPE, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 
@@ -14,9 +14,10 @@ export class LeadAsyncService implements ILeadService {
     async create(dto: CreateLeadDto): Promise<LeadDto> {
         const objectId = await this.leadRepository.newId();
 
+        const context = UserContextService.getUserContext();
         const request = RequestContextService.getRequestIds();
 
-        this.leadBrokerService.sendMessage({
+        const msg = {
             correlationId: request?.correlationId,
             messageId: request?.requestId,
             body: {
@@ -25,7 +26,8 @@ export class LeadAsyncService implements ILeadService {
                 id: objectId,
                 data: dto,
             },
-        });
+        };
+        this.leadBrokerService.sendMessage(msg);
 
         return { _id: objectId } as LeadDto;
     }
@@ -40,6 +42,8 @@ export class LeadAsyncService implements ILeadService {
     }
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
+
+        const context = UserContextService.getUserContext();
         const request = RequestContextService.getRequestIds();
 
         this.leadBrokerService.sendMessage({
@@ -58,8 +62,9 @@ export class LeadAsyncService implements ILeadService {
 
     async delete(id: string): Promise<void> {
 
+        const context = UserContextService.getUserContext();
         const request = RequestContextService.getRequestIds();
-
+        
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,
             messageId: request?.requestId,

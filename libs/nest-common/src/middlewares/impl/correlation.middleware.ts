@@ -1,4 +1,4 @@
-import { HttpHeaderKeysEnum, REQUEST_CONTEXT } from '@dealer365-backend/shared';
+import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +12,7 @@ export class CorrelationIdMiddleware implements NestMiddleware {
     const request_id_key = HttpHeaderKeysEnum.REQUEST_ID;
     //always use lowcase when read header.
     let requestId = req.headers[request_id_key.toLowerCase()] || uuidv4();
-    
+
     if (!req.headers[request_id_key.toLowerCase()]) {
       req.headers[request_id_key.toLowerCase()] = requestId;
     }
@@ -24,16 +24,16 @@ export class CorrelationIdMiddleware implements NestMiddleware {
     const correlation_id_key = HttpHeaderKeysEnum.CORRELATION_ID;
     //always use lowcase when read header.
     let correlationId = req.headers[correlation_id_key.toLowerCase()] || uuidv4();
-    
+
     if (!req.headers[correlation_id_key.toLowerCase()]) {
       req.headers[correlation_id_key.toLowerCase()] = correlationId;
     }
     if (!res.getHeader(correlation_id_key.toLowerCase())) {
       res.setHeader(correlation_id_key, correlationId);
     }
-
-    RequestContextService.run();
-    RequestContextService.set(REQUEST_CONTEXT, req);
-    next();
+    RequestContextService.run(() => {
+      RequestContextService.set(req);
+      next();
+    });
   }
 }

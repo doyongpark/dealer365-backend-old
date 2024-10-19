@@ -1,9 +1,9 @@
-import { HttpHeaderKeysEnum, REQUEST_CONTEXT } from "@dealer365-backend/shared";
+import { USER_CONTEXT } from "@dealer365-backend/shared";
 import { Injectable, Scope } from "@nestjs/common";
 import { AsyncLocalStorage } from "async_hooks";
 
 @Injectable({ scope: Scope.REQUEST })
-export class RequestContextService {
+export class UserContextService {
   private static asyncLocalStorage = new AsyncLocalStorage<Map<string, any>>();
 
   // Run method to initialize a new context for each request
@@ -16,7 +16,7 @@ export class RequestContextService {
   static set(value: any) {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      store.set(REQUEST_CONTEXT, value);
+      store.set(USER_CONTEXT, value);
     }
   }
 
@@ -24,20 +24,16 @@ export class RequestContextService {
   static get<T>(): T | undefined {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      return store.get(REQUEST_CONTEXT);
+      return store.get(USER_CONTEXT);
     }
     return undefined;
   }
 
-  static getRequestIds(): { correlationId: string, requestId: string } | undefined {
+  static getUserContext<T>(): T | undefined {
     const store = this.asyncLocalStorage.getStore();
     if (store) {
-      const request = store.get(REQUEST_CONTEXT) as Request;
-      return {
-        correlationId: request.headers[HttpHeaderKeysEnum.CORRELATION_ID.toLowerCase()]?.toString(),
-        requestId: request.headers[HttpHeaderKeysEnum.REQUEST_ID.toLowerCase()]?.toString()
-      }
-    };
+      return store.get(USER_CONTEXT) as T;
+    }
     return undefined;
   }
 

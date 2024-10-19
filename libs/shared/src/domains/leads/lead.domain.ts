@@ -3,7 +3,7 @@ import { SystemSourceEnum } from "../../constants";
 import { IMayHaveUpdater, IMustHaveCreator, IMustHaveId, IMustHaveSystemSourceEnum } from "../shared";
 
 export class Lead implements IMustHaveId, IMustHaveSystemSourceEnum, IMustHaveCreator, IMayHaveUpdater {
-  @Expose() id: string;
+  @Expose() _id: string;
   @Expose() systemSourceEnum: SystemSourceEnum = SystemSourceEnum.Dealer365;
   @Expose() firstName?: string;
   @Expose() lastName: string;

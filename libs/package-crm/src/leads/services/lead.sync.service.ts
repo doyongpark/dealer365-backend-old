@@ -25,7 +25,7 @@ export class LeadSyncService implements ILeadService {
     async update(id: string, data: Partial<Lead>): Promise<Lead> {
         const result = await this.leadRepository.updateOne({ _id: id }, data, {});
 
-        return { id: id } as Lead;
+        return { _id: id } as Lead;
     }
 
     async delete(id: string): Promise<void> {

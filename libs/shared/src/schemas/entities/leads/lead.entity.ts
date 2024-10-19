@@ -5,7 +5,7 @@ import { Lead } from '../../../domains';
 
 @Entity()
 export class LeadEntity implements Lead {
-  @PrimaryGeneratedColumn('uuid') id: string;
+  @PrimaryGeneratedColumn('uuid') _id: string;
   @Column() systemSourceEnum: SystemSourceEnum = SystemSourceEnum.Dealer365;
   @Column() firstName?: string;
   @Column() lastName: string;

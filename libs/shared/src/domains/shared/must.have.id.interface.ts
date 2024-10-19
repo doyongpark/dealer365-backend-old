@@ -1,3 +1,3 @@
 export interface IMustHaveId {
-  id: string;
+  _id: string;
 }

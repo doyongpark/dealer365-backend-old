@@ -33,7 +33,7 @@ export class LeadAsyncService implements ILeadService {
         };
         this.leadBrokerService.sendMessage(msg);
 
-        return { id: objectId } as Lead;
+        return { _id: objectId } as Lead;
     }
 
     async search(filter?: any): Promise<Lead[]> {
@@ -63,7 +63,7 @@ export class LeadAsyncService implements ILeadService {
             },
         });
 
-        return { id: id } as Lead;
+        return { _id: id } as Lead;
     }
 
     async delete(id: string): Promise<void> {

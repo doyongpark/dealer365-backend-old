@@ -26,10 +26,10 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
     Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`);
     // Add your message processing logic here
 
-    const dto = plainToClass(Lead, message.body.data);
-    dto.id = message.body.id;
+    const lead = plainToClass(Lead, message.body.data);
+    lead._id = message.body.id;
 
-    const result = await this.leadRepository.createOne(dto);
+    const result = await this.leadRepository.createOne(lead);
     Logger.debug(`Result from repository: ${JSON.stringify(result)}`);
   }
 }

@@ -42,6 +42,9 @@ const servies = [ApiLeadService]
           realm: process.env.KEYCLOAK_REALM,
           authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
         },
+      },
+      middlewareOptions: {
+        useMethodOverrideMiddleware: process.env.USE_METHOD_OVERRIDE_MIDDLEWARE === 'true',
       }
     }),
     PackageCrmModule.forRoot({

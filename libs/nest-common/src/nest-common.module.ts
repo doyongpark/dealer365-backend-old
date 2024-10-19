@@ -3,13 +3,13 @@ import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common
 import { FilterModule, FilterModuleOptions } from './filters';
 import { GuardModule, GuardModuleOptions } from './guards';
 import { InterceptorModule, InterceptorModuleOptions } from './interceptors';
-import { MiddlewareModule } from './middlewares';
+import { MiddlewareModule, MiddlewareModuleOptions } from './middlewares';
 
 interface NestCommonModuleOptions {
     exceptionFilterOptions?: FilterModuleOptions;
     interceptorOptions?: InterceptorModuleOptions;
     guardOptions?: GuardModuleOptions;
-    //middlewareOptions?: MiddlewareModuleOptions;
+    middlewareOptions?: MiddlewareModuleOptions;
 }
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<NestCommonModuleOptions>()
     .setClassMethodName('forRoot')
@@ -24,7 +24,7 @@ export class NestCommonModule extends ConfigurableModuleClass {
         FilterModule.forRoot(options.exceptionFilterOptions),
         InterceptorModule.forRoot(options.interceptorOptions),
         GuardModule.forRoot(options.guardOptions),
-        MiddlewareModule.forRoot({enableLogging: true}),
+        MiddlewareModule.forRoot(options.middlewareOptions),
       ],
       providers: [
         {

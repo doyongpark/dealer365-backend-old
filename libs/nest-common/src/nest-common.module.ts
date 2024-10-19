@@ -1,11 +1,19 @@
 // nest-common.module.ts
-import { DynamicModule, Module } from '@nestjs/common';
-import { FilterModule } from './filters';
-import { GuardModule } from './guards';
-import { InterceptorModule } from './interceptors';
-import { MiddlewareModule } from './middlewares';
-import { NestCommonModuleOptions } from './nest-common-config.interface';
-import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './nest-common.module-definition';
+import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
+import { FilterModule, FilterModuleOptions } from './filters';
+import { GuardModule, GuardModuleOptions } from './guards';
+import { InterceptorModule, InterceptorModuleOptions } from './interceptors';
+import { MiddlewareModule, MiddlewareModuleOptions } from './middlewares';
+
+interface NestCommonModuleOptions {
+    exceptionFilterOptions?: FilterModuleOptions;
+    interceptorOptions?: InterceptorModuleOptions;
+    guardOptions?: GuardModuleOptions;
+    middlewareOptions?: MiddlewareModuleOptions;
+}
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<NestCommonModuleOptions>()
+    .setClassMethodName('forRoot')
+    .build();
 
 @Module({})
 export class NestCommonModule extends ConfigurableModuleClass {

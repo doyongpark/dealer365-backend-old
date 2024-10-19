@@ -1,7 +1,14 @@
 import { ConsoleLogger, DynamicModule, Global, Module } from '@nestjs/common';
-import { CustomLoggerModuleOptions } from './custom-logger-config.interface';
 import { PinoLoggerService } from './impl/pino.logger.service';
 import { WinstonLoggerService } from './impl/winston.logger.service';
+
+// custom-logger-config.interface.ts
+export interface CustomLoggerModuleOptions {
+  provider?: string;
+  level?: string;
+  format?: string;
+  logType?: string;
+}
 
 @Global()
 @Module({})

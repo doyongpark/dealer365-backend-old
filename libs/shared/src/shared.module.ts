@@ -1,8 +1,14 @@
 // shared.module.ts
-import { DynamicModule, Module } from '@nestjs/common';
-import { CustomLoggerModule } from './loggers';
-import { MODULE_OPTIONS_TOKEN } from './shared-module-definition';
-import { SharedModuleOptions } from './shared-module-options.interface';
+import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
+import { CustomLoggerModule, CustomLoggerModuleOptions } from './loggers';
+
+interface SharedModuleOptions {
+  loggerOptions?: CustomLoggerModuleOptions;
+}
+
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<SharedModuleOptions>()
+  .setClassMethodName('forRoot')
+  .build();
 
 @Module({})
 export class SharedModule {

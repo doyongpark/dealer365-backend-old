@@ -1,6 +1,6 @@
-import { ServiceBusClient, ServiceBusReceiver, ServiceBusSender, ServiceBusReceivedMessage } from '@azure/service-bus';
+import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
 import { Injectable, Logger } from '@nestjs/common';
-import { MessageBrokerModuleOptions } from '../message-broker.module-config';
+import { MessageBrokerModuleOptions } from '../message-broker.module';
 import { IBrokerService } from '../message-broker.service.interface';
 
 @Injectable()
@@ -60,8 +60,11 @@ export class AzureBrokerService implements IBrokerService {
       this.receiver.subscribe({
         processMessage: async (message: ServiceBusReceivedMessage) => {
           try {
-            await handler(message.body);
-            await this.receiver.completeMessage(message);
+            const result = await handler(message.body);
+            if (result)
+              await this.receiver.completeMessage(message);
+            else
+              await this.receiver.abandonMessage(message);
           } catch (handlerError) {
             Logger.error('Handler processing failed', handlerError);
             await this.receiver.abandonMessage(message);

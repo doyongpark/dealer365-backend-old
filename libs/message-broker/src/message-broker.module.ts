@@ -1,10 +1,21 @@
 import { BullModule, getQueueToken } from '@nestjs/bull';
-import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';
 import { AzureBrokerService, BullBrokerService } from './impl';
-import { MessageBrokerModuleOptions } from './message-broker.module-config';
-import { ConfigurableModuleClass } from './message-broker.module-definition';
 import { IBrokerService } from './message-broker.service.interface';
+
+export interface MessageBrokerModuleOptions {
+  type: string;
+  url: string;
+  useListener?: boolean;
+  queueName: string;
+  maxRetries?: number;
+  retryInterval?: number;
+}
+
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<MessageBrokerModuleOptions>()
+  .setClassMethodName('forRoot')
+  .build();
 
 @Module({})
 export class MessageBrokerModule extends ConfigurableModuleClass {
@@ -28,7 +39,7 @@ export class MessageBrokerModule extends ConfigurableModuleClass {
         providers.push({
           provide: IBrokerService,
           useFactory: (queue: Queue) => {
-            return new BullBrokerService(queue);
+            return new BullBrokerService(options, queue);
           },
           inject: [getQueueToken(options.queueName)],
         });

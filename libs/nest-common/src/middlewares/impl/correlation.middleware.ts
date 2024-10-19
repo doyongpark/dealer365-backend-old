@@ -2,7 +2,7 @@ import { HttpHeaderKeysEnum, REQUEST_CONTEXT } from '@dealer365-backend/shared';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestContextService } from './request-context.service';
+import { RequestContextService } from '../request-context.service';
 
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {

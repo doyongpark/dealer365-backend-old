@@ -1,5 +1,4 @@
-// logging.interceptor.ts
-import { RequestContextService } from '@dealer365-backend/nest-common/middlewares/impl';
+import { RequestContextService } from '@dealer365-backend/nest-common/middlewares';
 import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';

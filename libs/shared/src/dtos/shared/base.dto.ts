@@ -1,6 +1,6 @@
-import { SystemSourceEnum } from "@dealer365-backend/shared";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
+import { SystemSourceEnum } from "../../constants";
 import { BsaeIdDto } from "./base.id.dto";
 
 export class BaseDto extends BsaeIdDto {

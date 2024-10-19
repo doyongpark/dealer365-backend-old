@@ -1,5 +1,4 @@
-
-import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/package-crm';
+import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

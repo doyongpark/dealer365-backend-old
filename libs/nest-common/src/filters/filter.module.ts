@@ -1,9 +1,18 @@
 // filter.module.ts
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { FilterModuleOptions } from './filter-config.interface';
-import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './filter.module-definition';
-import { HttpExceptionFilter, SentryExceptionFilter } from './impl';
+import { HttpExceptionFilter, SentryExceptionFilter, SentryOptions } from './impl';
+
+import { ConfigurableModuleBuilder } from '@nestjs/common';
+
+export interface FilterModuleOptions {
+  useSentryExceptionFilter?: boolean;
+  sentryOptions?: SentryOptions;
+}
+
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<FilterModuleOptions>()
+  .setClassMethodName('forRoot')
+  .build();
 
 @Module({})
 export class FilterModule extends ConfigurableModuleClass {

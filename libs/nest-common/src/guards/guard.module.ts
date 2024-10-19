@@ -1,10 +1,19 @@
 // guard.module.ts
-import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { GuardModuleOptions } from './guard-config.interface';
-import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './guard.module-definition';
 import { KeycloakAuthGuard } from './impl/keycloak-auth.guard';
+import { KeycloakOptions } from "./impl/keycloak-options.interface";
 import { KeycloakResourceGuard } from './impl/keycloak-resource.guard';
+
+
+export interface GuardModuleOptions {
+  useKeycloakGuards?: boolean;
+  keycloakOptions?: KeycloakOptions; // Optional, only required if useKeycloakGuards is true
+}
+
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<GuardModuleOptions>()
+    .setClassMethodName('forRoot')
+    .build();
 
 @Module({})
 export class GuardModule extends ConfigurableModuleClass {

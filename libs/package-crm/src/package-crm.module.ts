@@ -1,15 +1,17 @@
 // filter.module.ts
-import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { DynamicModule, Module } from '@nestjs/common';
+import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
 import { AccountServiceModule } from './accounts';
 import { CheckInServiceModule } from './check-ins';
 import { DealServiceModule } from './deals';
 import { DeliveryServiceModule } from './deliveries';
 import { LeadServiceModule } from './leads';
-import { PackageCrmModuleOptions } from './package-crm-config.interface';
-import { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } from './package-crm.module-definition';
+import { PackageCrmModuleOptions } from './package-crm-options.interface';
 import { QuoteServiceModule } from './quotes';
 import { TaskServiceModule } from './tasks';
+
+const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<PackageCrmModuleOptions>()
+  .setClassMethodName('forRoot')
+  .build();
 
 @Module({})
 export class PackageCrmModule extends ConfigurableModuleClass {

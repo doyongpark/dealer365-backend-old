@@ -1,7 +1,7 @@
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { jwtDecode } from "jwt-decode";
-import { RequestContextService } from './request-context.service';
+import { RequestContextService } from '../request-context.service';
 import { USER_CONTEXT } from '@dealer365-backend/shared';
 
 @Injectable()

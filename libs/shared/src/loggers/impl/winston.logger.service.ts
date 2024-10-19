@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as winston from 'winston';
-import { CustomLoggerModuleOptions } from '../custom-logger-config.interface';
+import { CustomLoggerModuleOptions } from '../custom.logger.module';
 
 @Injectable()
 export class WinstonLoggerService {

@@ -1,4 +1,4 @@
-import { CreateLeadDto, LeadDto, UpdateLeadDto } from '@dealer365-backend/package-crm';
+import { CreateLeadDto, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiLeadService } from './api-lead.service';

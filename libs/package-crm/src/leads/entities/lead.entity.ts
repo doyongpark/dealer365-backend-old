@@ -1,15 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+/**
+ * Represents a lead entity in the CRM system.
+ * 
+ * @deprecated Must remove mongoose dependency
+ * 
+ * @extends Document
+ */
 @Schema()
+/**@deprecaetd */
 export class Lead extends Document {
-  @Prop({ required: true })
+  @Prop()
   firstName: string;
 
-  @Prop({ required: true })
+  @Prop()
   lastName: string;
 
-  @Prop({ required: true })
+  @Prop()
   fullName: string;
 
   @Prop()

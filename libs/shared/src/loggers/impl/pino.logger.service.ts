@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import pino from 'pino';
-import { CustomLoggerModuleOptions } from '../custom-logger-config.interface';
+import { CustomLoggerModuleOptions } from '../custom.logger.module';
 
 @Injectable()
 export class PinoLoggerService {

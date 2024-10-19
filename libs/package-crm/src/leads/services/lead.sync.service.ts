@@ -1,7 +1,6 @@
 import { IRepository } from '@dealer365-backend/database';
+import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateLeadDto, LeadDto, UpdateLeadDto } from '../dtos';
-import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadSyncService implements ILeadService {

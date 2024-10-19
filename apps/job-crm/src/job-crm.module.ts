@@ -1,6 +1,6 @@
 import { DatabaseModule } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { LeadSchema } from '@dealer365-backend/package-crm';
+import { Lead, LeadSchema } from '@dealer365-backend/package-crm/leads/entities';
 import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -23,7 +23,7 @@ import { JobCrmService } from './job-crm.service';
     type: process.env.DATABASE_TYPE,
     url: process.env.DATABASE_URL,
     models: [
-      { name: 'Lead', schema: LeadSchema },
+      { name: Lead.name, schema: LeadSchema },
     ]
   }),
   MessageBrokerModule.forRoot({

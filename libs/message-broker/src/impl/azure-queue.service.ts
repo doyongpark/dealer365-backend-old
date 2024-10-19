@@ -60,11 +60,8 @@ export class AzureBrokerService implements IBrokerService {
       this.receiver.subscribe({
         processMessage: async (message: ServiceBusReceivedMessage) => {
           try {
-            const result = await handler(message.body);
-            if (result)
-              await this.receiver.completeMessage(message);
-            else
-              await this.receiver.abandonMessage(message);
+            await handler(message.body);
+            await this.receiver.completeMessage(message);
           } catch (handlerError) {
             Logger.error('Handler processing failed', handlerError);
             await this.receiver.abandonMessage(message);

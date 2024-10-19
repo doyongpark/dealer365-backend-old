@@ -1,3 +1,4 @@
+import { KEYCLOAK_OPTION } from '@dealer365-backend/shared';
 import { CanActivate, ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as KeycloakConnect from 'keycloak-connect';
@@ -8,7 +9,7 @@ export class KeycloakAuthGuard implements CanActivate {
   private keycloak: KeycloakConnect.Keycloak;
 
   constructor(
-    @Inject('KEYCLOAK_OPTIONS') private readonly options: KeycloakOptions,
+    @Inject(KEYCLOAK_OPTION) private readonly options: KeycloakOptions,
     private readonly reflector: Reflector,
   ) {
     const keycloakConfig: KeycloakConnect.KeycloakConfig = {

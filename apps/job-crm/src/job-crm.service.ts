@@ -1,7 +1,7 @@
 import { ServiceBusReceivedMessage } from '@azure/service-bus';
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { LeadDto } from '@dealer365-backend/shared';
+import { LeadDto, LEAD_REPOSITORY } from '@dealer365-backend/shared';
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
@@ -10,7 +10,7 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly brokerService: IBrokerService,
-    @Inject('LeadRepository') private readonly leadRepository: IRepository<LeadDto>
+    @Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<LeadDto>
   ) { }
 
   async onModuleInit() {

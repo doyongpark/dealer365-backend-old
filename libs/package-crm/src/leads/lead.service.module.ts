@@ -1,6 +1,6 @@
 import { DatabaseModule, IRepository } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { CRM_SERVICE_OPTIONS, ILeadService } from '@dealer365-backend/shared';
+import { CRM_SERVICE_OPTION, ILeadService, LEAD_REPOSITORY } from '@dealer365-backend/shared';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { PackageCrmModuleOptions } from '../package-crm-options.interface';
 import { Lead, LeadSchema } from './entities';
@@ -13,7 +13,7 @@ export class LeadServiceModule {
   static forRoot(options: PackageCrmModuleOptions): DynamicModule {
     const providers: Provider[] = [
       {
-        provide: CRM_SERVICE_OPTIONS,
+        provide: CRM_SERVICE_OPTION,
         useValue: options,
       },
       {
@@ -33,16 +33,16 @@ export class LeadServiceModule {
           ]
         }),
         ...(options.useBroker ? [MessageBrokerModule.forRoot(options.brokerOptions)] : []),
-        MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),  // Mongoose 모델 재사용
+        MongooseModule.forFeature([{ name: Lead.name, schema: LeadSchema }]),  // Mongoose 모델 재사용
       ],
       providers: [...providers,
         {
-          provide: 'LeadRepository',  // 기존 'LeadRepository' 토큰 오버라이드
+          provide: LEAD_REPOSITORY,  // 기존 LeadRepository 토큰 오버라이드
           useClass: CustomLeadRepository,
         },
         {
-          provide: IRepository,  // IRepository는 오버라이드된 'LeadRepository'를 사용
-          useExisting: 'LeadRepository',
+          provide: IRepository,  // IRepository는 오버라이드된 LeadRepository를 사용
+          useExisting: LEAD_REPOSITORY,
         },
       ],
       exports: [ILeadService],

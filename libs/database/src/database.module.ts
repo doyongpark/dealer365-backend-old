@@ -31,7 +31,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
       options.models.forEach(model => {
         imports.push(MongooseModule.forFeature([{ name: model.name, schema: model.schema }]));
         providers.push({
-          provide: `${model.name}Repository`,
+          provide: `${model.name?.toUpperCase()}_REPOSITORY`,
           useFactory: (model) => new IMongoRepository(model),
           inject: [getModelToken(model.name)],
         });
@@ -46,7 +46,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
       }));
       options.entities.forEach(entity => {
         providers.push({
-          provide: `${entity.name}Repository`,
+          provide: `${entity.name.toUpperCase()}_REPOSITORY`,
           useFactory: (entity) => new IMongoRepository(entity),
           inject: [getModelToken(entity.name)],
         });

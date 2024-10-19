@@ -1,4 +1,5 @@
 // guard.module.ts
+import { SENTRY_OPTION } from '@dealer365-backend/shared';
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { KeycloakAuthGuard } from './impl/keycloak-auth.guard';
@@ -40,7 +41,7 @@ export class GuardModule extends ConfigurableModuleClass {
           useClass: KeycloakResourceGuard,
         },
         {
-          provide: 'KEYCLOAK_OPTIONS',
+          provide: SENTRY_OPTION,
           useValue: options.keycloakOptions,
         },
       );

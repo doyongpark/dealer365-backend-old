@@ -3,6 +3,7 @@ import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter, SentryExceptionFilter, SentryOptions } from './impl';
 
+import { SENTRY_OPTION } from '@dealer365-backend/shared';
 import { ConfigurableModuleBuilder } from '@nestjs/common';
 
 export interface FilterModuleOptions {
@@ -34,7 +35,7 @@ export class FilterModule extends ConfigurableModuleClass {
 
       providers.push(
         {
-          provide: 'SENTRY_OPTIONS',
+          provide: SENTRY_OPTION,
           useValue: options.sentryOptions,
         },
         {

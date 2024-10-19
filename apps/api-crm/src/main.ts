@@ -1,3 +1,4 @@
+import { LOGGER } from '@dealer365-backend/shared';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -9,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(ApiCrmModule);
 
   // Custom Logger 적용
-  const customLogger = app.get('LOGGER');
+  const customLogger = app.get(LOGGER);
   app.useLogger(customLogger);
 
   app.flushLogs();

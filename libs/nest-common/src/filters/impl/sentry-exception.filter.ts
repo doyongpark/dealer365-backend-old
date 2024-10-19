@@ -1,10 +1,11 @@
+import { SENTRY_OPTION } from '@dealer365-backend/shared';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { SentryOptions } from './sentry-option.interface';
 
 @Catch()
 export class SentryExceptionFilter implements ExceptionFilter {
-  constructor(@Inject('SENTRY_OPTIONS') private readonly options: SentryOptions) {
+  constructor(@Inject(SENTRY_OPTION) private readonly options: SentryOptions) {
     Sentry.init({
       dsn: this.options.sentryDsn,
       environment: this.options.environment,

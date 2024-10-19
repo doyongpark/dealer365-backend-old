@@ -37,4 +37,17 @@ export class UserContextService {
     return undefined;
   }
 
+  static getUserInfo(): { userId: string, userName: string } | undefined {
+    const store = this.asyncLocalStorage.getStore();
+    if (store) {
+      const context = store.get(USER_CONTEXT);
+      if (context)
+        return {
+          userId: context.sid, userName: context.name
+        }
+    }
+
+    return undefined;
+  }
+
 }

@@ -1,30 +1,31 @@
 import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
-import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
+import { Lead } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
+import { ILeadService } from '../lead.service.interface';
 
 @Injectable()
 export class LeadSyncService implements ILeadService {
-    constructor(@Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<LeadDto>,
+    constructor(@Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<Lead>,
     ) { }
 
-    async create(dto: CreateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.createOne(dto);
+    async create(data: Partial<Lead>): Promise<Lead> {
+        const result = await this.leadRepository.createOne(data);
         return result;
     }
 
-    async search(filter?: any): Promise<LeadDto[]> {
+    async search(filter?: any): Promise<Lead[]> {
         return await this.leadRepository.find({});
     }
 
-    async get(id: string): Promise<LeadDto> {
+    async get(id: string): Promise<Lead> {
         const result = await this.leadRepository.findById(id);
         return result;
     }
 
-    async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.updateOne({ _id: id }, dto, {});
+    async update(id: string, data: Partial<Lead>): Promise<Lead> {
+        const result = await this.leadRepository.updateOne({ _id: id }, data, {});
 
-        return { _id: id } as LeadDto;
+        return { id: id } as Lead;
     }
 
     async delete(id: string): Promise<void> {

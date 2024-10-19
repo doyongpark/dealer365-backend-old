@@ -1,2 +1,2 @@
-export * from './shared';
 export * from './leads';
+export * from './shared';

@@ -1,4 +1,7 @@
-import { CreateLeadDto, ILeadService, LeadDto, UpdateLeadDto } from '@dealer365-backend/shared';
+
+
+import { ILeadService } from '@dealer365-backend/package-crm/leads';
+import { Lead } from '@dealer365-backend/shared';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -6,17 +9,17 @@ export class ApiLeadService {
   constructor(private readonly leadService: ILeadService) {
 
   }
-  async searchLeads(filter?: any): Promise<LeadDto[]> {
+  async searchLeads(filter?: any): Promise<Lead[]> {
     return await this.leadService.search(filter);
   }
-  async getLead(id: string): Promise<LeadDto> {
+  async getLead(id: string): Promise<Lead> {
     return await this.leadService.get(id);
   }
-  async updateLead(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
-    return await this.leadService.update(id, dto);
+  async updateLead(id: string, data: Partial<Lead>): Promise<Lead> {
+    return await this.leadService.update(id, data);
   }
-  async createLead(dto: CreateLeadDto): Promise<LeadDto> {
-    return await this.leadService.create(dto);
+  async createLead(data: Partial<Lead>): Promise<Lead> {
+    return await this.leadService.create(data);
   }
   async deleteLead(id: string): Promise<void> {
     return await this.leadService.delete(id);

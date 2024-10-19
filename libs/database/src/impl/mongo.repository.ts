@@ -11,7 +11,7 @@ export class MongoRepository<T> implements IRepository<T> {
   }
 
   async toObjectId(id: string): Promise<Types.ObjectId> {
-    return  Promise.resolve(new Types.ObjectId(id));
+    return Promise.resolve(new Types.ObjectId(id));
   }
 
   async count(query: any, limit?: number): Promise<number> {
@@ -24,25 +24,33 @@ export class MongoRepository<T> implements IRepository<T> {
       .limit(options.limit as number)
       .exec();
 
-    return documents.map((doc) => plainToInstance(this.entity, doc.toObject()));
+    return documents.map((doc) => plainToInstance(this.entity, doc.toObject(), { excludeExtraneousValues: true }));
   }
 
   async findById(id: string): Promise<T> {
     const document = await this.model.findById(id).exec();
-    return document ? plainToInstance(this.entity, document.toObject()) : null;
+    return document ? plainToInstance(this.entity, document.toObject(), { excludeExtraneousValues: true }) : null;
   }
 
   async createOne(entity: T, options: any = {}): Promise<T> {
+    if (entity['id']) {
+      entity['_id'] = entity['id']; // Assign _id from id
+    }
     const document = new this.model(plainToInstance(this.model, JSON.parse(JSON.stringify(entity))));
     const saveOptions = options?.writeConcern ? { w: options?.writeConcern } : {};
     const savedDocument = await document.save(saveOptions);
-    return plainToInstance(this.entity, savedDocument.toObject());
+    return plainToInstance(this.entity, savedDocument.toObject(), { excludeExtraneousValues: true });
   }
 
   async createMany(entities: T[], ordered?: boolean): Promise<T[]> {
-    const documents = entities.map(entity => new this.model(plainToInstance(this.model, JSON.parse(JSON.stringify(entity)))));
+    const documents = entities.map(entity => {
+      if (entity['id']) {
+        entity['_id'] = entity['id']; // Assign _id from id
+      }
+      new this.model(plainToInstance(this.model, JSON.parse(JSON.stringify(entity))))
+    });
     const savedDocuments = await this.model.insertMany(documents, { ordered });
-    return savedDocuments.map(doc => plainToInstance(this.entity, doc.toObject()));
+    return savedDocuments.map(doc => plainToInstance(this.entity, doc.toObject(), { excludeExtraneousValues: true }));
   }
 
   async updateOne(query: any, updateQuery: any, option: any = {}): Promise<{ matchedCount: number; modifiedCount: number; }> {
@@ -79,7 +87,7 @@ export class MongoRepository<T> implements IRepository<T> {
 
   async aggregate(pipeline: any[]): Promise<T[]> {
     const documents = await this.model.aggregate(pipeline).exec();
-    return documents.map(doc => plainToInstance(this.entity, doc));
+    return documents.map(doc => plainToInstance(this.entity, doc, { excludeExtraneousValues: true }));
   }
 
   async queryBuilder(builder: (qb: any) => any): Promise<T[]> {

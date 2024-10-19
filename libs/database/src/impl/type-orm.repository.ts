@@ -19,17 +19,17 @@ export class TypeOrmRepository<T> implements IRepository<T> {
 
   async find(): Promise<T[]> {
     const entities = await this.repository.find();
-    return entities.map((entity) => plainToInstance(this.entity, entity));
+    return entities.map((entity) => plainToInstance(this.entity, entity, { excludeExtraneousValues: true }));
   }
 
   async findById(id: string): Promise<T> {
     const entity = await this.repository.findOneBy({ id } as any);
-    return entity ? plainToInstance(this.entity, entity) : null;
+    return entity ? plainToInstance(this.entity, entity, { excludeExtraneousValues: true }) : null;
   }
 
   async createOne(entity: T): Promise<T> {
     const savedEntity = await this.repository.save(entity);
-    return plainToInstance(this.entity, savedEntity);
+    return plainToInstance(this.entity, savedEntity, { excludeExtraneousValues: true });
   }
 
   async deleteById(id: string): Promise<{ acknowledged: boolean; deletedCount: number; }> {
@@ -42,7 +42,7 @@ export class TypeOrmRepository<T> implements IRepository<T> {
 
   async createMany(entities: T[]): Promise<T[]> {
     const savedEntities = await this.repository.save(entities);
-    return savedEntities.map(entity => plainToInstance(this.entity, entity));
+    return savedEntities.map(entity => plainToInstance(this.entity, entity, { excludeExtraneousValues: true }));
   }
 
   async updateMany(query: any, updateQuery: any): Promise<{ matchedCount: number; modifiedCount: number; }> {
@@ -71,6 +71,6 @@ export class TypeOrmRepository<T> implements IRepository<T> {
 
   async queryBuilder(builder: (qb: any) => any): Promise<T[]> {
     const entities = await builder(this.repository.createQueryBuilder()).getMany();
-    return entities.map(entity => plainToInstance(this.entity, entity));
+    return entities.map(entity => plainToInstance(this.entity, entity, { excludeExtraneousValues: true }));
   }
 }

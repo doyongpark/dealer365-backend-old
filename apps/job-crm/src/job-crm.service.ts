@@ -1,7 +1,7 @@
 import { ServiceBusReceivedMessage } from '@azure/service-bus';
 import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { LeadDto } from '@dealer365-backend/shared';
+import { Lead } from '@dealer365-backend/shared';
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
@@ -10,7 +10,7 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly brokerService: IBrokerService,
-    @Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<LeadDto>
+    @Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<Lead>
   ) { }
 
   async onModuleInit() {
@@ -25,9 +25,9 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
   private async processMessage(message: ServiceBusReceivedMessage) {
     Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`);
     // Add your message processing logic here
-    
-    const dto = plainToClass(LeadDto, message.body.data);
-    dto._id = message.body.id;
+
+    const dto = plainToClass(Lead, message.body.data);
+    dto.id = message.body.id;
 
     const result = await this.leadRepository.createOne(dto);
     Logger.debug(`Result from repository: ${JSON.stringify(result)}`);

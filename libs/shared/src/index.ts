@@ -1,6 +1,6 @@
 export * from './constants';
 export * from './dtos';
-export * from './entities';
+export * from './domains';
 export * from './exceptions';
 export * from './interfaces';
 export * from './shared.module';

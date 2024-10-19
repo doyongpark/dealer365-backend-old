@@ -1,8 +1,8 @@
 import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { RequestContextService, UserContextService } from '@dealer365-backend/nest-common/middlewares';
-import { EVENT_ACTION, EVENT_TYPE, Lead } from '@dealer365-backend/shared';
+import { EVENT_ACTION, EVENT_TYPE, Lead, REQUEST_CONTEXT, USER_CONTEXT } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
+import { AsyncLocalStorage } from 'async_hooks';
 import { ILeadService } from '../lead.service.interface';
 
 @Injectable()
@@ -10,16 +10,17 @@ export class LeadAsyncService implements ILeadService {
     constructor(
         @Inject(LEAD_REPOSITORY) private readonly leadRepository: IRepository<Lead>,
         private readonly leadBrokerService: IBrokerService,
+        private readonly als: AsyncLocalStorage<Map<string, any>>
     ) { }
 
     async create(data: Partial<Lead>): Promise<Lead> {
         const objectId = await this.leadRepository.newId();
 
-        const userInfo = UserContextService.getUserInfo();
+        const userInfo = this.als.getStore().get(USER_CONTEXT);
         data.creatorUserId = userInfo?.userId;
         data.creatorUserName = userInfo?.userName;
 
-        const request = RequestContextService.getRequestIds();
+        const request = this.als.getStore().get(REQUEST_CONTEXT);
 
         const msg = {
             correlationId: request?.correlationId,
@@ -46,11 +47,11 @@ export class LeadAsyncService implements ILeadService {
 
     async update(id: string, data: Partial<Lead>): Promise<Lead> {
 
-        const userInfo = UserContextService.getUserInfo();
+        const userInfo = this.als.getStore().get(USER_CONTEXT);
         data.updaterUserId = userInfo?.userId;
         data.updaterUserName = userInfo?.userName;
 
-        const request = RequestContextService.getRequestIds();
+        const request = this.als.getStore().get(REQUEST_CONTEXT);
 
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,
@@ -68,8 +69,8 @@ export class LeadAsyncService implements ILeadService {
 
     async delete(id: string): Promise<void> {
 
-        const userInfo = UserContextService.getUserInfo();
-        const request = RequestContextService.getRequestIds();
+        const userInfo = this.als.getStore().get(USER_CONTEXT);
+        const request = this.als.getStore().get(REQUEST_CONTEXT);
 
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,

@@ -1,15 +1,15 @@
-import { UserContextService } from '@dealer365-backend/nest-common/middlewares';
-import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
+import { HttpHeaderKeysEnum, USER_CONTEXT } from '@dealer365-backend/shared';
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, Logger, NestInterceptor } from '@nestjs/common';
+import { AsyncLocalStorage } from 'async_hooks';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {  
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    Logger.debug(this.constructor.name);
+  constructor(private readonly als: AsyncLocalStorage<Map<string, any>>) { }
 
-    const userContext = UserContextService.getUserContext();
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const userContext = this.als.getStore().get(USER_CONTEXT);
     const executionTime = new Date();
     const request = context.switchToHttp().getRequest();   
     const controllerName = context.getClass().name;

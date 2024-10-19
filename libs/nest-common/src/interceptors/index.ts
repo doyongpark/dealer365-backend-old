@@ -1,1 +1,2 @@
-export * from './interceptor.module';
+export * from './logging.interceptor';
+export * from './response.convertor.interceptor';

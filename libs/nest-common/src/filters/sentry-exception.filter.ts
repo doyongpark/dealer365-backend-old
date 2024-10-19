@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { SENTRY_OPTION } from '../constatns';
+import { SENTRY_OPTION } from '.';
 import { SentryOptions } from './sentry-option.interface';
 
 @Catch()

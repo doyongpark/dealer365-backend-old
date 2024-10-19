@@ -1,11 +1,13 @@
-import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
+import { HttpHeaderKeysEnum, REQUEST_CONTEXT } from '@dealer365-backend/shared';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { AsyncLocalStorage } from 'async_hooks';
 import { NextFunction, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestContextService } from '../request-context.service';
 
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {
+  constructor(private readonly als: AsyncLocalStorage<Map<string, any>>) { }
+  
   use(req: Request, res: Response, next: NextFunction) {
     Logger.debug(this.constructor.name);
     //Request Id
@@ -31,9 +33,14 @@ export class CorrelationIdMiddleware implements NestMiddleware {
     if (!res.getHeader(correlation_id_key.toLowerCase())) {
       res.setHeader(correlation_id_key, correlationId);
     }
-    RequestContextService.run(() => {
-      RequestContextService.set(req);
+    if (this.als.getStore()) {
+      this.als.getStore().set(REQUEST_CONTEXT, req);
       next();
-    });
+    }
+    else {
+      const store = new Map<string, any>();
+      store.set(REQUEST_CONTEXT, req);
+      this.als.run(store, () => next());
+    }
   }
 }

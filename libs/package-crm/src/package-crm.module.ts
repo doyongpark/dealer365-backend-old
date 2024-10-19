@@ -1,4 +1,5 @@
 // filter.module.ts
+import { AsyncLocalStorageModule } from '@dealer365-backend/shared';
 import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
 import { AccountServiceModule } from './accounts';
 import { CheckInServiceModule } from './check-ins';
@@ -8,6 +9,7 @@ import { LeadServiceModule } from './leads';
 import { PackageCrmModuleOptions } from './package-crm-options.interface';
 import { QuoteServiceModule } from './quotes';
 import { TaskServiceModule } from './tasks';
+import { AsyncLocalStorage } from 'async_hooks';
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<PackageCrmModuleOptions>()
   .setClassMethodName('forRoot')
@@ -24,6 +26,7 @@ export class PackageCrmModule extends ConfigurableModuleClass {
     return {
       module: PackageCrmModule,
       imports: [
+        AsyncLocalStorageModule,
         AccountServiceModule,//.forRoot(options),
         DealServiceModule,//.forRoot(options),
         LeadServiceModule.forRoot(options),
@@ -37,6 +40,7 @@ export class PackageCrmModule extends ConfigurableModuleClass {
           provide: MODULE_OPTIONS_TOKEN,
           useValue: options,
         },
+        AsyncLocalStorage
       ],
       exports: [
         AccountServiceModule,
@@ -46,6 +50,7 @@ export class PackageCrmModule extends ConfigurableModuleClass {
         CheckInServiceModule,
         DeliveryServiceModule,
         QuoteServiceModule,
+        AsyncLocalStorage
       ],
     };
   };

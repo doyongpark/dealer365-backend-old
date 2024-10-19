@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { SystemSourceEnum } from '../constants';
-import { Lead } from '../domains';
+import { SystemSourceEnum } from '../../../constants';
+import { Lead } from '../../../domains';
+
 
 @Entity()
 export class LeadEntity implements Lead {

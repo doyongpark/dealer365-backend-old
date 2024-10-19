@@ -1,8 +1,9 @@
 import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import * as mongoose from 'mongoose';
-import { IMongoRepository } from './impl/mongo.repository';
+import { TypeOrmRepository } from './impl';
+import { MongoRepository } from './impl/mongo.repository';
 
 interface DatabaseModuleOptions {
   type: string;
@@ -31,9 +32,9 @@ export class DatabaseModule extends ConfigurableModuleClass {
       options.models.forEach(model => {
         imports.push(MongooseModule.forFeature([{ name: model.name, schema: model.schema }]));
         providers.push({
-          provide: `${model.name?.toUpperCase()}_REPOSITORY`,
-          useFactory: (model) => new IMongoRepository(model),
-          inject: [getModelToken(model.name)],
+          provide: `${model.name?.toUpperCase()}_REPOSITORY`, // 리포지토리의 토큰 정의
+          useFactory: (model) => new MongoRepository(model, model.entity), // MongoRepository 인스턴스 생성
+          inject: [getModelToken(model.name)], // Mongoose 모델 인젝션
         });
       });
     } else if (options.type === 'postgres') {
@@ -46,9 +47,9 @@ export class DatabaseModule extends ConfigurableModuleClass {
       }));
       options.entities.forEach(entity => {
         providers.push({
-          provide: `${entity.name.toUpperCase()}_REPOSITORY`,
-          useFactory: (entity) => new IMongoRepository(entity),
-          inject: [getModelToken(entity.name)],
+          provide: `${entity.name.toUpperCase()}_REPOSITORY`, // 리포지토리의 토큰 정의
+          useFactory: (repository) => new TypeOrmRepository(repository, entity), // TypeOrmRepository 인스턴스 생성
+          inject: [getRepositoryToken(entity.name)], // TypeORM 엔티티 인젝션
         });
       });
     }

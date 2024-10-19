@@ -1,7 +1,6 @@
 import { DatabaseModule, IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { Lead, LeadSchema } from '@dealer365-backend/package-crm/leads/entities';
-import { SharedModule } from '@dealer365-backend/shared';
+import { Lead, LeadSchema, SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -36,18 +35,18 @@ import { JobCrmService } from './job-crm.service';
     maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES || '10'),
     retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL || '10000'),
   }),
-  MongooseModule.forFeature([{ name: Lead.name, schema: LeadSchema }]),  // Mongoose 모델 등록
+  //MongooseModule.forFeature([{ name: Lead.name, schema: LeadSchema }]),  // Mongoose 모델 등록
   ],
   controllers: [],
   providers: [JobCrmService,
-    {
-      provide: LEAD_REPOSITORY,  // 기존 LeadRepository 토큰 오버라이드
-      useClass: CustomLeadRepository,
-    },
-    {
-      provide: IRepository,  // IRepository는 오버라이드된 LeadRepository를 사용
-      useExisting: LEAD_REPOSITORY,
-    },
+    // {
+    //   provide: LEAD_REPOSITORY,  // 기존 LeadRepository 토큰 오버라이드
+    //   useClass: CustomLeadRepository,
+    // },
+    // {
+    //   provide: IRepository,  // IRepository는 오버라이드된 LeadRepository를 사용
+    //   useExisting: LEAD_REPOSITORY,
+    // },
   ],
 })
 export class JobCrmModule { }

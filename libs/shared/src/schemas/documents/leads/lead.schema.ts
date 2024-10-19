@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { Lead } from '../../domains';
+import { Lead } from '../../../domains';
 import { schema_options_id_creator_updater } from '../default.schema.options';
 
 export const LeadSchema = new Schema<Lead>(

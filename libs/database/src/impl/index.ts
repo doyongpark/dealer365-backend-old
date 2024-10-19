@@ -1,2 +1,2 @@
 export * from './mongo.repository';
-export * from './postres.repository';
+export * from './type-orm.repository';

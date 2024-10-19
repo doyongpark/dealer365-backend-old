@@ -8,7 +8,7 @@ export class LeadSyncService implements ILeadService {
     ) { }
 
     async create(dto: CreateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.create(dto);
+        const result = await this.leadRepository.createOne(dto);
         return result;
     }
 
@@ -17,17 +17,17 @@ export class LeadSyncService implements ILeadService {
     }
 
     async get(id: string): Promise<LeadDto> {
-        const result = await this.leadRepository.findOne(id);
+        const result = await this.leadRepository.findById(id);
         return result;
     }
 
     async update(id: string, dto: UpdateLeadDto): Promise<LeadDto> {
-        const result = await this.leadRepository.update({ _id: id }, dto);
+        const result = await this.leadRepository.updateOne({ _id: id }, dto, {});
 
         return { _id: id } as LeadDto;
     }
 
     async delete(id: string): Promise<void> {
-        const result = await this.leadRepository.delete(id);
+        const result = await this.leadRepository.deleteById(id);
     }
 }

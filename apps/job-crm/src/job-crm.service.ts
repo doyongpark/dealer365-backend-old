@@ -29,7 +29,7 @@ export class JobCrmService implements OnModuleInit, OnModuleDestroy {
     const dto = plainToClass(LeadDto, message.body.data);
     dto._id = message.body.id;
 
-    const result = await this.leadRepository.create(dto);
+    const result = await this.leadRepository.createOne(dto);
     Logger.debug(`Result from repository: ${JSON.stringify(result)}`);
   }
 }

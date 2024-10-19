@@ -24,7 +24,7 @@ export class NestCommonModule extends ConfigurableModuleClass {
         FilterModule.forRoot(options.exceptionFilterOptions),
         InterceptorModule.forRoot(options.interceptorOptions),
         GuardModule.forRoot(options.guardOptions),
-        MiddlewareModule//.forRoot(options.middlewareOptions),
+        MiddlewareModule.forRoot({enableLogging: true}),
       ],
       providers: [
         {

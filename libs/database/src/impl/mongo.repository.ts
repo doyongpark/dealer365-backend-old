@@ -11,6 +11,9 @@ export class MongoRepository<T> implements IRepository<T> {
   }
 
   async toObjectId(id: string): Promise<Types.ObjectId> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new Error(`Invalid ID format: ${id}`);
+    }
     return Promise.resolve(new Types.ObjectId(id));
   }
 
@@ -28,7 +31,8 @@ export class MongoRepository<T> implements IRepository<T> {
   }
 
   async findById(id: string): Promise<T> {
-    const document = await this.model.findById(id).exec();
+    const objectId = await this.toObjectId(id);
+    const document = await this.model.findById(objectId).exec();
     return document ? plainToInstance(this.entity, document.toObject(), { excludeExtraneousValues: true }) : null;
   }
 
@@ -70,7 +74,8 @@ export class MongoRepository<T> implements IRepository<T> {
   }
 
   async deleteById(id: string): Promise<{ acknowledged: boolean; deletedCount: number; }> {
-    const result = await this.model.findByIdAndDelete(id).exec();
+    const objectId = await this.toObjectId(id);
+    const result = await this.model.findByIdAndDelete(objectId).exec();
     return {
       acknowledged: result !== null,
       deletedCount: result ? 1 : 0,

@@ -5,7 +5,7 @@ import { Lead, LEAD_REPOSITORY, LeadSchema } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
-import { LeadJobService } from './jobs/lead.job.service';
+import { LeadCreateJobService, LeadDeleteJobService, LeadUpdateJobService } from './jobs';
 import { OverridedLeadRepository } from './repositories/overrided-lead.repository';
 
 @Module({
@@ -45,7 +45,7 @@ import { OverridedLeadRepository } from './repositories/overrided-lead.repositor
     ]),// 재 정의 할 Repository Document 가져오기
   ],
   controllers: [],
-  providers: [LeadJobService,
+  providers: [LeadCreateJobService,// LeadUpdateJobService, LeadDeleteJobService,
     {
       provide: LEAD_REPOSITORY, // 재 정의 할 Repository Token
       useFactory: (model) => new OverridedLeadRepository(model), // 재 정의 할 Repository 생성

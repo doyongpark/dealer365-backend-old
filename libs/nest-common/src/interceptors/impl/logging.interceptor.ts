@@ -53,7 +53,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
         //비즈니스 로직이 필요한 경우 별도 Service 로 구현 예정.
         //await this.auditLogRepository.createAuditLog(auditLogData);
-        Logger.debug(JSON.stringify(auditLogData));
+        Logger.debug(JSON.stringify(auditLogData), this.constructor.name);
       }),
       catchError(async (err) => {
         const executionDuration = Date.now() - executionTime.getTime();

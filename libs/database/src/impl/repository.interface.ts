@@ -6,7 +6,7 @@ export abstract class IRepository<T> {
   abstract findById(id: string): Promise<T>;
   abstract createOne(data: Partial<T>, options?: any): Promise<T>;
   abstract createMany(data: Partial<T>[], ordered: boolean): Promise<T[]>;
-  abstract updateOne(query: any, updateQuery: any, option: any): Promise<{ matchedCount: number; modifiedCount: number; }>;
+  abstract updateOne(query: any, updateQuery: any, options?: any): Promise<{ matchedCount: number; modifiedCount: number; }>;
   abstract updateMany(query: any, updateQuery: any): Promise<{ matchedCount: number; modifiedCount: number; }>;
   abstract deleteById(id: string): Promise<{ acknowledged: boolean; deletedCount: number; }>;
   abstract deleteMany(query: any): Promise<{ acknowledged: boolean; deletedCount: number; }>;

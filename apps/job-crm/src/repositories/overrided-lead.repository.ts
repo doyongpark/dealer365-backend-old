@@ -13,7 +13,7 @@ export class OverridedLeadRepository extends MongoRepository<Lead> {
     }
 
     async createOne(entity: FilterQuery<Lead>, options: any = {}): Promise<Lead> {
-        Logger.debug(`[OverridedLeadRepository] createOne: ${JSON.stringify(entity)}`);
+        Logger.debug(`[OverridedLeadRepository] createOne: ${JSON.stringify(entity)}`, this.constructor.name);
         const document = new this._model(entity);
         const saveOptions = options?.writeConcern ? { w: options?.writeConcern } : {};
         const savedDocument = await document.save(saveOptions);

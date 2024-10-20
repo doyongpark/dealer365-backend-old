@@ -1,12 +1,11 @@
 import { ServiceBusReceivedMessage } from '@azure/service-bus';
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { Lead, LEAD_REPOSITORY } from '@dealer365-backend/shared';
+import { Lead, LEAD_REPOSITORY, MESSAGE_ID } from '@dealer365-backend/shared';
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
 
 @Injectable()
-export class LeadJobService implements OnModuleInit, OnModuleDestroy {
+export class LeadDeleteJobService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly brokerService: IBrokerService,
@@ -23,13 +22,13 @@ export class LeadJobService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processMessage(message: ServiceBusReceivedMessage) {
-    Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`);
     // Add your message processing logic here
+    if (message.body.messageId == MESSAGE_ID.LEAD_DELETE) {
+      Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`, this.constructor.name);
 
-    const lead = plainToClass(Lead, message.body.data);
-    lead._id = message.body.id;
+      const result = await this.leadRepository.deleteById(message.body.id);
 
-    const result = await this.leadRepository.createOne(lead);
-    Logger.debug(`Result from repository: ${JSON.stringify(result)}`);
+      Logger.debug(`Result from repository: ${JSON.stringify(result)}`, this.constructor.name);
+    }
   }
 }

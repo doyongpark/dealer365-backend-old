@@ -28,18 +28,18 @@ export class AzureBrokerService implements IBrokerService {
           if (this.options.useListener) {
             this.receiver = this.client.createReceiver(this.options.queueName);
           }
-          Logger.debug('Connected to Azure Service Bus');
+          Logger.debug('Connected to Azure Service Bus', this.constructor.name);
           break;
         }
       } catch (error) {
         retries++;
-        Logger.error(`Failed to connect to Azure Service Bus. Retry ${retries}/${this.maxRetries}`, error);
+        Logger.error(`Failed to connect to Azure Service Bus. Retry ${retries}/${this.maxRetries}`, error, this.constructor.name);
         await this.delay(this.retryInterval);
       }
     }
 
     if (retries === this.maxRetries) {
-      Logger.error('Max retries reached. Could not connect to Azure Service Bus.');
+      Logger.error('Max retries reached. Could not connect to Azure Service Bus.', this.constructor.name);
     }
   }
 
@@ -63,12 +63,12 @@ export class AzureBrokerService implements IBrokerService {
             await handler(message.body);
             await this.receiver.completeMessage(message);
           } catch (handlerError) {
-            Logger.error('Handler processing failed', handlerError);
+            Logger.error('Handler processing failed', handlerError, this.constructor.name);
             await this.receiver.abandonMessage(message);
           }
         },
         processError: async (err) => {
-          Logger.error('Error receiving message: ', err);
+          Logger.error('Error receiving message: ', err, this.constructor.name);
           // Retry logic if the receiver encounters an error
           await this.initializeServiceBus();
         },
@@ -77,8 +77,8 @@ export class AzureBrokerService implements IBrokerService {
   }
 
   async sendMessage(job: any): Promise<void> {
-    Logger.debug(`Sending job to Azure Service Bus queue: ${this.options.queueName}`);
-    Logger.debug(`Job details: ${JSON.stringify(job)}`);
+    Logger.debug(`Sending job to Azure Service Bus queue: ${this.options.queueName}`, this.constructor.name);
+    Logger.debug(`Job details: ${JSON.stringify(job)}`, this.constructor.name);
     await this.sender.sendMessages({ body: job });
   }
 }

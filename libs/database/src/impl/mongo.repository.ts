@@ -49,8 +49,8 @@ export class MongoRepository<T> implements IRepository<T> {
     return savedDocuments.map(doc => plainToInstance(this.entity, doc.toObject()));
   }
 
-  async updateOne(query: FilterQuery<T>, updateQuery: UpdateQuery<T>, option: any = {}): Promise<{ matchedCount: number; modifiedCount: number; }> {
-    const result = await this.model.updateOne(query, updateQuery, option);
+  async updateOne(query: FilterQuery<T>, updateQuery: UpdateQuery<T>, options: any = {}): Promise<{ matchedCount: number; modifiedCount: number; }> {
+    const result = await this.model.updateOne(query, updateQuery, options);
     return {
       matchedCount: result.matchedCount,
       modifiedCount: result.modifiedCount

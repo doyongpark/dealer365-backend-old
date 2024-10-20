@@ -1,6 +1,6 @@
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { EVENT_ACTION, EVENT_TYPE, Lead, LEAD_REPOSITORY, RequestContextService } from '@dealer365-backend/shared';
+import { Lead, LEAD_REPOSITORY, MESSAGE_ID, RequestContextService } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ILeadService } from './lead.service.interface';
 
@@ -14,19 +14,19 @@ export class LeadAsyncService implements ILeadService {
     async create(data: Partial<Lead>): Promise<Lead> {
         const objectId = await this.leadRepository.newId();
 
-        const userInfo = RequestContextService.getUserInfo();
-        data.creatorUserId = userInfo?.userId;
-        data.creatorUserName = userInfo?.userName;
+        if (!data.creatorUserId) {
+            const userInfo = RequestContextService.getUserInfo();
+            data.creatorUserId = userInfo?.userId;
+            data.creatorUserName = userInfo?.userName;
+        }
 
         const request = RequestContextService.getRequestIds();
 
         const msg = {
             correlationId: request?.correlationId,
-            messageId: request?.requestId,
+            messageId: MESSAGE_ID.LEAD_CREATE,
             body: {
-                type: EVENT_TYPE.LEAD,
-                action: EVENT_ACTION.CREATE,
-                id: objectId,
+                _id: objectId,
                 data: data,
             },
         };
@@ -45,19 +45,19 @@ export class LeadAsyncService implements ILeadService {
 
     async update(id: string, data: Partial<Lead>): Promise<Lead> {
 
-        const userInfo = RequestContextService.getUserInfo();
-        data.updaterUserId = userInfo?.userId;
-        data.updaterUserName = userInfo?.userName;
+        if (!data.updaterUserId) {
+            const userInfo = RequestContextService.getUserInfo();
+            data.updaterUserId = userInfo?.userId;
+            data.updaterUserName = userInfo?.userName;
+        }
 
         const request = RequestContextService.getRequestIds();
 
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,
-            messageId: request?.requestId,
+            messageId: MESSAGE_ID.LEAD_UPDATE,
             body: {
-                type: EVENT_TYPE.LEAD,
-                action: EVENT_ACTION.UPDATE,
-                id: id,
+                _id: id,
                 data: data,
             },
         });
@@ -67,16 +67,14 @@ export class LeadAsyncService implements ILeadService {
 
     async delete(id: string): Promise<void> {
 
-        const userInfo = RequestContextService.getUserInfo();
         const request = RequestContextService.getRequestIds();
 
         this.leadBrokerService.sendMessage({
             correlationId: request?.correlationId,
-            messageId: request?.requestId,
+            messageId: MESSAGE_ID.LEAD_DELETE,
             body: {
-                type: EVENT_TYPE.LEAD,
-                action: EVENT_ACTION.DELETE,
-                id: id,
+                _id: id,
+                // data: data,
             },
         });
     }

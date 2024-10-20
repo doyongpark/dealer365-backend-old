@@ -1,6 +1,6 @@
+import { LOGGER_OPTION } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import * as winston from 'winston';
-import { LOGGER_OPTION } from '../constants';
 import { CustomLoggerModuleOptions } from '../custom-logger.option.interface';
 
 @Injectable()

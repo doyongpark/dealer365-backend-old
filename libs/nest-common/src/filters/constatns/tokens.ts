@@ -1,2 +1,0 @@
-export const SENTRY_OPTION = 'SENTRY_OPTION';
-export const KEYCLOAK_OPTION = 'KEYCLOAK_OPTION';

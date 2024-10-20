@@ -4,6 +4,5 @@ export * from './dtos';
 export * from './exceptions';
 export * from './local-storage';
 export * from './schemas';
-export * from './shared.module';
 export * from './utils';
 

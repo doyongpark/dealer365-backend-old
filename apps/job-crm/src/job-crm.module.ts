@@ -1,24 +1,24 @@
 import { DatabaseModule, IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { Lead, LeadSchema, SharedModule } from '@dealer365-backend/shared';
+import { Lead, LeadSchema } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CustomLeadRepository } from './custom-lead.repository';
 import { JobCrmService } from './job-crm.service';
+import { CustomLoggerModule } from '@dealer365-backend/custom-logger';
 
 @Module({
-  imports: [ConfigModule.forRoot({
+  imports: [
+    ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: ['.env.crm'],
   }),
-  SharedModule.forRoot({
-    loggerOptions: {
-      provider: process.env.LOGGER_PROVIDER || 'nest',
-      level: process.env.LOGGER_LEVEL || 'debug',
-      format: process.env.LOGGER_FORMAT || 'json',
-      logType: process.env.LOGGER_TYPE || 'console',
-    },
+  CustomLoggerModule.forRoot({
+    provider: process.env.LOGGER_PROVIDER || 'nest',
+    level: process.env.LOGGER_LEVEL || 'debug',
+    format: process.env.LOGGER_FORMAT || 'json',
+    logType: process.env.LOGGER_TYPE || 'console',
   }),
   DatabaseModule.forRoot({
     type: process.env.DATABASE_TYPE,

@@ -1,4 +1,4 @@
-import { KEYCLOAK_OPTION } from '@dealer365-backend/nest-common/filters/constatns';
+import { KEYCLOAK_OPTION } from '@dealer365-backend/shared';
 import { CanActivate, ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as KeycloakConnect from 'keycloak-connect';

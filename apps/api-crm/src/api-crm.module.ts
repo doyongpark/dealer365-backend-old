@@ -1,7 +1,6 @@
-
+import { CustomLoggerModule } from '@dealer365-backend/custom-logger';
 import { NestCommonModule } from '@dealer365-backend/nest-common';
 import { PackageCrmModule } from '@dealer365-backend/package-crm';
-import { SharedModule } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ApiLeadController, ApiLeadService } from './leads';
@@ -15,13 +14,11 @@ const servies = [ApiLeadService]
       isGlobal: true,
       envFilePath: ['.env'],
     }),
-    SharedModule.forRoot({
-      loggerOptions: {
-        provider: process.env.LOGGER_PROVIDER || 'nest',
-        level: process.env.LOGGER_LEVEL || 'debug',
-        format: process.env.LOGGER_FORMAT || 'json',
-        logType: process.env.LOGGER_TYPE || 'console',
-      },
+    CustomLoggerModule.forRoot({
+      provider: process.env.LOGGER_PROVIDER || 'nest',
+      level: process.env.LOGGER_LEVEL || 'debug',
+      format: process.env.LOGGER_FORMAT || 'json',
+      logType: process.env.LOGGER_TYPE || 'console',
     }),
     NestCommonModule.forRoot({
       exceptionFilterOptions: {

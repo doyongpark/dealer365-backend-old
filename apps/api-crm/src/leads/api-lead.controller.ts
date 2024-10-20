@@ -17,7 +17,6 @@ export class ApiLeadController {
 
   @Get()
   async getCrmDocs(@Query() query: any): Promise<LeadDto[]> {
-    throw new Error('Test Sentry');
     return await this.apiLeadService.searchLeads(query);
   }
 

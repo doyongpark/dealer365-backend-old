@@ -15,10 +15,12 @@ const servies = [ApiLeadService]
       envFilePath: ['.env'],
     }),
     CustomLoggerModule.forRoot({
-      provider: process.env.LOGGER_PROVIDER || 'nest',
-      level: process.env.LOGGER_LEVEL || 'debug',
-      format: process.env.LOGGER_FORMAT || 'json',
-      logType: process.env.LOGGER_TYPE || 'console',
+      provider: process.env.LOGGER_PROVIDER,
+      loggerOptions: {
+        level: process.env.LOGGER_LEVEL,
+        format: process.env.LOGGER_FORMAT,
+        logType: process.env.LOGGER_TYPE,
+      }
     }),
     NestCommonModule.forRoot({
       exceptionFilterOptions: {
@@ -55,8 +57,8 @@ const servies = [ApiLeadService]
         url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
         useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
         queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
-        maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES || '10'),
-        retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL || '10000'),
+        maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES),
+        retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL),
       },
     })
   ],

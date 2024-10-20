@@ -1,8 +1,13 @@
 import { LOGGER, LOGGER_OPTION } from '@dealer365-backend/shared';
 import { ConsoleLogger, DynamicModule, Global, Module } from '@nestjs/common';
-import { CustomLoggerModuleOptions } from './custom-logger.option.interface';
+import { LoggerOptions } from './custom-logger.option.interface';
 import { PinoLoggerService } from './impl/pino.logger.service';
 import { WinstonLoggerService } from './impl/winston.logger.service';
+
+interface CustomLoggerModuleOptions {
+  provider?: string;
+  loggerOptions?: LoggerOptions;
+}
 
 @Global()
 @Module({})
@@ -29,13 +34,13 @@ export class CustomLoggerModule {
 
     providers.push({
       provide: LOGGER_OPTION,
-      useValue: options,
+      useValue: options?.loggerOptions,
     });
 
     return {
       module: CustomLoggerModule,
       providers: providers,
-      exports: [LOGGER, LOGGER_OPTION],
+      exports: [LOGGER],
     };
   }
 }

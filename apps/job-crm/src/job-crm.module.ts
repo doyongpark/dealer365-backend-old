@@ -14,9 +14,11 @@ import { LeadJobService } from './jobs/lead.job.service';
     }),
     CustomLoggerModule.forRoot({
       provider: process.env.LOGGER_PROVIDER || 'nest',
-      level: process.env.LOGGER_LEVEL || 'debug',
-      format: process.env.LOGGER_FORMAT || 'json',
-      logType: process.env.LOGGER_TYPE || 'console',
+      loggerOptions: {
+        level: process.env.LOGGER_LEVEL || 'debug',
+        format: process.env.LOGGER_FORMAT || 'json',
+        logType: process.env.LOGGER_TYPE || 'console',
+      }
     }),
     DatabaseModule.forRoot({
       type: process.env.DATABASE_TYPE,

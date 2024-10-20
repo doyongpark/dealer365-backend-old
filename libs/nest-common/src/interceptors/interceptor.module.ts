@@ -24,7 +24,7 @@ export class InterceptorModule extends ConfigurableModuleClass {
       }
     ];
 
-    if (options && options.useLoggingInterceptor) {
+    if (options?.useLoggingInterceptor) {
       providers.push({
         provide: APP_INTERCEPTOR,
         useClass: LoggingInterceptor,

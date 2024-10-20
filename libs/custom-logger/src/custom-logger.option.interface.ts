@@ -1,5 +1,4 @@
-export interface CustomLoggerModuleOptions {
-  provider?: string;
+export interface LoggerOptions {
   level?: string;
   format?: string;
   logType?: string;

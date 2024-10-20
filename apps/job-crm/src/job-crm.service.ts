@@ -1,7 +1,7 @@
 import { ServiceBusReceivedMessage } from '@azure/service-bus';
-import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
+import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { Lead } from '@dealer365-backend/shared';
+import { Lead, LEAD_REPOSITORY } from '@dealer365-backend/shared';
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 

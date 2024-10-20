@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { ObjectId, Repository } from 'typeorm';
-import { IRepository } from '../repository.interface';
+import { IRepository } from './repository.interface';
 
 export class TypeOrmRepository<T> implements IRepository<T> {
   constructor(private readonly repository: Repository<T>, private readonly entity: new () => T) { }

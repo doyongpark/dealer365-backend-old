@@ -1,8 +1,8 @@
-import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
+import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
-import { EVENT_ACTION, EVENT_TYPE, Lead, RequestContextService } from '@dealer365-backend/shared';
+import { EVENT_ACTION, EVENT_TYPE, Lead, LEAD_REPOSITORY, RequestContextService } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
-import { ILeadService } from '../lead.service.interface';
+import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadAsyncService implements ILeadService {

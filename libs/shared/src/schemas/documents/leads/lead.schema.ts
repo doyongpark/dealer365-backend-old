@@ -1,7 +1,7 @@
 import { SystemSourceEnum } from '@dealer365-backend/shared/constants';
 import { Schema } from 'mongoose';
 import { Lead } from '../../../domains';
-import { schema_options_creator_updater } from '../default.schema.options';
+import { schema_options_creator_updater } from '../shared';
 
 export const LeadSchema = new Schema<Lead>(
   {

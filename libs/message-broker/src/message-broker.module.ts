@@ -2,8 +2,8 @@ import { BullModule, getQueueToken } from '@nestjs/bull';
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { Queue } from 'bull';
 import { AzureBrokerService, BullBrokerService } from './impl';
+import { IBrokerService } from './impl/broker.service.interface';
 import { MessageBrokerModuleOptions } from './message-broker.option.interface';
-import { IBrokerService } from './message-broker.service.interface';
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<MessageBrokerModuleOptions>()
   .setClassMethodName('forRoot')

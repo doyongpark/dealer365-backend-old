@@ -1,1 +1,0 @@
-export const CRM_SERVICE_OPTION = 'CRM_SERVICE_OPTION';

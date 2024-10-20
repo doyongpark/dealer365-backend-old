@@ -1,11 +1,10 @@
 import { DatabaseModule } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { Lead, LeadSchema } from '@dealer365-backend/shared';
+import { CRM_SERVICE_OPTION, Lead, LeadSchema } from '@dealer365-backend/shared';
 import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { CRM_SERVICE_OPTION } from '../constants';
 import { PackageCrmModuleOptions } from '../package-crm-options.interface';
-import { ILeadService } from './lead.service.interface';
 import { LeadAsyncService, LeadSyncService } from './services';
+import { ILeadService } from './services/lead.service.interface';
 
 @Module({})
 export class LeadServiceModule {

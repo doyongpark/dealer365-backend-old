@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { Document, FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
-import { IRepository } from '../repository.interface';
+import { IRepository } from './repository.interface';
 
 export class MongoRepository<T> implements IRepository<T> {
 

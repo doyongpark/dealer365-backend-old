@@ -1,6 +1,6 @@
-import { DatabaseModule, IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
+import { DatabaseModule, IRepository } from '@dealer365-backend/database';
 import { MessageBrokerModule } from '@dealer365-backend/message-broker';
-import { Lead, LeadSchema } from '@dealer365-backend/shared';
+import { Lead, LeadSchema, LEAD_REPOSITORY } from '@dealer365-backend/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';

@@ -1,2 +1,2 @@
-export * from './azure-queue.service';
-export * from './bull-queue.service';
+export * from './azure-broker.service';
+export * from './bull-broker.service';

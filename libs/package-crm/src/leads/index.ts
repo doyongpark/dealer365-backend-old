@@ -1,2 +1,2 @@
 export * from './lead.service.module';
-export * from './lead.service.interface';
+export * from './services/lead.service.interface';

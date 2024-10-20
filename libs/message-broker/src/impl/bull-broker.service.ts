@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
 import { MessageBrokerModuleOptions } from '../message-broker.option.interface';
-import { IBrokerMessage, IBrokerService } from '../message-broker.service.interface';
+import { IBrokerMessage, IBrokerService } from './broker.service.interface';
 
 @Injectable()
 export class BullBrokerService implements IBrokerService {

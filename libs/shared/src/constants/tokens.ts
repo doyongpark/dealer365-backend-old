@@ -10,3 +10,9 @@ export const KEYCLOAK_OPTION = 'KEYCLOAK_OPTION';
 // custom logger
 export const LOGGER = 'LOGGER';
 export const LOGGER_OPTION = 'LOGGER_OPTION';
+
+// crm service
+export const CRM_SERVICE_OPTION = 'CRM_SERVICE_OPTION';
+
+// repository
+export const LEAD_REPOSITORY = 'LEAD_REPOSITORY';

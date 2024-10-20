@@ -1,7 +1,7 @@
-import { IRepository, LEAD_REPOSITORY } from '@dealer365-backend/database';
-import { Lead } from '@dealer365-backend/shared';
+import { IRepository } from '@dealer365-backend/database';
+import { Lead, LEAD_REPOSITORY } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
-import { ILeadService } from '../lead.service.interface';
+import { ILeadService } from './lead.service.interface';
 
 @Injectable()
 export class LeadSyncService implements ILeadService {

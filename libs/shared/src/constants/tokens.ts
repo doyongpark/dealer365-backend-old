@@ -1,2 +1,4 @@
-export const REQUEST_CONTEXT = 'REQUEST_CONTEXT';
+// export const REQUEST_CONTEXT = 'REQUEST_CONTEXT';
 export const USER_CONTEXT = 'USER_CONTEXT';
+export const REQUEST_ID = 'REQUEST_ID';
+export const CORRELATION_ID = 'CORRELATION_ID';

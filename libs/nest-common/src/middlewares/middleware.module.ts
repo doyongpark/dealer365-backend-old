@@ -20,14 +20,17 @@ export class MiddlewareModule extends ConfigurableModuleClass implements NestMod
     super();
   }
 
+  /**
+  MiddlewareConsumer의 실행 순서는 중요하다. UserContextMiddleware에서 AsyncLocalStorage.run()을 호출하므로, 
+  가장 먼저 실행 되어야 RequestContextService에 UserContext를 설정할 수 있다.
+   */
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CorrelationIdMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
     consumer
       .apply(UserContextMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
-
+    consumer
+      .apply(CorrelationIdMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
     if (this.options?.useMethodOverrideMiddleware)
       consumer
         .apply(MethodOverrideMiddleware)

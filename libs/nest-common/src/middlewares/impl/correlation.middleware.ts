@@ -1,8 +1,7 @@
-import { HttpHeaderKeysEnum } from '@dealer365-backend/shared';
+import { CORRELATION_ID, HttpHeaderKeysEnum, REQUEST_ID, RequestContextService } from '@dealer365-backend/shared';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestContextService } from '../request-context.service';
 
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {
@@ -31,9 +30,10 @@ export class CorrelationIdMiddleware implements NestMiddleware {
     if (!res.getHeader(correlation_id_key.toLowerCase())) {
       res.setHeader(correlation_id_key, correlationId);
     }
-    RequestContextService.run(() => {
-      RequestContextService.set(req);
-      next();
-    });
+
+    RequestContextService.set(REQUEST_ID, requestId);
+    RequestContextService.set(CORRELATION_ID, correlationId);
+
+    next();
   }
 }

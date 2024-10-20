@@ -2,6 +2,7 @@ export interface PackageCrmModuleOptions  {
   databaseOptions: {
     type: string;
     connectionString: string;
+    useLogging?: boolean;
   },
   useMessageBrokerForCommand: boolean;
   messageBrokerOptions?: {

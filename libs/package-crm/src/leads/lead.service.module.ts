@@ -21,8 +21,7 @@ export class LeadServiceModule {
       imports: [
         ...(options.useMessageBrokerForCommand ? [MessageBrokerModule.forRoot(options.messageBrokerOptions)] : []),
         DatabaseModule.forRoot({
-          type: options.databaseOptions.type,
-          connectionString: options.databaseOptions.connectionString,
+          ...options.databaseOptions,
           models: [
             { name: Lead.name, schema: LeadSchema },
           ]

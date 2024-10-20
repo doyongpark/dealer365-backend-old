@@ -23,6 +23,7 @@ import { LeadJobService } from './jobs/lead.job.service';
     DatabaseModule.forRoot({
       type: process.env.DATABASE_TYPE,
       connectionString: process.env.DATABASE_CONNECTION_STRING,
+      useLogging: process.env.USE_DATABASE_LOGGING === 'true',
       models: [
         { name: Lead.name, schema: LeadSchema },
       ]

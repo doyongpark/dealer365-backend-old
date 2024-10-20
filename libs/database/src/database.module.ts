@@ -1,4 +1,4 @@
-import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common';
+import { ConfigurableModuleBuilder, DynamicModule, Logger, Module } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import * as mongoose from 'mongoose';
@@ -19,7 +19,15 @@ export class DatabaseModule extends ConfigurableModuleClass {
     if (options.type === 'mongodb') {
       imports.push(MongooseModule.forRoot(options.connectionString, {
         connectionFactory: (connection) => {
-          mongoose.set('debug', true); // Mongoose 디버그 모드 활성화
+          if (options.useLogging) {
+            // Enable Mongoose debug mode
+            mongoose.set('debug', (collectionName: string, methodName: string, ...methodArgs: any[]) => {
+              const formattedArgs = methodArgs.map(arg => JSON.stringify(arg)).join(', ');
+              const message = `${collectionName}.${methodName}(${formattedArgs})`;
+              Logger.debug(message, 'Mongoose');
+            });
+          }
+          //mongoose.set('debug', options.useLogging);
           return connection;
         },
       }));
@@ -37,7 +45,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
         url: options.connectionString,
         entities: options.entities,
         synchronize: false,
-        logging: true, // TypeORM 쿼리 로깅 활성화
+        logging: options.useLogging, // TypeORM 쿼리 로깅 활성화
       }));
       options.entities.forEach(entity => {
         providers.push({

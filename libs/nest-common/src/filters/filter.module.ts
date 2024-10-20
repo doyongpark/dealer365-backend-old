@@ -19,14 +19,10 @@ export class FilterModule extends ConfigurableModuleClass {
     const providers: Provider[] = [{
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    }, {
+      provide: SENTRY_OPTION,
+      useValue: options.sentryOptions,
     }];
-
-    if (options?.useSentry) {
-      providers.push({
-        provide: SENTRY_OPTION,
-        useValue: options.sentryOptions,
-      });
-    }
 
     return {
       module: FilterModule,

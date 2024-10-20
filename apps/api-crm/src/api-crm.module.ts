@@ -50,6 +50,7 @@ const servies = [ApiLeadService]
       databaseOptions: {
         type: process.env.DATABASE_TYPE,
         connectionString: process.env.DATABASE_CONNECTION_STRING,
+        useLogging: process.env.USE_DATABASE_LOGGING === 'true',
       },
       useMessageBrokerForCommand: process.env.USE_MESSAGE_BROKER_FOR_COMMAND === 'true',
       messageBrokerOptions: {

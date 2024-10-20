@@ -6,7 +6,7 @@ import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nest
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
-export class JobCrmService implements OnModuleInit, OnModuleDestroy {
+export class LeadJobService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly brokerService: IBrokerService,

@@ -13,28 +13,30 @@ import { LeadJobService } from './jobs/lead.job.service';
       envFilePath: ['.env.crm'],
     }),
     CustomLoggerModule.forRoot({
-      provider: process.env.LOGGER_PROVIDER || 'nest',
+      provider: process.env.LOGGER_PROVIDER,
       loggerOptions: {
-        level: process.env.LOGGER_LEVEL || 'debug',
-        format: process.env.LOGGER_FORMAT || 'json',
-        logType: process.env.LOGGER_TYPE || 'console',
+        level: process.env.LOGGER_LEVEL,
+        format: process.env.LOGGER_FORMAT,
+        logType: process.env.LOGGER_TYPE,
       }
     }),
     DatabaseModule.forRoot({
       type: process.env.DATABASE_TYPE,
-      url: process.env.DATABASE_URL,
+      connectionString: process.env.DATABASE_CONNECTION_STRING,
       models: [
         { name: Lead.name, schema: LeadSchema },
       ]
     }),
     MessageBrokerModule.forRoot({
-      type: process.env.MESSAGE_BROKER_TYPE,
-      url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
-      queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
-      useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
-      maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES || '10'),
-      retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL || '10000'),
-    }),
+      messageBrokerType: process.env.MESSAGE_BROKER_TYPE,
+      messageBrokerOptions: {
+        connectionString: process.env.MESSAGE_BROKER_CONNECTION_STRING,
+        queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
+        useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
+        connectionMaxRetry: parseInt(process.env.MESSAGE_BROKER_CONNECTION_MAX_RETRIES),
+        connectionRetryInterval: parseInt(process.env.MESSAGE_BROKER_CONNECTION_RETRY_INTERVAL),
+      }
+    })
   ],
   controllers: [],
   providers: [LeadJobService],

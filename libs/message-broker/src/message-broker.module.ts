@@ -11,38 +11,33 @@ const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModule
 
 @Module({})
 export class MessageBrokerModule extends ConfigurableModuleClass {
-  static forRoot(options?: MessageBrokerModuleOptions): DynamicModule {
+  static forRoot(options: MessageBrokerModuleOptions): DynamicModule {
+
     const imports = [];
     const providers: Provider[] = [];
 
-    if (options) {
-      if (options.type === 'azure-service-bus') {
-        providers.push({
-          provide: IBrokerService,
-          useFactory: () => {
-            return new AzureBrokerService(options);
-          },
-        });
-      } else if (options.type === 'bull') {
-        imports.push(
-          BullModule.forRoot({ redis: { host: 'localhost', port: 6379 } }),
-          BullModule.registerQueue({ name: options.queueName })
-        );
-        providers.push({
-          provide: IBrokerService,
-          useFactory: (queue: Queue) => {
-            return new BullBrokerService(options, queue);
-          },
-          inject: [getQueueToken(options.queueName)],
-        });
-      }
+    if (options.messageBrokerType?.toLowerCase() === 'azure-service-bus') {
+      providers.push({
+        provide: IBrokerService,
+        useFactory: () => { return new AzureBrokerService(options.messageBrokerOptions); },
+      });
+    } else if (options.messageBrokerType?.toLowerCase() === 'bull') {
+      imports.push(
+        BullModule.forRoot({ redis: { host: 'localhost', port: 6379 } }),
+        BullModule.registerQueue({ name: options.messageBrokerOptions?.queueName })
+      );
+      providers.push({
+        provide: IBrokerService,
+        useFactory: (queue: Queue) => { return new BullBrokerService(options.messageBrokerOptions, queue); },
+        inject: [getQueueToken(options.messageBrokerOptions?.queueName)],
+      });
     }
 
     return {
       module: MessageBrokerModule,
       imports: imports,
       providers: providers,
-      exports: options ? [IBrokerService] : [],
+      exports: [IBrokerService],
     };
   }
 }

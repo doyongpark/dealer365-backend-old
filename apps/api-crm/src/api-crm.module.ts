@@ -49,17 +49,19 @@ const servies = [ApiLeadService]
     PackageCrmModule.forRoot({
       databaseOptions: {
         type: process.env.DATABASE_TYPE,
-        url: process.env.DATABASE_URL,
+        connectionString: process.env.DATABASE_CONNECTION_STRING,
       },
-      useBroker: process.env.USE_MESSAGE_BROKER === 'true',
-      brokerOptions: {
-        type: process.env.MESSAGE_BROKER_TYPE,
-        url: process.env.MESSAGE_BROKER_SERVICE_CONNECTION_STRING,
-        useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
-        queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
-        maxRetries: parseInt(process.env.MESSAGE_BROKER_MAX_RETRIES),
-        retryInterval: parseInt(process.env.MESSAGE_BROKER_RETRY_INTERVAL),
-      },
+      useMessageBrokerForCommand: process.env.USE_MESSAGE_BROKER_FOR_COMMAND === 'true',
+      messageBrokerOptions: {
+        messageBrokerType: process.env.MESSAGE_BROKER_TYPE,
+        messageBrokerOptions: {
+          connectionString: process.env.MESSAGE_BROKER_CONNECTION_STRING,
+          queueName: process.env.MESSAGE_BROKER_QUEUE_NAME,
+          useListener: process.env.USE_MESSAGE_BROKER_LISTENER === 'true',
+          connectionMaxRetry: parseInt(process.env.MESSAGE_BROKER_CONNECTION_MAX_RETRIES),
+          connectionRetryInterval: parseInt(process.env.MESSAGE_BROKER_CONNECTION_RETRY_INTERVAL),
+        }
+      }
     })
   ],
   controllers: [...controllers],

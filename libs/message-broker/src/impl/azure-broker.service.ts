@@ -1,6 +1,6 @@
 import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
 import { Injectable, Logger } from '@nestjs/common';
-import { MessageBrokerModuleOptions } from '../message-broker.option.interface';
+import { MessageBrokerOptions } from '../message-broker.option.interface';
 import { IBrokerService } from './broker.service.interface';
 
 @Injectable()
@@ -11,9 +11,9 @@ export class AzureBrokerService implements IBrokerService {
   private readonly maxRetries: number;
   private readonly retryInterval: number;
 
-  constructor(private readonly options: MessageBrokerModuleOptions) {
-    this.maxRetries = options.maxRetries ?? 5;
-    this.retryInterval = options.retryInterval ?? 5000; // Default to 5 seconds
+  constructor(private readonly options: MessageBrokerOptions) {
+    this.maxRetries = !isNaN(options.connectionMaxRetry) ? options.connectionMaxRetry : 5;
+    this.retryInterval = !isNaN(options.connectionRetryInterval) ? options.connectionRetryInterval : 10000;
     this.initializeServiceBus();
   }
 
@@ -21,8 +21,8 @@ export class AzureBrokerService implements IBrokerService {
     let retries = 0;
     while (retries < this.maxRetries) {
       try {
-        if (this.options.url) {
-          this.client = new ServiceBusClient(this.options.url);
+        if (this.options.connectionString) {
+          this.client = new ServiceBusClient(this.options.connectionString);
           this.sender = this.client.createSender(this.options.queueName);
 
           if (this.options.useListener) {

@@ -1,13 +1,13 @@
 import { LOGGER_OPTION } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import pino from 'pino';
-import { LoggerOptions } from '../custom-logger.option.interface';
+import { CustomLoggerOptions } from '../custom-logger.option.interface';
 
 @Injectable()
 export class PinoLoggerService {
   private readonly logger: pino.Logger;
 
-  constructor(@Inject(LOGGER_OPTION) private options: LoggerOptions) {
+  constructor(@Inject(LOGGER_OPTION) private options: CustomLoggerOptions) {
     this.logger = pino({
       level: options?.level || 'info',
       formatters: {

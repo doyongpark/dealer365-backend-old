@@ -2,15 +2,9 @@ import { ConfigurableModuleBuilder, DynamicModule, Module } from '@nestjs/common
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import * as mongoose from 'mongoose';
+import { DatabaseModuleOptions } from './database.option.interface';
 import { TypeOrmRepository } from './impl';
 import { MongoRepository } from './impl/mongo.repository';
-
-interface DatabaseModuleOptions {
-  type: string;
-  url: string;
-  entities?: any[];
-  models?: any[];
-}
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<DatabaseModuleOptions>()
   .setClassMethodName('forRoot')
@@ -23,7 +17,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
     const providers = [];
 
     if (options.type === 'mongodb') {
-      imports.push(MongooseModule.forRoot(options.url, {
+      imports.push(MongooseModule.forRoot(options.connectionString, {
         connectionFactory: (connection) => {
           mongoose.set('debug', true); // Mongoose 디버그 모드 활성화
           return connection;
@@ -40,7 +34,7 @@ export class DatabaseModule extends ConfigurableModuleClass {
     } else if (options.type === 'postgres') {
       imports.push(TypeOrmModule.forRoot({
         type: 'postgres',
-        url: options.url,
+        url: options.connectionString,
         entities: options.entities,
         synchronize: false,
         logging: true, // TypeORM 쿼리 로깅 활성화

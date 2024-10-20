@@ -1,15 +1,4 @@
-export interface PackageCrmModuleOptions {
-  databaseOptions: {
-      type: string;
-      url: string;
-  }
-  useBroker?: boolean;
-  brokerOptions?: {
-      type: string;
-      url: string;
-      queueName: string;
-      useListener?: boolean;
-      maxRetries?: number;
-      retryInterval?: number;
-  }
+import { LeadServiceModuleOptions } from "./leads/lead.service.option.interface";
+
+export interface PackageCrmModuleOptions extends LeadServiceModuleOptions {
 }

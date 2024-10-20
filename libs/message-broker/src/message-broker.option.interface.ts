@@ -1,8 +1,12 @@
 export interface MessageBrokerModuleOptions {
-  type: string;
-  url: string;
-  useListener?: boolean;
+  messageBrokerType: string;
+  messageBrokerOptions: MessageBrokerOptions
+}
+
+export interface MessageBrokerOptions {
+  connectionString: string;
   queueName: string;
-  maxRetries?: number;
-  retryInterval?: number;
+  useListener?: boolean;
+  connectionMaxRetry?: number;
+  connectionRetryInterval?: number;
 }

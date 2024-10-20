@@ -1,13 +1,13 @@
 // bull-queue.service.ts
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { MessageBrokerModuleOptions } from '../message-broker.option.interface';
+import { MessageBrokerOptions } from '../message-broker.option.interface';
 import { IBrokerMessage, IBrokerService } from './broker.service.interface';
 
 @Injectable()
 export class BullBrokerService implements IBrokerService {
   constructor(
-    private readonly options: MessageBrokerModuleOptions,
+    private readonly options: MessageBrokerOptions,
     private readonly queue: Queue) { }
   closeReceiver(): Promise<void> {
     throw new Error('Method not implemented.');

@@ -1,13 +1,13 @@
 import { LOGGER_OPTION } from '@dealer365-backend/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import * as winston from 'winston';
-import { LoggerOptions } from '../custom-logger.option.interface';
+import { CustomLoggerOptions } from '../custom-logger.option.interface';
 
 @Injectable()
 export class WinstonLoggerService {
   private readonly logger: winston.Logger;
 
-  constructor(@Inject(LOGGER_OPTION) private options: LoggerOptions) {
+  constructor(@Inject(LOGGER_OPTION) private options: CustomLoggerOptions) {
     this.logger = winston.createLogger({
       level: options?.level || 'info',
       format: winston.format[options?.format || 'json'](),

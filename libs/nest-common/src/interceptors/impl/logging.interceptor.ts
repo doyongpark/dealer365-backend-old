@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {  
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    Logger.debug(this.constructor.name);
+    
 
     const userContext = RequestContextService.getUserContext();
     const executionTime = new Date();

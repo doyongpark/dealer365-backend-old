@@ -24,7 +24,7 @@ const servies = [ApiLeadService]
     }),
     NestCommonModule.forRoot({
       exceptionFilterOptions: {
-        useSentryExceptionFilter: process.env.USE_SENTRY_EXCEPTION_FILTER === 'true',
+        useSentry: process.env.USE_SENTRY === 'true',
         sentryOptions: {
           sentryDsn: process.env.SENTRY_DSN,
           environment: process.env.SENTRY_ENVIRONMENT,

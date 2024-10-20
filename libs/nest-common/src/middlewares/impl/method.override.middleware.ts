@@ -4,7 +4,7 @@ import { Injectable, Logger, NestMiddleware, RequestMethod } from '@nestjs/commo
 @Injectable()
 export class MethodOverrideMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
-    Logger.debug(this.constructor.name);
+    
     const requestOverrideMethod = req.headers[HttpHeaderKeysEnum.X_HTTP_METHOD_OVERRIDE.toLowerCase()];
 
     if (requestOverrideMethod) {

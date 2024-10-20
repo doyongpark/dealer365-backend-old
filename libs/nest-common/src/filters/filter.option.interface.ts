@@ -1,6 +1,6 @@
 import { SentryOptions } from "./impl";
 
 export interface FilterModuleOptions {
-  useSentryExceptionFilter?: boolean;
+  useSentry?: boolean;
   sentryOptions?: SentryOptions;
 }

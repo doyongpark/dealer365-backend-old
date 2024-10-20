@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { SystemSourceEnum } from '../../../constants';
 import { Lead } from '../../../domains';
 
 
-@Entity()
-export class LeadEntity implements Lead {
+@Entity({ name: 'leads' })
+export class LeadEntity extends BaseEntity implements Lead {
   @PrimaryGeneratedColumn('uuid') _id: string;
   @Column() systemSourceEnum: SystemSourceEnum = SystemSourceEnum.Dealer365;
   @Column() firstName?: string;

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    Logger.debug(this.constructor.name);
+    
     //Request Id
     const request_id_key = HttpHeaderKeysEnum.REQUEST_ID;
     //always use lowcase when read header.

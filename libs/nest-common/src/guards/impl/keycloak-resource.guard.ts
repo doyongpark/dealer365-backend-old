@@ -27,7 +27,7 @@ export class KeycloakResourceGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    Logger.debug(this.constructor.name);
+    
     return true;
   }
 }

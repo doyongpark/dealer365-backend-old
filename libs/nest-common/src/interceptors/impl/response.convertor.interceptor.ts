@@ -13,7 +13,7 @@ export interface Response<T> {
 @Injectable()
 export class ResponseConvertorInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: any, next: CallHandler): Observable<any> {
-    Logger.debug(this.constructor.name);
+    
 
     if (context.getType() === 'graphql') return next.handle();
 

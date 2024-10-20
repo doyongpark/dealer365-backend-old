@@ -5,7 +5,7 @@ import { CheckInServiceModule } from './check-ins';
 import { DealServiceModule } from './deals';
 import { DeliveryServiceModule } from './deliveries';
 import { LeadServiceModule } from './leads';
-import { PackageCrmModuleOptions } from './package-crm-options.interface';
+import { PackageCrmModuleOptions } from './package-crm.options.interface';
 import { QuoteServiceModule } from './quotes';
 import { TaskServiceModule } from './tasks';
 

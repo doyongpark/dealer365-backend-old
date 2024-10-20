@@ -1,15 +1,9 @@
 import { SENTRY_OPTION } from '@dealer365-backend/shared';
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { GuardModuleOptions } from './guard.option.interface';
 import { KeycloakAuthGuard } from './impl/keycloak-auth.guard';
-import { KeycloakOptions } from "./impl/keycloak-options.interface";
 import { KeycloakResourceGuard } from './impl/keycloak-resource.guard';
-
-
-export interface GuardModuleOptions {
-  useKeycloakGuards?: boolean;
-  keycloakOptions?: KeycloakOptions; // Optional, only required if useKeycloakGuards is true
-}
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<GuardModuleOptions>()
     .setClassMethodName('forRoot')

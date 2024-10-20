@@ -2,10 +2,7 @@
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor, ResponseConvertorInterceptor } from './impl';
-
-export interface InterceptorModuleOptions {
-    useLoggingInterceptor?: boolean;
-}
+import { InterceptorModuleOptions } from './interceptor.option.interface';
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<InterceptorModuleOptions>()
     .setClassMethodName('forRoot')

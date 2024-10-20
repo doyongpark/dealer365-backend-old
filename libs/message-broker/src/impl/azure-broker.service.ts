@@ -1,6 +1,6 @@
 import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
 import { Injectable, Logger } from '@nestjs/common';
-import { MessageBrokerOptions } from '../message-broker.option.interface';
+import { MessageBrokerOptions } from './broker.option.interface';
 import { IBrokerService } from './broker.service.interface';
 
 @Injectable()

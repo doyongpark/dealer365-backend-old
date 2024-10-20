@@ -1,11 +1,7 @@
 // middleware.module.ts
-import { ConfigurableModuleBuilder, Inject, Logger, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { ConfigurableModuleBuilder, Inject, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { CorrelationIdMiddleware, MethodOverrideMiddleware, UserContextMiddleware } from './impl';
-
-// 설정 옵션 인터페이스 정의
-export interface MiddlewareModuleOptions {
-  useMethodOverrideMiddleware: boolean;
-}
+import { MiddlewareModuleOptions } from './middleware.option.interface';
 
 // ConfigurableModuleBuilder 사용하여 동적 모듈 정의
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<MiddlewareModuleOptions>()

@@ -2,12 +2,8 @@
 import { SENTRY_OPTION } from '@dealer365-backend/shared';
 import { ConfigurableModuleBuilder, DynamicModule, Module, Provider } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter, SentryExceptionFilter, SentryOptions } from './impl';
-
-export interface FilterModuleOptions {
-  useSentryExceptionFilter?: boolean;
-  sentryOptions?: SentryOptions;
-}
+import { FilterModuleOptions } from './filter.option.interface';
+import { HttpExceptionFilter, SentryExceptionFilter } from './impl';
 
 const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModuleBuilder<FilterModuleOptions>()
   .setClassMethodName('forRoot')

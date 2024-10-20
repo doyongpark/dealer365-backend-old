@@ -1,8 +1,9 @@
 // bull-queue.service.ts
+import { IBrokerMessage } from '@dealer365-backend/shared';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { MessageBrokerOptions } from '../message-broker.option.interface';
-import { IBrokerMessage, IBrokerService } from './broker.service.interface';
+import { MessageBrokerOptions } from './broker.option.interface';
+import { IBrokerService } from './broker.service.interface';
 
 @Injectable()
 export class BullBrokerService implements IBrokerService {

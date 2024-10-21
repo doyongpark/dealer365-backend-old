@@ -3,52 +3,38 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as compression from 'compression';
 import helmet from 'helmet';
 import { ApiCrmModule } from './api-crm.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiCrmModule);
 
-  // Custom Logger 적용
-  const customLogger = app.get(LOGGER);
-  app.useLogger(customLogger);
-
+  app.useLogger(app.get(LOGGER));
   app.flushLogs();
 
   const configService = app.get(ConfigService);
+  const port = configService.get<number>(process.env.PORT) || 3000;
 
-  const port = configService.get(process.env.PORT) || 3000;
+  app.use(helmet());// Helmet 미들웨어를 사용하여 보안 헤더 설정
 
-  app.use(helmet());
+  app.use(compression({
+    level: 6, // 압축 수준 (0-9)
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        // 특정 헤더가 있는 경우 압축하지 않음
+        return false;
+      }
+      // 기본적으로 모든 요청을 압축
+      return compression.filter(req, res);
+    }
+  }));
 
-  app.enableCors();//to-do: cors 옵션 설정 필요
+  app.enableCors();  
 
-  //version
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' })
-
+  
   app.setGlobalPrefix('api');
-
-  // Swagger 설정
-  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
-    .setTitle('API CRM Swagger')
-    .setDescription('API description')
-    .setVersion('1.0')    
-    .addServer(`http://localhost:${port}`) // 기본 서버 URL 설정
-    .addBearerAuth() // JWT 인증이 필요한 경우
-    .build())); // '/doc' 경로에 Swagger UI 설정
-  // Swagger JSON 엔드포인트 (Postman에서 import 가능)
-  app.getHttpAdapter().get('/docs-json', (req, res) => {
-    res.json(document);  // JSON 형태로 Swagger 스펙을 반환
-  });
-
-  // app.useGlobalGuards(
-  //   // new AuthGuard(config),
-  //   // new ResourceGuard(config)
-  // );
-
-  // app.useGlobalFilters(
-  //   //new HttpExceptionFilter(config)
-  // );
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -56,6 +42,18 @@ async function bootstrap() {
       whitelist: true, // DTO에 정의된 필드만 허용
     })
   );
+
+  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, new DocumentBuilder()
+    .setTitle('API CRM Swagger')
+    .setDescription('API description')
+    .setVersion('1.0')    
+    .addServer(`http://localhost:${port}`) // 기본 서버 URL 설정
+    .addBearerAuth() // JWT 인증이 필요한 경우
+    .build()));
+
+  app.getHttpAdapter().get('/docs-json', (req, res) => {
+    res.json(document);  // JSON 형태로 Swagger 스펙을 반환
+  });
 
   await app.listen(port);
 

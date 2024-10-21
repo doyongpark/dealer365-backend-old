@@ -1,5 +1,5 @@
-import { SystemSourceEnum } from '@dealer365-backend/shared/constants';
 import { Schema } from 'mongoose';
+import { SystemSourceEnum } from '../../../constants';
 import { Lead } from '../../../domains';
 import { schema_options_creator_updater } from '../shared';
 

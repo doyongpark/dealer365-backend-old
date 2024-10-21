@@ -55,7 +55,7 @@ export class AzureBrokerService implements IBrokerService {
     await this.client.close();
   }
 
-  async receiveMessage(handler: (message: any) => boolean): Promise<void> {
+  async receiveMessage(handler: (message: any) => void): Promise<void> {
     if (this.options.useListener) {
       this.receiver.subscribe({
         processMessage: async (message: ServiceBusReceivedMessage) => {

@@ -1,4 +1,4 @@
-import { ServiceBusReceivedMessage } from '@azure/service-bus';
+import { ServiceBusMessage } from '@azure/service-bus';
 import { IRepository } from '@dealer365-backend/database';
 import { IBrokerService } from '@dealer365-backend/message-broker';
 import { Lead, LEAD_REPOSITORY, MESSAGE_ID } from '@dealer365-backend/shared';
@@ -21,9 +21,11 @@ export class LeadDeleteJobService implements OnModuleInit, OnModuleDestroy {
     await this.brokerService.closeClient();
   }
 
-  private async processMessage(message: ServiceBusReceivedMessage) {
+  private async processMessage(message: ServiceBusMessage) {
+    
+    Logger.debug(`LeadDeleteJobService: message: ${JSON.stringify(message.body)}`, this.constructor.name);
     // Add your message processing logic here
-    if (message.body.messageId == MESSAGE_ID.LEAD_DELETE) {
+    if (message.messageId == MESSAGE_ID.LEAD_DELETE) {
       Logger.debug(`Message processing in job-crm, message: ${JSON.stringify(message.body)}`, this.constructor.name);
 
       const result = await this.leadRepository.deleteById(message.body.id);

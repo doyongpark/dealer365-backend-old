@@ -6,15 +6,15 @@ import { Document, FilterQuery, Model } from 'mongoose';
 
 @Injectable()
 export class OverridedLeadRepository extends MongoRepository<Lead> {
-    _model: Model<Document>;
-    constructor(model: Model<Document>) {
-        super(model, Lead);
-        this._model = model;
+    _leadModel: Model<Document>;
+    constructor(private readonly leadModel: Model<Document>) {
+        super(leadModel, Lead);
+        this._leadModel = leadModel;
     }
 
     async createOne(entity: FilterQuery<Lead>, options: any = {}): Promise<Lead> {
         Logger.debug(`[OverridedLeadRepository] createOne: ${JSON.stringify(entity)}`, this.constructor.name);
-        const document = new this._model(entity);
+        const document = new this._leadModel(entity);
         const saveOptions = options?.writeConcern ? { w: options?.writeConcern } : {};
         const savedDocument = await document.save(saveOptions);
         return plainToInstance(Lead, savedDocument.toObject());

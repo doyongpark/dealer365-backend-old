@@ -31,7 +31,8 @@
     "docker:api-crm": "docker build -t dealer365-api-crm -f dockerfile.api-crm .",
     "docker:job-crm": "docker build -t dealer365-job-crm -f dockerfile.job-crm .",
     "depcruise:setup": "npx dependency-cruiser --init",
-    "depcruise:api-crm": "depcruise --output-type dot apps\\api-crm\\src | dot -T svg > dependency-graph.svg"
+    "depcruise:api-crm": "depcruise --output-type dot apps\\api-crm\\src | dot -T svg > dependency-graph.svg",
+    "publish:shared": "cd libs/shared && npm version patch && npm publish --registry=https://npm.pkg.github.com"
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.5",

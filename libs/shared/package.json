@@ -1,14 +1,11 @@
 {
   "name": "@inventis-doyong-park/shared",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Dealer365-Backend Shared Package",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.lib.json",
     "prepublishOnly": "npm install && npm run build"
-  },
-  "repository": {
-    "url": "git+https://github.com/doyongpark/nestbundle.git"
   },
   "files": [
     "dist"

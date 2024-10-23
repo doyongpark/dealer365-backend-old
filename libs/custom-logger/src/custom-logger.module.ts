@@ -1,4 +1,4 @@
-import { LOGGER, LOGGER_OPTION } from '@dealer365-backend/shared';
+import { LOGGER, LOGGER_OPTION } from '@inventis-doyong-park/shared';
 import { ConsoleLogger, DynamicModule, Global, Module } from '@nestjs/common';
 import { CustomLoggerModuleOptions } from './custom-logger.option.interface';
 import { PinoLoggerService, WinstonLoggerService } from './impl';

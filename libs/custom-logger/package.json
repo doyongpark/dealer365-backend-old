@@ -1,0 +1,20 @@
+{
+  "name": "@inventis-doyong-park/custom-logger",
+  "version": "0.0.4",
+  "description": "Dealer365-Backend Custom Logger Package",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc -p tsconfig.lib.json",
+    "prepublishOnly": "npm install && npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "@inventis-doyong-park/shared": "^0.0.10",
+    "pino": "^9.5.0",
+    "winston": "^3.15.0"
+  }
+}

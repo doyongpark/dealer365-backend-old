@@ -32,7 +32,8 @@
     "docker:job-crm": "docker build -t dealer365-job-crm -f dockerfile.job-crm .",
     "depcruise:setup": "npx dependency-cruiser --init",
     "depcruise:api-crm": "depcruise --output-type dot apps\\api-crm\\src | dot -T svg > dependency-graph.svg",
-    "publish:shared": "cd libs/shared && npm version patch && npm publish --registry=https://npm.pkg.github.com"
+    "publish:shared": "cd libs/shared && npm version patch && npm publish --registry=https://npm.pkg.github.com",
+    "publish:custom-logger": "cd libs/custom-logger && npm version patch && npm publish --registry=https://npm.pkg.github.com"
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.5",
@@ -41,23 +42,18 @@
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
     "@nestjs/mongoose": "^10.0.10",
-    "@nestjs/swagger": "^7.4.2",
     "@nestjs/typeorm": "^10.0.2",
     "@sentry/node": "^8.34.0",
     "axios": "^1.7.7",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.1",
     "compression": "^1.7.4",
     "concurrently": "^9.0.1",
     "helmet": "^8.0.0",
     "jwt-decode": "^4.0.0",
     "keycloak-connect": "^26.0.0",
-    "mongoose": "^8.7.1",
     "nest-winston": "^1.9.7",
     "nestjs-pino": "^4.1.0",
     "pino": "^9.4.0",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20",
     "winston": "^3.15.0"
   },
   "devDependencies": {
@@ -105,15 +101,14 @@
       "<rootDir>/apps/",
       "<rootDir>/libs/"
     ],
-    "moduleNameMapper": {
-      "^dealer365-backend/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
-      "^dealer365-backend/nest(|/.*)$": "<rootDir>/libs/nest/src/$1",
+    "moduleNameMapper": {      
+      "^@dealer365-backend/custom-logger(|/.*)$": "<rootDir>/libs/custom-logger/src/$1",
+      "^@dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1",
+      "^@dealer365-backend/message-broker(|/.*)$": "<rootDir>/libs/message-broker/src/$1",
       "^@dealer365-backend/nest-common(|/.*)$": "<rootDir>/libs/nest-common/src/$1",
       "^@dealer365-backend/package-crm(|/.*)$": "<rootDir>/libs/package-crm/src/$1",
       "^@dealer365-backend/package-product(|/.*)$": "<rootDir>/libs/package-product/src/$1",
-      "^@dealer365-backend/message-broker(|/.*)$": "<rootDir>/libs/message-broker/src/$1",
-      "^@dealer365-backend/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@dealer365-backend/custom-logger(|/.*)$": "<rootDir>/libs/custom-logger/src/$1"
+      "^@dealer365-backend/shared(|/.*)$": "<rootDir>/libs/shared/src/$1"
     }
   }
 }

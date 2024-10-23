@@ -1,4 +1,4 @@
-import { LOGGER_OPTION } from '@dealer365-backend/shared';
+import { LOGGER_OPTION } from '@inventis-doyong-park/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import * as winston from 'winston';
 import { CustomLoggerOptions } from '../custom-logger.option.interface';
